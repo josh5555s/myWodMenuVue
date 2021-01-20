@@ -12,7 +12,8 @@
 
 <script>
 export default {
-  emits: ['display-titles'],
+  props: ['alreadyScrolling'],
+  emits: ['display-titles','now-scrolling'],
   data() {
     return {
       logged: false,
@@ -148,6 +149,7 @@ export default {
       }
     },
     autoScroll () {
+      console.log(this.alreadyScrolling)
       function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
@@ -167,8 +169,9 @@ export default {
         }
         scroll()
       }
-      if (innerWidth < 800 && innerWidth > 500) {
+      if (!this.alreadyScrolling && innerWidth < 800 && innerWidth > 500) {
         scroll()
+        this.$emit('now-scrolling')
       }
     },
     displayTitles() {

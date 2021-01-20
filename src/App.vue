@@ -1,12 +1,11 @@
-// autoScroll
-// Sherwood edibles server side error
-
 <template>
   <TheHeader 
     :title1="title1"
     :title2="title2"
   />
   <router-view 
+    :alreadyScrolling="alreadyScrolling"
+    @now-scrolling="nowScrolling"
     @store-titles="storeTitles"
     @product-titles="productTitles"
     @display-titles="displayTitles"
@@ -23,11 +22,15 @@ export default {
   },
   data() {
     return {
+      alreadyScrolling: false,
       title1: 'SELECT',
       title2: 'STORE'
     }
   },
   methods: {
+    nowScrolling() {
+      this.alreadyScrolling = true
+    },
     storeTitles() {
       this.title1= "SELECT"
       this.title2 = "STORE"
@@ -37,7 +40,7 @@ export default {
       this.title2 = "PRODUCT"
     },
     displayTitles(product) {
-      this.title1 = product.toUpperCase();
+      this.title1 = product.toUpperCase()
       this.title2 = "MENU"
     },
   },
