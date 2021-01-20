@@ -12,39 +12,28 @@
 
 <script>
 export default {
-  props: ['store','product','results'],
-  // emits: ['show-display'],
+  emits: ['display-titles'],
   data() {
     return {
+      logged: false,
+      store: this.$route.params.store,
+      product: this.$route.params.product,
       data: []
     }
   },
   methods: {
-    selectReleventData() {
-      if (this.store === "newberg" && this.product === "flower") {this.data = this.results.newberg.flower;}
-      else if (this.store === "newberg" && this.product === "preroll") {this.data = this.results.newberg.preroll;} 
-      else if (this.store === "newberg" && this.product === "cart") {this.data = this.results.newberg.cart;}
-      else if (this.store === "newberg" && this.product === "dab") {this.data = this.results.newberg.dab;} 
-      else if (this.store === "newberg" && this.product === "edible") {this.data = this.results.newberg.edible;} 
-      // Cedar Mill
-      else if (this.store === "cedar-mill" && this.product === "flower") {this.data = this.results.cedarMill.flower;}
-      else if (this.store === "cedar-mill" && this.product === "preroll") {this.data = this.results.cedarMill.preroll;}
-      else if (this.store === "cedar-mill" && this.product === "cart") {this.data = this.results.cedarMill.cart;}
-      else if (this.store === "cedar-mill" && this.product === "dab") {this.data = this.results.cedarMill.dab;}
-      else if (this.store === "cedar-mill" && this.product === "edible") {this.data = this.results.cedarMill.edible;}
-      // Hillsboro
-      else if (this.store === "hillsboro" && this.product === "flower") {this.data = this.results.hillsboro.flower;}
-      else if (this.store === "hillsboro" && this.product === "preroll") {this.data = this.results.hillsboro.preroll;}
-      else if (this.store === "hillsboro" && this.product === "cart") {this.data = this.results.hillsboro.cart;}
-      else if (this.store === "hillsboro" && this.product === "dab") {this.data = this.results.hillsboro.dab;} 
-      else if (this.store === "hillsboro" && this.product === "edible") {this.data = this.results.hillsboro.edible;}
-      // Sherwood
-      else if (this.store === "sherwood" && this.product === "flower") {this.data = this.results.sherwood.flower;}
-      else if (this.store === "sherwood" && this.product === "preroll") {this.data = this.results.sherwood.preroll;}
-      else if (this.store === "sherwood" && this.product === "cart") {this.data = this.results.sherwood.cart;}
-      else if (this.store === "sherwood" && this.product === "dab") {this.data = this.results.sherwood.dab;}
-      else if (this.store === "sherwood" && this.product === "edible") {this.data = this.results.sherwood.cart;}
-      this.removeOldRows();
+    getData() {
+      try {
+        fetch(`http://192.168.1.2:4000${this.$route.path}`)
+        .then(response => response.json())
+        .then(data => {
+          let obj = (JSON.parse(data));
+          this.data = obj;
+          this.removeOldRows()
+        })
+      } catch (error) {
+        console.log(error)
+      }
     },
     removeOldRows() {
     const table1 = document.getElementById("table-1");
@@ -157,13 +146,56 @@ export default {
           }
         }
       }
+    },
+    autoScroll () {
+      function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      }
+      async function scroll() {
+        let atBottom = false
+        let oldYoffset = pageYOffset
+        await sleep(3000)
+        while (!atBottom) {
+          scrollBy(0,1)
+          await sleep(20)
+          if (oldYoffset === pageYOffset) {
+            console.log("stuck at bottom!")
+            await sleep(3000)
+            scrollTo(0,0)
+            atBottom = true;
+          } else {oldYoffset = pageYOffset}
+        }
+        scroll()
+      }
+      if (innerWidth < 800 && innerWidth > 500) {
+        scroll()
+      }
+    },
+    displayTitles() {
+      this.$emit('display-titles', this.product)
     }
   },
+  created() {
+    this.getData();
+    setInterval(() => {
+      if (
+        this.$route.path !== "/" || 
+        this.$route.path !== "/newberg" || 
+        this.$route.path !== "/cedar-mill" || 
+        this.$route.path !== "/hillsboro" || 
+        this.$route.path !== "/sherwood"
+      )
+      this.getData()
+    }, 60000);
+    this.displayTitles()
+  },
   mounted() {
-    this.selectReleventData()
+    this.autoScroll()
   },
   watch: {
-    results: function () {this.selectReleventData()}
+    data: function () {
+      this.removeOldRows()
+      }
   },
 }
 </script>

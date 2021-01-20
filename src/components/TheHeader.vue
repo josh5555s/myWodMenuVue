@@ -5,9 +5,7 @@
         <h1>{{ title1 }}</h1>
       </div>
       <div id="logo">
-        <button @click="selectStore()" >  
-          <img :src="require(`@/assets/logo.png`)"/>
-        </button>
+        <router-link to="/"><img :src="require(`@/assets/logo.png`)"/></router-link> 
       </div>
       <div id="title-2-container">
         <h1>{{ title2 }}</h1>
@@ -20,17 +18,6 @@
 
 export default {
   props: ['title1','title2'],
-  emits: ['select-store'],
-  data() {
-    return {
-  
-    }
-  },
-  methods: {
-    selectStore() {
-      this.$emit("select-store")
-    },
-  }
 }
 </script>
 

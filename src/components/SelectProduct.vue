@@ -1,27 +1,33 @@
 <template>
     <div id="select-menu">
-      <button v-on:click="showDisplay('flower')"><h2>Flower</h2></button>
-      <button v-on:click="showDisplay('preroll')"><h2>Preroll</h2></button>
-      <button v-on:click="showDisplay('cart')"><h2>Cartridge</h2></button>
-      <button v-on:click="showDisplay('dab')"><h2>Dab</h2></button>
-      <button v-on:click="showDisplay('edible')"><h2>Edible</h2></button>
+      <router-link :to="`${location}/flower`"><h2>Flower</h2></router-link>
+      <router-link :to="`${location}/preroll`"><h2>Preroll</h2></router-link>
+      <router-link :to="`${location}/cart`"><h2>Cartridge</h2></router-link>
+      <router-link :to="`${location}/dab`"><h2>Dab</h2></router-link>
+      <router-link :to="`${location}/edible`"><h2>Edible</h2></router-link>
     </div>
 </template>
 
 <script>
 
 export default {
-  // props: ['patterns','i'],
-  emits: ['show-display'],
+  emits: ['product-titles'],
   data() {
     return {
-    
+      location: ''
     }
   },
   methods: {
-    showDisplay(product) {
-      this.$emit("show-display", product)
+    getLocation() {
+      this.location = this.$route.path
+    },
+    productTitles() {
+      this.$emit('product-titles')
     }
+  },
+  created() {
+    this.getLocation(),
+    this.productTitles()
   }
 }
 </script>
