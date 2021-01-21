@@ -189,7 +189,7 @@ export default {
         this.$route.path !== "/sherwood"
       )
       this.getData()
-    }, 60000);
+    }, 120000);
     this.displayTitles()
   },
   mounted() {
