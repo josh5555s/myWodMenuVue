@@ -25,7 +25,7 @@ export default {
   methods: {
     getData() {
       try {
-        fetch(`http://192.168.1.2:4000${this.$route.path}`)
+        fetch(`https://api.westernoregondispensary.com${this.$route.path}`)
         .then(response => response.json())
         .then(data => {
           let obj = (JSON.parse(data));
@@ -149,7 +149,6 @@ export default {
       }
     },
     autoScroll () {
-      console.log(this.alreadyScrolling)
       function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
@@ -161,7 +160,6 @@ export default {
           scrollBy(0,1)
           await sleep(20)
           if (oldYoffset === pageYOffset) {
-            console.log("stuck at bottom!")
             await sleep(3000)
             scrollTo(0,0)
             atBottom = true;
