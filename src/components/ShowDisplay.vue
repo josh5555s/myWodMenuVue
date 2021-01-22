@@ -29,8 +29,10 @@ export default {
         .then(response => response.json())
         .then(data => {
           let obj = (JSON.parse(data));
-          this.data = obj;
-          this.removeOldRows()
+          if (obj !== {}) {
+            this.data = obj;
+            this.removeOldRows()
+          }
         })
       } catch (error) {
         console.log(error)
