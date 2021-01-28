@@ -12,31 +12,72 @@
 
 <script>
 export default {
-  props: ['alreadyScrolling'],
-  emits: ['display-titles','now-scrolling'],
+  props: ['scrollSpeed','alreadyScrolling','selectedScreenSetting'],
+  emits: ['display-titles','now-scrolling','menu-number'],
   data() {
     return {
       logged: false,
       store: this.$route.params.store,
       product: this.$route.params.product,
-      data: []
+      fetchLoop: '',
+      data1o1: [],
+      data1o2: [],
+      data2o2: [],
+      data: [], 
     }
   },
   methods: {
     getData() {
-      try {
-        fetch(`https://api.westernoregondispensary.com${this.$route.path}`)
-        .then(response => response.json())
-        .then(data => {
-          let obj = (JSON.parse(data));
-          if (obj !== {}) {
-            this.data = obj;
-            this.removeOldRows()
-          }
-        })
-      } catch (error) {
-        console.log(error)
-      }
+        // duplicate code due to 'this' being undefined when in a local function
+        try {
+          // fetch(`192.168.1.29:4000${this.$route.path}`)
+          console.log('fetching new data...')
+          fetch(`https://api.westernoregondispensary.com${this.$route.path}`)
+          .then(response => response.json())
+          .then(data => {
+            let obj = (JSON.parse(data));
+            if (obj !== {}) {
+              this.data1o1 = obj
+              let halfwayThrough = Math.floor(this.data1o1.length / 2)
+              let arrayFirstHalf = this.data1o1.slice(0, halfwayThrough)
+              let arraySecondHalf = this.data1o1.slice(halfwayThrough, this.data1o1.length)
+              this.data1o2 = arrayFirstHalf
+              this.data2o2 = arraySecondHalf
+              if (this.selectedScreenSetting === '1 of 1') {this.data = this.data1o1}
+              else if (this.selectedScreenSetting === '1 of 2') {this.data = this.data1o2}
+              else if (this.selectedScreenSetting === '2 of 2') {this.data = this.data2o2}
+              this.removeOldRows()
+            }
+          })
+        } catch (error) {
+          console.log(error)
+        }
+
+      this.fetchLoop = setInterval(() => {
+                try {
+          // fetch(`192.168.1.29:4000${this.$route.path}`)
+          console.log('fetching new data...')
+          fetch(`https://api.westernoregondispensary.com${this.$route.path}`)
+          .then(response => response.json())
+          .then(data => {
+            let obj = (JSON.parse(data));
+            if (obj !== {}) {
+              this.data1o1 = obj
+              let halfwayThrough = Math.floor(this.data1o1.length / 2)
+              let arrayFirstHalf = this.data1o1.slice(0, halfwayThrough)
+              let arraySecondHalf = this.data1o1.slice(halfwayThrough, this.data1o1.length)
+              this.data1o2 = arrayFirstHalf
+              this.data2o2 = arraySecondHalf
+              if (this.selectedScreenSetting === '1 of 1') {this.data = this.data1o1}
+              else if (this.selectedScreenSetting === '1 of 2') {this.data = this.data1o2}
+              else if (this.selectedScreenSetting === '2 of 2') {this.data = this.data2o2}
+              this.removeOldRows()
+            }
+          })
+        } catch (error) {
+          console.log(error)
+        }
+      }, 60000);
     },
     removeOldRows() {
     const table1 = document.getElementById("table-1");
@@ -106,7 +147,7 @@ export default {
         tr.appendChild(tdType);
         tr.appendChild(tdPrice);
 
-        // Determine # of columns
+        // Determine # of columns for larger than tablet screens
         if (innerWidth > 650) {
           // append rows to 2 table columns
           if (i <= this.data.length / 2) {document.getElementById("table-1").appendChild(tr);}
@@ -151,6 +192,8 @@ export default {
       }
     },
     autoScroll () {
+      let speed = this.scrollSpeed
+      // console.log(`outer scroll speed: ${speed}`)
       function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
@@ -160,7 +203,8 @@ export default {
         await sleep(3000)
         while (!atBottom) {
           scrollBy(0,1)
-          await sleep(20)
+          // console.log(`inner scroll speed: ${speed}`)
+          await sleep(speed)
           if (oldYoffset === pageYOffset) {
             await sleep(3000)
             scrollTo(0,0)
@@ -176,29 +220,26 @@ export default {
     },
     displayTitles() {
       this.$emit('display-titles', this.product)
+      if (this.selectedScreenSetting !== '1 of 1') {
+        this.$emit('menu-number')
+      }
     }
-  },
-  created() {
-    this.getData();
-    setInterval(() => {
-      if (
-        this.$route.path !== "/" || 
-        this.$route.path !== "/newberg" || 
-        this.$route.path !== "/cedar-mill" || 
-        this.$route.path !== "/hillsboro" || 
-        this.$route.path !== "/sherwood"
-      )
-      this.getData()
-    }, 120000);
-    this.displayTitles()
-  },
-  mounted() {
-    this.autoScroll()
   },
   watch: {
     data: function () {
       this.removeOldRows()
       }
+  },
+  created() {
+    this.getData();
+    this.displayTitles()
+  },
+  mounted() {
+    this.autoScroll()
+  },
+  unmounted() {
+    console.log("fetchLoop cleared")
+    clearInterval(this.fetchLoop)
   },
 }
 </script>
