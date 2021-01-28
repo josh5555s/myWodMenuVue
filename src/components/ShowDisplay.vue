@@ -77,7 +77,8 @@ export default {
         } catch (error) {
           console.log(error)
         }
-      }, 60000);
+        // fetchLoop firing interupts scroll, bringing it immediately back to the top.  Need better understanding of this.function() scope issues in order to resolve this issue. Probably related to issue running this.function() inside an async function.
+      }, 600000);
     },
     removeOldRows() {
     const table1 = document.getElementById("table-1");
@@ -226,9 +227,9 @@ export default {
     }
   },
   watch: {
-    data: function () {
-      this.removeOldRows()
-      }
+    // data: function () {
+    //   this.removeOldRows()
+    //   }
   },
   created() {
     this.getData();
