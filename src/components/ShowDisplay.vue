@@ -97,7 +97,11 @@ export default {
         const tdName = document.createElement("TD");
         let name = row.strain;
         if (this.product === "preroll") {name = name.replace("Pre-Roll", "")}
-        if (this.product === "cart") {name = name.replace("Cart", "")}
+        if (this.product === "cartridge") {
+          name = name.replace("Cart", "")
+          name = name.replace("1G", "")
+          name = name.replace(".5G", "")
+        }
         tdName.textContent = name;
         tdName.setAttribute("class", `${this.product}-name product-name`);
 
@@ -119,9 +123,11 @@ export default {
         // create weight cell
         const tdWeight = document.createElement("TD")
         let weight = row.weight;
-        if (this.product === "dab") {
+        if (this.product === "concentrate" || this.product === "cartridge") {
           if (weight === "0 G") {
             weight = "1 G"
+          } else if (weight === "0.5 G") {
+            weight = ".5 G"
           }
         }
         tdWeight.textContent = weight;
@@ -144,7 +150,7 @@ export default {
         // append cells to row
         tr.appendChild(tdName);
         if (this.product === "flower") {tr.appendChild(tdTest);}
-        if (this.product === "preroll" || this.product === "dab") {tr.appendChild(tdWeight)}
+        if (this.product === "preroll" || this.product === "cartridge" || this.product === "concentrate") {tr.appendChild(tdWeight)}
         tr.appendChild(tdType);
         tr.appendChild(tdPrice);
 
@@ -280,7 +286,7 @@ tr {
   width: 330px;
 }
 .preroll-name,
-.dab-name {
+.concentrate-name {
   width: 550px
 }
 
@@ -297,7 +303,7 @@ tr {
   width: 130px;
 }
 .preroll-type,
-.dab-type {
+.concentrate-type {
   width: 120px;
 }
 .product-price {
@@ -324,33 +330,38 @@ tr {
 
   .product-name {
     font-weight: bold;
-    width: 205px;
+    width: 360px;
     font-size: 20px;
   }
-  .preroll-name,
-  .dab-name {
-    width: 345px;
+  .flower-name{
+    width: 205px;
   }
-  .cart-name,
+  .preroll-name {
+    width: 320px;
+  }
+  .cartridge-name {
+    width: 320px;
+  }
   .edible-name {
     width: 360px;
   }
 
   .product-weight {
-    width: 50px;
+    width: 55px;
     font-size: 18px;
   }
-  .dab-weight {
-    width: 40px;
+  .concentrate-weight,
+  .cartridge-weight {
+    width: 35px;
   }
 
   .product-test {
-    width: 140px;
+    width: 160px;
     font-size: 18px;
   }
 
   .product-type {
-    width: 80px;
+    width: 75px;
     font-size: 17px;
   }
   .product-price {
@@ -370,7 +381,7 @@ tr {
     width: 190px;
     font-size: 15px;
   }
-  .cart-name,
+  .cartridge-name,
   .edible-name {
     width: 240px;
   }
