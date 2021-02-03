@@ -29,10 +29,11 @@ export default {
   methods: {
     getData() {
         // duplicate code due to 'this' being undefined when in a local function
+        let path = `http://192.168.1.29:4000${this.$route.path}`
+        // let path = `https://api.westernoregondispensary.com${this.$route.path}`
         try {
-          // fetch(`192.168.1.29:4000${this.$route.path}`)
           console.log('fetching new data...')
-          fetch(`https://api.westernoregondispensary.com${this.$route.path}`)
+          fetch(path)
           .then(response => response.json())
           .then(data => {
             let obj = (JSON.parse(data));
@@ -54,10 +55,9 @@ export default {
         }
 
       this.fetchLoop = setInterval(() => {
-                try {
-          // fetch(`192.168.1.29:4000${this.$route.path}`)
+        try {
           console.log('fetching new data...')
-          fetch(`https://api.westernoregondispensary.com${this.$route.path}`)
+          fetch(path)
           .then(response => response.json())
           .then(data => {
             let obj = (JSON.parse(data));

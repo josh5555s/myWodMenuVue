@@ -2,8 +2,8 @@
     <div id="select-menu">
       <router-link :to="`${location}/flower`"><h2>Flower</h2></router-link>
       <router-link :to="`${location}/preroll`"><h2>Preroll</h2></router-link>
-      <router-link :to="`${location}/cart`"><h2>Cartridge</h2></router-link>
-      <router-link :to="`${location}/dab`"><h2>Dab</h2></router-link>
+      <router-link :to="`${location}/cartridge`"><h2>Cartridge</h2></router-link>
+      <router-link :to="`${location}/concentrate`"><h2>Concentrate</h2></router-link>
       <router-link :to="`${location}/edible`"><h2>Edible</h2></router-link>
       <button @click="toggleShowSettings">{{ settingsButtonText }}</button>
       <template v-if="showSettings">
