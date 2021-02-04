@@ -39,11 +39,35 @@ export default {
             let obj = (JSON.parse(data));
             if (obj !== {}) {
               this.data1o1 = obj
+              if (this.product === 'flower') {
+                // secondary sort by price
+                this.data1o1 = this.data1o1.sort((a, b) => (a.price < b.price) ? 1 : -1)
+                // primary sort by type
+                let uplifting = [];
+                let balanced = [];
+                let relaxing = [];
+                let typeMissing = [];
+                this.data1o1.forEach(product => {
+                  if (product.type === 'Uplifting' || product.strainType === 'Uplifting') {
+                    uplifting.push(product)
+                  } else if (product.type === 'Balanced') {
+                    balanced.push(product)
+                  } else if (product.type === 'Relaxing') {
+                    relaxing.push(product)
+                  } else {
+                    typeMissing.push(product)
+                  }
+                });
+                this.data1o1.length = 0
+                this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
+              }
+              // split into two arrays
               let halfwayThrough = Math.floor(this.data1o1.length / 2)
               let arrayFirstHalf = this.data1o1.slice(0, halfwayThrough)
               let arraySecondHalf = this.data1o1.slice(halfwayThrough, this.data1o1.length)
               this.data1o2 = arrayFirstHalf
               this.data2o2 = arraySecondHalf
+              // select array to display
               if (this.selectedScreenSetting === '1 of 1') {this.data = this.data1o1}
               else if (this.selectedScreenSetting === '1 of 2') {this.data = this.data1o2}
               else if (this.selectedScreenSetting === '2 of 2') {this.data = this.data2o2}
@@ -59,15 +83,39 @@ export default {
           console.log('fetching new data...')
           fetch(path)
           .then(response => response.json())
-          .then(data => {
+                   .then(data => {
             let obj = (JSON.parse(data));
             if (obj !== {}) {
               this.data1o1 = obj
+              if (this.product === 'flower') {
+                // secondary sort by price
+                this.data1o1 = this.data1o1.sort((a, b) => (a.price < b.price) ? 1 : -1)
+                // primary sort by type
+                let uplifting = [];
+                let balanced = [];
+                let relaxing = [];
+                let typeMissing = [];
+                this.data1o1.forEach(product => {
+                  if (product.type === 'Uplifting' || product.strainType === 'Uplifting') {
+                    uplifting.push(product)
+                  } else if (product.type === 'Balanced') {
+                    balanced.push(product)
+                  } else if (product.type === 'Relaxing') {
+                    relaxing.push(product)
+                  } else {
+                    typeMissing.push(product)
+                  }
+                });
+                this.data1o1.length = 0
+                this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
+              }
+              // split into two arrays
               let halfwayThrough = Math.floor(this.data1o1.length / 2)
               let arrayFirstHalf = this.data1o1.slice(0, halfwayThrough)
               let arraySecondHalf = this.data1o1.slice(halfwayThrough, this.data1o1.length)
               this.data1o2 = arrayFirstHalf
               this.data2o2 = arraySecondHalf
+              // select array to display
               if (this.selectedScreenSetting === '1 of 1') {this.data = this.data1o1}
               else if (this.selectedScreenSetting === '1 of 2') {this.data = this.data1o2}
               else if (this.selectedScreenSetting === '2 of 2') {this.data = this.data2o2}
