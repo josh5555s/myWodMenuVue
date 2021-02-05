@@ -5,6 +5,7 @@
       <router-link :to="`${location}/cartridge`"><h2>Cartridge</h2></router-link>
       <router-link :to="`${location}/concentrate`"><h2>Concentrate</h2></router-link>
       <router-link :to="`${location}/edible`"><h2>Edible</h2></router-link>
+      <router-link :to="`${location}/topical`"><h2>Topical</h2></router-link>
       <button @click="toggleShowSettings">{{ settingsButtonText }}</button>
       <template v-if="showSettings">
         <br>
