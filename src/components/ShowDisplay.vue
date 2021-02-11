@@ -143,7 +143,7 @@ export default {
 
         // create name cell
         const tdName = document.createElement("TD");
-        let name = row.strain;
+        let name = row.productName;
         if (this.product === "preroll") {name = name.replace("Pre-Roll", "")}
         if (this.product === "cartridge") {
           name = name.replace("Cart", "")
