@@ -48,15 +48,10 @@ export default {
                 let relaxing = [];
                 let typeMissing = [];
                 this.data1o1.forEach(product => {
-                  if (product.type === 'Uplifting' || product.strainType === 'Uplifting') {
-                    uplifting.push(product)
-                  } else if (product.type === 'Balanced') {
-                    balanced.push(product)
-                  } else if (product.type === 'Relaxing') {
-                    relaxing.push(product)
-                  } else {
-                    typeMissing.push(product)
-                  }
+                  if (product.type === 'Uplifting') {uplifting.push(product)} 
+                  else if (product.type === 'Balanced') {balanced.push(product)}
+                  else if (product.type === 'Relaxing') {relaxing.push(product)} 
+                  else {typeMissing.push(product)}
                 });
                 this.data1o1.length = 0
                 this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
@@ -96,15 +91,10 @@ export default {
                 let relaxing = [];
                 let typeMissing = [];
                 this.data1o1.forEach(product => {
-                  if (product.type === 'Uplifting' || product.strainType === 'Uplifting') {
-                    uplifting.push(product)
-                  } else if (product.type === 'Balanced') {
-                    balanced.push(product)
-                  } else if (product.type === 'Relaxing') {
-                    relaxing.push(product)
-                  } else {
-                    typeMissing.push(product)
-                  }
+                  if (product.type === 'Uplifting') {uplifting.push(product)} 
+                  else if (product.type === 'Balanced') {balanced.push(product)}
+                  else if (product.type === 'Relaxing') {relaxing.push(product)} 
+                  else {typeMissing.push(product)}
                 });
                 this.data1o1.length = 0
                 this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
