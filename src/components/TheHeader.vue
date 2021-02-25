@@ -1,6 +1,7 @@
 <template>
   <header>
     <div id="flex-container">
+      <div class="all-container"></div>
       <div id="title-1-container">
         <h1>{{ title1 }}</h1>
       </div>
@@ -34,7 +35,7 @@ export default {
 #title-category,
 #title-menu {
   font-size: 30px;
-  width: 250px;
+  width: 25vw;
 }
 
 #title-category {
@@ -57,7 +58,7 @@ h1 {
 
 /* MEDIA QUERIES */
 /* Tablet */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1080px) {
 
   #flex-container {
     display: flex;
@@ -70,7 +71,7 @@ h1 {
   #title-category,
   #title-menu {
     
-    width: 220px;
+      width: 23vw;
   }
 
   #title-category {
@@ -104,7 +105,7 @@ h1 {
     flex-direction: row;
     justify-content: center;
     margin-top: 5px;
-    height: 85px;
+    height: 80px;
     margin-left: 15px;
   }
 
@@ -120,17 +121,17 @@ h1 {
 
   img {
     margin-top: 5px;
-    width: 80px;
+    width: 70px;
   }
-
+/* 
   #title-menu {
     margin-left: 15px;
-  }
+  } */
 
   h1 {
     vertical-align: top;
     margin: 22px 0px;
-    font-size: 30px;
+    font-size: 20px;
   }
 }
 

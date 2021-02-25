@@ -297,7 +297,11 @@ export default {
 }
 
 #table-1-container {
-  width: 100%;
+  width: 50%;
+}
+
+#table-2-container {
+  width: 50%;
 }
 
 #table-1,
@@ -312,135 +316,101 @@ td {
   border: 0px solid black;
   border-collapse: collapse;
   padding: 3px 3px;
+  font-size: 1.6vw;
 }
 
-tr {
-  width: 800px;
-  margin-left: 40px;
+tr.flower-info-container {
+  width: 98%;
+  margin-left: 2%;
 }
 
 .product-name {
   font-weight: bold;
-  width: 330px;
+  width: 20vw;
 }
+
 .preroll-name,
-.concentrate-name {
-  width: 550px
+.concentrate-name,
+.cartridge-name {
+  width: 30vw;
+}
+
+.edible-name,
+.tincture-name {
+  width: 33vw;
+}
+
+.topical-name {
+  width: 33vw;
 }
 
 .product-weight {
-  width: 70px;
+  width: 5vw;
 }
 
 .product-test {
-  width: 220px;
+  width: 15vw;
 }
 
 .product-type {
   font-weight: bold;
-  width: 130px;
+  width: 8vw;
 }
-.preroll-type,
-.concentrate-type {
-  width: 120px;
-}
+
 .product-price {
-  width: 80px;
+  width: 4vw;
 }
 
 /* MEDIA QUERIES */
+
 /* Tablet */
-@media screen and (max-width: 800px) {
+@media screen and (max-width: 1080px) {
   #columns-container {
+    flex-direction: column;
     margin-top: 0px;
+  }
+
+  #table-1-container,
+  #table-2-container {
+    width: 100%;
   }
 
   table,
   th,
   td {
     padding: 4px 3px;
+    font-size: 3.2vw;
   }
 
-  tr {
-    width: 500px;
-    margin-left: 5px;
+  tr.flower-info-container {
+      width: 100%;
+      margin-left: 0%;
   }
 
   .product-name {
     font-weight: bold;
-    width: 360px;
-    font-size: 20px;
-  }
-  .flower-name{
-    width: 205px;
-  }
-  .preroll-name {
-    width: 320px;
-  }
-  .cartridge-name {
-    width: 320px;
-  }
-  .edible-name {
-    width: 360px;
+    width: 60vw;
   }
 
-  .product-weight {
-    width: 55px;
-    font-size: 18px;
+  .edible-name,
+  .tincture-name {
+    width: 66vw;
   }
-  .concentrate-weight,
-  .cartridge-weight {
-    width: 35px;
+  .product-weight {
+    width: 10vw;
   }
 
   .product-test {
-    width: 160px;
-    font-size: 18px;
+    width: 34vw;
   }
 
   .product-type {
-    width: 75px;
-    font-size: 17px;
+    width: 16vw;
   }
+
   .product-price {
-    width: 45px;
-    font-size: 20px;
+    width: 8vw;
   }
 }
 
-/* Phone */
-@media screen and (max-width: 400px) {
-  tr {
-    width: 360px;
-    margin-left: 0px;
-  }
-
-  .product-name {
-    width: 190px;
-    font-size: 15px;
-  }
-  .cartridge-name,
-  .edible-name {
-    width: 240px;
-  }
-
-  .product-weight {
-    width: 50px;
-    font-size: 15px;
-  }
-
-  .product-test {
-    width: 110px;
-    font-size: 13px;
-  }
-
-  .product-type {
-    width: 60px;
-     font-size: 13px;
-  }
-  .product-price {
-    width: 40px;
-     font-size: 15px;
-  }
-}
 </style>

@@ -1,3 +1,6 @@
+// topicals should not render product type 
+// no one column javascript, always two columns that css stacks
+// add to header: light/dark mode button, autoscroll button
 <template>
   <TheHeader 
     :title1="title1"
@@ -105,8 +108,8 @@ export default {
 body {
   background-color: black;
   color: #c1d448;
-  font-size: 26px;
   font-family: "Merriweather Sans", sans-serif;
+  min-height: 98vh;
 }
 a {
   text-decoration: none;
@@ -115,14 +118,11 @@ a {
   padding: 0!important;
   color: #c1d448;
   cursor: pointer;
-  font-size: 26px;
-  display: block;
-  margin: auto;
+  font-size: 24px;
 }
 
-a h2 {
-  margin-block-start: 0.5em;
-  margin-block-end: 0.5em;
+h2 {
+  margin-block: .5em;
 }
 /* mouse over button */
 a:hover {
@@ -135,5 +135,13 @@ a:focus {outline:0;}
   margin: auto;
   text-align: center;
   margin-top: 20px;
+}
+
+/* Phone */
+@media screen and (max-width: 400px) {
+  a {
+    font-size: 20px;
+    margin-block: .4em;
+  }
 }
 </style>
