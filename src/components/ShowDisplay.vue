@@ -174,10 +174,6 @@ export default {
         // create type cell (relaxing, uplifting...)
         const tdType = document.createElement("TD");
         if (row.type !== 'unknown') {tdType.textContent = row.type;}
-        else {         
-          if (row.strainType !== "") {tdType.textContent = row.strainType;}
-          else {tdType.textContent = ''}
-        }
         tdType.setAttribute("class", `${this.product}-type product-type`);
 
         // create price cell
@@ -189,18 +185,12 @@ export default {
         tr.appendChild(tdName);
         if (this.product === "flower") {tr.appendChild(tdTest);}
         if (this.product === "preroll" || this.product === "cartridge" || this.product === "concentrate") {tr.appendChild(tdWeight)}
-        tr.appendChild(tdType);
+        if (this.product !== 'topical') {tr.appendChild(tdType)}
         tr.appendChild(tdPrice);
 
-        // Determine # of columns for larger than tablet screens
-        if (innerWidth > 650) {
-          // append rows to 2 table columns
-          if (i <= this.data.length / 2) {document.getElementById("table-1").appendChild(tr);}
-          else {document.getElementById("table-2").appendChild(tr);}
-        } else {
-          // append rows to single column (tablet/mobile)
-          document.getElementById("table-1").appendChild(tr);
-        }
+        // append rows to 2 table columns
+        if (i <= this.data.length / 2) {document.getElementById("table-1").appendChild(tr);}
+        else {document.getElementById("table-2").appendChild(tr);}
       })
       this.colorize();
     },
@@ -270,11 +260,6 @@ export default {
       }
     }
   },
-  watch: {
-    // data: function () {
-    //   this.removeOldRows()
-    //   }
-  },
   created() {
     this.getData();
     this.displayTitles()
@@ -341,7 +326,7 @@ tr.flower-info-container {
 }
 
 .topical-name {
-  width: 33vw;
+  width: 44vw;
 }
 
 .product-weight {
@@ -396,6 +381,11 @@ tr.flower-info-container {
   .tincture-name {
     width: 66vw;
   }
+
+  .topical-name {
+    width: 88vw;
+  }
+
   .product-weight {
     width: 10vw;
   }

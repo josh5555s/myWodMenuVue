@@ -1,6 +1,5 @@
-// topicals should not render product type 
 // no one column javascript, always two columns that css stacks
-// add to header: light/dark mode button, autoscroll button
+// add slide out menu with header button, menu includes: light/dark mode button, autoscroll button, multi page settings (from current settings)
 <template>
   <TheHeader 
     :title1="title1"
