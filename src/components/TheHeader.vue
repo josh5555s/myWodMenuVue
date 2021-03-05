@@ -1,5 +1,11 @@
 <template>
   <header>
+    <div id="cog">
+      <button
+      @click = "openMenu"
+      ><i class="fas fa-cog"></i>
+      </button>
+    </div>
     <div id="flex-container">
       <div class="all-container"></div>
       <div id="title-1-container">
@@ -19,10 +25,22 @@
 
 export default {
   props: ['title1','title2'],
+  emits: ['open-menu'],
+  methods: {
+    openMenu() {
+      this.$emit('open-menu')
+    }
+  }
 }
 </script>
 
 <style>
+#cog {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1001;
+}
 #flex-container {
   display: flex;
   flex-direction: row;

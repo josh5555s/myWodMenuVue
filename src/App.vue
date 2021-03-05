@@ -1,15 +1,41 @@
-// no one column javascript, always two columns that css stacks
-// add slide out menu with header button, menu includes: light/dark mode button, autoscroll button, multi page settings (from current settings)
+// implement functionallity of the settings menu
+
+// fix autoScroll
+
+// create url state for the settings
+
+// dark mode detection (https://stackoverflow.com/questions/56393880/how-do-i-detect-dark-mode-using-javascript)
+
+// scroll interuption by fetch loop issue
+
 <template>
+  <Drawer 
+    :direction="'right'" 
+    :exist="true"
+    ref="LeftDrawer">
+    <DrawerContent
+      :button1o1Active="button1o1Active"
+      :button1o2Active="button1o2Active"
+      :button2o2Active="button2o2Active"
+      :buttonSlowActive="buttonSlowActive"
+      :buttonMediumActive="buttonMediumActive"
+      :buttonFastActive="buttonFastActive"
+      :alreadyScrolling="alreadyScrolling"
+      :buttonDarkActive="buttonDarkActive"
+      :buttonLightActive="buttonLightActive"
+      :buttonSystemActive="buttonSystemActive"
+      @theme-setting="updateSelectedThemeSetting"
+      @scroll-speed="updateScrollSpeed"
+      @screen-setting="updateSelectedScreenSetting"
+    />
+  </Drawer>
+
   <TheHeader 
     :title1="title1"
     :title2="title2"
+    @open-menu="openMenu"
   />
   <router-view 
-    :button1o1Active="button1o1Active"
-    :button1o2Active="button1o2Active"
-    :button2o2Active="button2o2Active"
-
     :buttonSlowActive="buttonSlowActive"
     :buttonMediumActive="buttonMediumActive"
     :buttonFastActive="buttonFastActive"
@@ -18,10 +44,7 @@
     @now-scrolling="nowScrolling"
 
     :selectedScreenSetting="selectedScreenSetting"
-    @screen-setting="updateSelectedScreenSetting"
 
-    @scroll-speed="updateScrollSpeed"
-  
     @store-titles="storeTitles"
     @product-titles="productTitles"
     @display-titles="displayTitles"
@@ -32,11 +55,15 @@
 
 <script>
 import TheHeader from './components/TheHeader.vue'
+import Drawer from './components/Drawer.vue';
+import DrawerContent from './components/DrawerContent.vue'
 
 export default {
   name: 'App',
   components: {
     TheHeader,
+    Drawer,
+    DrawerContent,
   },
   data() {
     return {
@@ -51,9 +78,20 @@ export default {
       buttonSlowActive: false,
       buttonMediumActive: true,
       buttonFastActive: false,
+      theme: 'dark',
+      buttonDarkActive: true,
+      buttonLightActive: false,
+      buttonSystemActive: false,
     }
   },
   methods: {
+    openMenu(){
+      if(this.$refs.LeftDrawer.active){
+        this.$refs.LeftDrawer.close();					
+      }else{
+        this.$refs.LeftDrawer.open();
+      }
+    },
     nowScrolling() {
       this.alreadyScrolling = true
     },
@@ -71,6 +109,16 @@ export default {
     },
     menuNumber() {
       this.title2 = this.title2 + " " + this.selectedScreenSetting.charAt(0)
+    },
+    updateSelectedThemeSetting(setting) {
+      this.theme = setting
+      this.buttonDarkActive = false
+      this.buttonLightActive = false
+      this.buttonSystemActive = false
+      if (setting === 'dark') {this.buttonDarkActive = true}
+      else if (setting === 'light') {this.buttonLightActive = true}
+      else if (setting === 'system') {this.buttonSystemActive = true}
+      console.log(this.theme)
     },
     updateSelectedScreenSetting(setting) {
       this.selectedScreenSetting = setting
@@ -103,13 +151,17 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+
+$background-color-theme:black;
+
 body {
-  background-color: black;
+  background-color: $background-color-theme;
   color: #c1d448;
   font-family: "Merriweather Sans", sans-serif;
   min-height: 98vh;
 }
+
 a {
   text-decoration: none;
   background: none!important;
@@ -123,6 +175,7 @@ a {
 h2 {
   margin-block: .5em;
 }
+
 /* mouse over button */
 a:hover {
   color: white;

@@ -28,9 +28,9 @@ export default {
   },
   methods: {
     getData() {
-        // duplicate code due to 'this' being undefined when in a local function
-        // let path = `http://192.168.1.29:4000${this.$route.path}`
-        let path = `https://api.westernoregondispensary.com${this.$route.path}`
+      // let path = `http://192.168.1.29:4000${this.$route.path}`
+      let path = `https://api.westernoregondispensary.com${this.$route.path}`
+      const fetchLogic = () => {
         try {
           console.log('fetching new data...')
           fetch(path)
@@ -72,50 +72,12 @@ export default {
         } catch (error) {
           console.log(error)
         }
+      }
+      fetchLogic()
 
       this.fetchLoop = setInterval(() => {
-        try {
-          console.log('fetching new data...')
-          fetch(path)
-          .then(response => response.json())
-                   .then(data => {
-            let obj = (JSON.parse(data));
-            if (obj !== {}) {
-              this.data1o1 = obj
-              if (this.product === 'flower') {
-                // secondary sort by price
-                this.data1o1 = this.data1o1.sort((a, b) => (a.price < b.price) ? 1 : -1)
-                // primary sort by type
-                let uplifting = [];
-                let balanced = [];
-                let relaxing = [];
-                let typeMissing = [];
-                this.data1o1.forEach(product => {
-                  if (product.type === 'Uplifting') {uplifting.push(product)} 
-                  else if (product.type === 'Balanced') {balanced.push(product)}
-                  else if (product.type === 'Relaxing') {relaxing.push(product)} 
-                  else {typeMissing.push(product)}
-                });
-                this.data1o1.length = 0
-                this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
-              }
-              // split into two arrays
-              let halfwayThrough = Math.floor(this.data1o1.length / 2)
-              let arrayFirstHalf = this.data1o1.slice(0, halfwayThrough)
-              let arraySecondHalf = this.data1o1.slice(halfwayThrough, this.data1o1.length)
-              this.data1o2 = arrayFirstHalf
-              this.data2o2 = arraySecondHalf
-              // select array to display
-              if (this.selectedScreenSetting === '1 of 1') {this.data = this.data1o1}
-              else if (this.selectedScreenSetting === '1 of 2') {this.data = this.data1o2}
-              else if (this.selectedScreenSetting === '2 of 2') {this.data = this.data2o2}
-              this.removeOldRows()
-            }
-          })
-        } catch (error) {
-          console.log(error)
-        }
-        // fetchLoop firing interupts scroll, bringing it immediately back to the top.  Need better understanding of this.function() scope issues in order to resolve this issue. Probably related to issue running this.function() inside an async function.
+        fetchLogic()
+       // fetchLoop firing interupts scroll, bringing it immediately back to the top.  Need better understanding of this.function() scope issues in order to resolve this issue. Probably related to issue running this.function() inside an async function.
       }, 600000);
     },
     removeOldRows() {
@@ -271,10 +233,19 @@ export default {
     console.log("fetchLoop cleared")
     clearInterval(this.fetchLoop)
   },
+  watch: {
+    // whenever question changes, this function will run
+    selectedScreenSetting() {
+      clearInterval(this.fetchLoop)
+      this.getData()
+    }
+  },
+
 }
 </script>
 
-<style>
+
+<style lang="scss">
 #columns-container {
   margin-top: 20px;
   display: flex;
