@@ -182,8 +182,8 @@ export default {
       if (this.product === "flower") {
         for (let i = 0; i < productPrice.length; i++) {
           if (productPrice[i].innerText === "$5") {
-            productPrice[i].style.color = "white";
-            productName[i].style.color = "white";
+            productPrice[i].style.color = "var(--highlight-text-color)";
+            productName[i].style.color = "var(--highlight-text-color)";
           }
         }
       }

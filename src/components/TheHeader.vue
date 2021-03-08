@@ -11,8 +11,11 @@
       <div id="title-1-container">
         <h1>{{ title1 }}</h1>
       </div>
-      <div id="logo">
-        <router-link to="/"><img :src="require(`@/assets/logo.png`)"/></router-link> 
+      <div v-if="darkMode" id="logo">
+        <router-link to="/"><img :src="require(`@/assets/dark-logo.png`)"/></router-link> 
+      </div>
+      <div v-else id="logo">
+        <router-link to="/"><img :src="require(`@/assets/light-logo.png`)"/></router-link> 
       </div>
       <div id="title-2-container">
         <h1>{{ title2 }}</h1>
@@ -24,7 +27,7 @@
 <script>
 
 export default {
-  props: ['title1','title2'],
+  props: ['title1','title2','darkMode'],
   emits: ['open-menu'],
   methods: {
     openMenu() {
@@ -41,6 +44,13 @@ export default {
   right: 10px;
   z-index: 1001;
 }
+
+#cog button {
+  background-color: var(--app-background-color);
+  color: var(--primary-text-color);
+  border-block-color: var(--primary-text-color);
+}
+
 #flex-container {
   display: flex;
   flex-direction: row;

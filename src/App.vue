@@ -1,13 +1,3 @@
-// implement functionallity of the settings menu
-
-// fix autoScroll
-
-// create url state for the settings
-
-// dark mode detection (https://stackoverflow.com/questions/56393880/how-do-i-detect-dark-mode-using-javascript)
-
-// scroll interuption by fetch loop issue
-
 <template>
   <Drawer 
     :direction="'right'" 
@@ -31,6 +21,7 @@
   </Drawer>
 
   <TheHeader 
+    :darkMode="darkMode"
     :title1="title1"
     :title2="title2"
     @open-menu="openMenu"
@@ -78,7 +69,7 @@ export default {
       buttonSlowActive: false,
       buttonMediumActive: true,
       buttonFastActive: false,
-      theme: 'dark',
+      darkMode: true,
       buttonDarkActive: true,
       buttonLightActive: false,
       buttonSystemActive: false,
@@ -111,14 +102,12 @@ export default {
       this.title2 = this.title2 + " " + this.selectedScreenSetting.charAt(0)
     },
     updateSelectedThemeSetting(setting) {
-      this.theme = setting
+      this.darkMode = setting
       this.buttonDarkActive = false
       this.buttonLightActive = false
       this.buttonSystemActive = false
-      if (setting === 'dark') {this.buttonDarkActive = true}
-      else if (setting === 'light') {this.buttonLightActive = true}
-      else if (setting === 'system') {this.buttonSystemActive = true}
-      console.log(this.theme)
+      if (setting === true) {this.buttonDarkActive = true}
+      else if (setting === false) {this.buttonLightActive = true}
     },
     updateSelectedScreenSetting(setting) {
       this.selectedScreenSetting = setting
@@ -148,16 +137,64 @@ export default {
       }
     }
   },
+  mounted() {
+    // set page title
+    document.title = 'WOD Menu';
+
+    // set 'app-background' class to body tag
+    let bodyElement = document.body;
+    bodyElement.classList.add("app-background");
+
+    // check for active theme
+    let htmlElement = document.documentElement;
+    let theme = localStorage.getItem("theme");
+
+    if (theme === 'light') {
+        htmlElement.setAttribute('theme', 'light')
+        this.darkMode = false
+    } else {
+        htmlElement.setAttribute('theme', 'dark');
+        this.darkMode = true
+    }
+},
+watch: {
+    darkMode: function () {
+        // add/remove class to/from html tag
+        let htmlElement = document.documentElement;
+
+        if (this.darkMode) {
+            localStorage.setItem("theme", 'dark');
+            htmlElement.setAttribute('theme', 'dark');
+        } else {
+            localStorage.setItem("theme", 'light');
+            htmlElement.setAttribute('theme', 'light');
+        }
+    }
+}
 }
 </script>
 
 <style lang="scss">
+// themes
+:root {
+  --app-background-color: black;
+  --primary-text-color: #c1d448;
+  --highlight-text-color: white;
+  --sidebar-background-color: rgba(9, 9, 9, 0.92);
+}
 
-$background-color-theme:black;
+[theme="light"] {
+  --app-background-color: rgb(255, 255, 255);
+  --primary-text-color: #0d093b;
+  --highlight-text-color: #0400ff;
+  // --highlight-text-color: #0d093b;
+  // --primary-text-color: #193f00be;
+  --sidebar-background-color: rgba(245, 245, 245, 0.93);
+}
 
 body {
-  background-color: $background-color-theme;
-  color: #c1d448;
+  background-color: var(--app-background-color);
+  color: var(--primary-text-color);
   font-family: "Merriweather Sans", sans-serif;
   min-height: 98vh;
 }
@@ -167,18 +204,18 @@ a {
   background: none!important;
   border: none;
   padding: 0!important;
-  color: #c1d448;
   cursor: pointer;
   font-size: 24px;
 }
 
 h2 {
+  color: var(--primary-text-color);
   margin-block: .5em;
 }
 
 /* mouse over button */
 a:hover {
-  color: white;
+  color: var(--highlight-text-color);
 }
 
 a:focus {outline:0;}

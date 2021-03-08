@@ -4,19 +4,14 @@
 
       <div id="theme-settings">
         <h3>Color Theme</h3>
-          <!-- <div class="settings-block"> -->
           <button
-            @click="updateSelectedThemeSetting('light')"
+            @click="updateSelectedThemeSetting(false)"
             v-bind:class="{ active: buttonLightActive }"
             >Light <i class="far fa-sun"></i></button>
           <button
-            @click="updateSelectedThemeSetting('dark')"
+            @click="updateSelectedThemeSetting(true)"
             v-bind:class="{ active: buttonDarkActive }"
           >Dark  <i class="far fa-moon"></i></button>
-          <button
-            @click="updateSelectedThemeSetting('system')"
-            v-bind:class="{ active: buttonSystemActive }"
-          >System  <i class="fas fa-laptop"></i></button>
         <!-- </div> -->
       </div>
 
@@ -146,22 +141,23 @@ a:active {
   text-align: center;
 }
 
-button {
-  background: rgba(0,0,0,.5);
-  color: #c1d448;
-  border-block-color: #c1d448;
+#settings-column button {
+  background-color: var(--app-background-color);
+  color: var(--primary-text-color);
+  border-block-color: var(--primary-text-color);
   border-radius: 5px;
   font-size: 24px;
 }
 
-.active {
-  color: white;
-  border-block-color: white;
-}
-
-h3 {
+#settings-column h3 {
+  color: var(--highlight-text-color);
   margin-block-start: 2em;
   margin-block-end: .7em;
+}
+
+#settings-column .active {
+  color: var(--highlight-text-color);
+  border-block-color: var(--highlight-text-color);
 }
 
 </style>

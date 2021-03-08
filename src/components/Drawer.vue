@@ -235,7 +235,7 @@
 		height: 100%;
 		top: 0px;
 		transition:transform 0.3s ease;
-		background:rgba(9, 9, 9, 0.92);
+		background-color: var(--sidebar-background-color);
 		width: 240px;
 		overflow-y: auto;
 		overflow-x: hidden;
