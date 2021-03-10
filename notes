@@ -1,8 +1,6 @@
-set theme default to light
-
-push updates
-
 add side margins if the list goes below the screen in two column mode (or something equivelant)
+
+css fix for straiter columns
 
 fix header to show if it is part of a split menu
 
@@ -11,7 +9,5 @@ push updates
 order strains by thc after type and price
 
 scroll interuption by fetch loop issue
-
-allow scroll speed configuration
 
 

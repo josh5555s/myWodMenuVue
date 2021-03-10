@@ -189,8 +189,8 @@ export default {
       }
     },
     autoScroll () {
-      let innerLogged = false
-      console.log(`outer scroll speed: ${this.scrollSpeed}`)
+      // let innerLogged = false
+      // console.log(`outer scroll speed: ${this.scrollSpeed}`)
       function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
@@ -200,12 +200,12 @@ export default {
         await sleep(3000)
         while (!atBottom) {
           if (this.scrollSpeed !== 0) {scrollBy(0,1)}
-          if (!innerLogged) {
-            innerLogged = true
-            setInterval(() => {
-              console.log(`inner scroll speed: ${this.scrollSpeed}`)
-            }, 1000);
-          }
+          // if (!innerLogged) {
+          //   innerLogged = true
+          //   setInterval(() => {
+          //     console.log(`inner scroll speed: ${this.scrollSpeed}`)
+          //   }, 1000);
+          // }
           await sleep(this.scrollSpeed)
           if (oldYoffset === pageYOffset) {
             await sleep(4000)
@@ -217,7 +217,6 @@ export default {
       }
       if (!this.alreadyScrolling && innerWidth < 1080 && innerWidth > 500) {
         scroll()
-        console.log("starting to scroll!")
         this.$emit('now-scrolling')
       }
     },
@@ -236,7 +235,6 @@ export default {
     this.autoScroll()
   },
   unmounted() {
-    console.log("fetchLoop cleared")
     clearInterval(this.fetchLoop)
   },
   watch: {
@@ -348,14 +346,13 @@ tr.flower-info-container {
       margin-left: 0%;
   }
 
+
   .product-name {
-    font-weight: bold;
-    width: 60vw;
+    width: 66vw;
   }
 
-  .edible-name,
-  .tincture-name {
-    width: 66vw;
+  .flower-name {
+    width: 45vw;
   }
 
   .topical-name {
@@ -367,15 +364,15 @@ tr.flower-info-container {
   }
 
   .product-test {
-    width: 34vw;
+    width: 26vw;
   }
 
   .product-type {
-    width: 16vw;
+    width: 14vw;
   }
 
   .product-price {
-    width: 8vw;
+    width: 9vw;
   }
 }
 

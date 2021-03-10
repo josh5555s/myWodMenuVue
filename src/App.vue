@@ -121,8 +121,6 @@ export default {
       else if (setting === '2 of 2') {this.button2o2Active = true}
     },
     updateScrollSpeed(speed) {
-      console.log(`updateScrollSpeed(${speed}) fired`)
-      // this.scrollSpeed = speed
       this.buttonOffActive = false
       this.buttonSlowActive = false
       this.buttonMediumActive = false
@@ -157,12 +155,12 @@ export default {
     let htmlElement = document.documentElement;
     let theme = localStorage.getItem("theme");
 
-    if (theme === 'light') {
-        htmlElement.setAttribute('theme', 'light')
-        this.darkMode = false
-    } else {
-        htmlElement.setAttribute('theme', 'dark');
+    if (theme === 'dark') {
+        htmlElement.setAttribute('theme', 'dark')
         this.darkMode = true
+    } else {
+        htmlElement.setAttribute('theme', 'light');
+        this.darkMode = false
     }
 },
 watch: {
