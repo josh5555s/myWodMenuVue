@@ -1,8 +1,14 @@
-fix header title height
-
-fix autoScroll
+set theme default to light
 
 push updates
+
+add side margins if the list goes below the screen in two column mode (or something equivelant)
+
+fix header to show if it is part of a split menu
+
+push updates
+
+order strains by thc after type and price
 
 scroll interuption by fetch loop issue
 

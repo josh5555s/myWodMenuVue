@@ -77,7 +77,7 @@ export default {
 
       this.fetchLoop = setInterval(() => {
         fetchLogic()
-       // fetchLoop firing interupts scroll, bringing it immediately back to the top.  Need better understanding of this.function() scope issues in order to resolve this issue. Probably related to issue running this.function() inside an async function.
+       // fetchLoop firing interupts scroll, bringing it immediately back to the top.  Probably because this.removeOldRows() makes the whole page fit on screen, so bring the screen back to Y = 0.
       }, 600000);
     },
     removeOldRows() {
@@ -189,29 +189,35 @@ export default {
       }
     },
     autoScroll () {
-      let speed = this.scrollSpeed
-      // console.log(`outer scroll speed: ${speed}`)
+      let innerLogged = false
+      console.log(`outer scroll speed: ${this.scrollSpeed}`)
       function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
       }
-      async function scroll() {
+      const scroll = async () => {
         let atBottom = false
         let oldYoffset = pageYOffset
         await sleep(3000)
         while (!atBottom) {
-          scrollBy(0,1)
-          // console.log(`inner scroll speed: ${speed}`)
-          await sleep(speed)
+          if (this.scrollSpeed !== 0) {scrollBy(0,1)}
+          if (!innerLogged) {
+            innerLogged = true
+            setInterval(() => {
+              console.log(`inner scroll speed: ${this.scrollSpeed}`)
+            }, 1000);
+          }
+          await sleep(this.scrollSpeed)
           if (oldYoffset === pageYOffset) {
-            await sleep(3000)
+            await sleep(4000)
             scrollTo(0,0)
             atBottom = true;
           } else {oldYoffset = pageYOffset}
         }
         scroll()
       }
-      if (!this.alreadyScrolling && innerWidth < 800 && innerWidth > 500) {
+      if (!this.alreadyScrolling && innerWidth < 1080 && innerWidth > 500) {
         scroll()
+        console.log("starting to scroll!")
         this.$emit('now-scrolling')
       }
     },
@@ -234,7 +240,6 @@ export default {
     clearInterval(this.fetchLoop)
   },
   watch: {
-    // whenever question changes, this function will run
     selectedScreenSetting() {
       clearInterval(this.fetchLoop)
       this.getData()

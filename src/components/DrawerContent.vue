@@ -34,9 +34,13 @@
       </div>
 
  <!-- show only if scroll is enabled -->
-      <div id="scroll-settings" v-if="alreadyScrolling">
+      <div id="scroll-settings" v-if="windowInnerWidth < 1080">
         <h3>Scroll Speed</h3>
         <!-- <div class="settings-block"> -->
+        <button
+          @click="updateScrollSpeed('off')"
+          v-bind:class="{ active: buttonOffActive }"
+        >Off</button>
         <button
           @click="updateScrollSpeed('slow')"
           v-bind:class="{ active: buttonSlowActive }"
@@ -59,17 +63,21 @@
 <script>
 
 export default {
-  props: ['button1o1Active','button1o2Active','button2o2Active','buttonSlowActive','buttonMediumActive','buttonFastActive','buttonDarkActive','buttonLightActive','buttonSystemActive','alreadyScrolling'],
+  props: ['button1o1Active','button1o2Active','button2o2Active','buttonOffActive','buttonSlowActive','buttonMediumActive','buttonFastActive','buttonDarkActive','buttonLightActive','buttonSystemActive','alreadyScrolling'],
   emits: ['screen-setting','scroll-speed', 'theme-setting'],
   data() {
     return {
       settingsButtonText: 'Settings',
       showSettings: false,
+      windowInnerWidth: 0
     }
   },
   methods: {
     getLocation() {
       this.location = this.$route.path
+    },
+    getInnerWidth() {
+      this.windowInnerWidth = window.innerWidth
     },
     updateSelectedThemeSetting(setting) {
       this.$emit('theme-setting', setting)
@@ -82,7 +90,8 @@ export default {
     }
   },
   created() {
-    this.getLocation()
+    this.getLocation(),
+    this.getInnerWidth()
   }
 }
 </script>

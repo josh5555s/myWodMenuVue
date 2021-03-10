@@ -8,7 +8,7 @@
     </div>
     <div id="flex-container">
       <div class="all-container"></div>
-      <div id="title-1-container">
+      <div class="title-container">
         <h1>{{ title1 }}</h1>
       </div>
       <div v-if="darkMode" id="logo">
@@ -17,7 +17,7 @@
       <div v-else id="logo">
         <router-link to="/"><img :src="require(`@/assets/light-logo.png`)"/></router-link> 
       </div>
-      <div id="title-2-container">
+      <div class="title-container">
         <h1>{{ title2 }}</h1>
       </div>
     </div>
@@ -66,6 +66,10 @@ export default {
   width: 25vw;
 }
 
+.title-container {
+  padding-top: 20px;
+}
+
 #title-category {
   margin-right: 50px;
 }
@@ -98,12 +102,15 @@ h1 {
 
   #title-category,
   #title-menu {
-    
       width: 23vw;
   }
 
   #title-category {
     margin-right: 10px;
+  }
+
+  .title-container {
+    padding-top: 3px;
   }
 
   img {
@@ -145,6 +152,10 @@ h1 {
 
   #title-category {
     margin-right: 15px;
+  }
+
+  .title-container {
+    padding-top: 0px;
   }
 
   img {

@@ -7,6 +7,7 @@
       :button1o1Active="button1o1Active"
       :button1o2Active="button1o2Active"
       :button2o2Active="button2o2Active"
+      :buttonOffActive="buttonOffActive"
       :buttonSlowActive="buttonSlowActive"
       :buttonMediumActive="buttonMediumActive"
       :buttonFastActive="buttonFastActive"
@@ -66,10 +67,11 @@ export default {
       button1o2Active: false,
       button2o2Active: false,
       scrollSpeed: 40,
+      buttonOffActive: false,
       buttonSlowActive: false,
       buttonMediumActive: true,
       buttonFastActive: false,
-      darkMode: true,
+      darkMode: false,
       buttonDarkActive: true,
       buttonLightActive: false,
       buttonSystemActive: false,
@@ -119,7 +121,9 @@ export default {
       else if (setting === '2 of 2') {this.button2o2Active = true}
     },
     updateScrollSpeed(speed) {
-      this.scrollSpeed = speed
+      console.log(`updateScrollSpeed(${speed}) fired`)
+      // this.scrollSpeed = speed
+      this.buttonOffActive = false
       this.buttonSlowActive = false
       this.buttonMediumActive = false
       this.buttonFastActive = false
@@ -129,11 +133,15 @@ export default {
       }
       else if (speed === 'medium') {
         this.buttonMediumActive = true
-        this.scrollSpeed = 20
+        this.scrollSpeed = 40
       }
       else if (speed === 'fast') {
         this.buttonFastActive = true
-        this.scrollSpeed = 5
+        this.scrollSpeed = 20
+      }
+      else if (speed === 'off') {
+        this.buttonOffActive = true
+        this.scrollSpeed = 0
       }
     }
   },
@@ -175,21 +183,21 @@ watch: {
 </script>
 
 <style lang="scss">
+
 // themes
 :root {
-  --app-background-color: black;
-  --primary-text-color: #c1d448;
-  --highlight-text-color: white;
-  --sidebar-background-color: rgba(9, 9, 9, 0.92);
-}
-
-[theme="light"] {
   --app-background-color: rgb(255, 255, 255);
   --primary-text-color: #0d093b;
   --highlight-text-color: #0400ff;
   // --highlight-text-color: #0d093b;
   // --primary-text-color: #193f00be;
   --sidebar-background-color: rgba(245, 245, 245, 0.93);
+}
+[theme="dark"] {
+  --app-background-color: black;
+  --primary-text-color: #c1d448;
+  --highlight-text-color: white;
+  --sidebar-background-color: rgba(9, 9, 9, 0.92);
 }
 
 body {
