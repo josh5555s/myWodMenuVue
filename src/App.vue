@@ -40,8 +40,6 @@
     @store-titles="storeTitles"
     @product-titles="productTitles"
     @display-titles="displayTitles"
-
-    @menu-number="menuNumber"
   ></router-view>
 </template>
 
@@ -100,9 +98,6 @@ export default {
       this.title1 = product.toUpperCase()
       this.title2 = "MENU"
     },
-    menuNumber() {
-      this.title2 = this.title2 + " " + this.selectedScreenSetting.charAt(0)
-    },
     updateSelectedThemeSetting(setting) {
       this.darkMode = setting
       this.buttonDarkActive = false
@@ -116,9 +111,14 @@ export default {
       this.button1o1Active = false
       this.button1o2Active = false
       this.button2o2Active = false
-      if (setting === '1 of 1') {this.button1o1Active = true}
+      this.title2 = "MENU" + " " + this.selectedScreenSetting.charAt(0)
+      if (setting === '1 of 1') {
+        this.title2 = "MENU"
+        this.button1o1Active = true
+        }
       else if (setting === '1 of 2') {this.button1o2Active = true}
       else if (setting === '2 of 2') {this.button2o2Active = true}
+      
     },
     updateScrollSpeed(speed) {
       this.buttonOffActive = false

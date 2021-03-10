@@ -64,12 +64,13 @@
 
 export default {
   props: ['button1o1Active','button1o2Active','button2o2Active','buttonOffActive','buttonSlowActive','buttonMediumActive','buttonFastActive','buttonDarkActive','buttonLightActive','buttonSystemActive','alreadyScrolling'],
-  emits: ['screen-setting','scroll-speed', 'theme-setting'],
+  emits: ['screen-setting','scroll-speed', 'theme-setting','menu-number'],
   data() {
     return {
       settingsButtonText: 'Settings',
       showSettings: false,
-      windowInnerWidth: 0
+      windowInnerWidth: 0,
+      location: ''
     }
   },
   methods: {
@@ -87,6 +88,10 @@ export default {
     },
     updateScrollSpeed(speed) {
       this.$emit('scroll-speed', speed)
+    },
+    displayTitles() {
+      this.$emit('display-titles', this.product)
+      this.$emit('menu-number')
     }
   },
   created() {
