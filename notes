@@ -1,7 +1,5 @@
 push
 
-fix header to show if it is part of a split menu
-
 add side margins if the list goes below the screen in two column mode (or something equivelant)
 
 push

@@ -40,8 +40,6 @@ export default {
             if (obj !== {}) {
               this.data1o1 = obj
               if (this.product === 'flower') {
-                // secondary sort by price
-                this.data1o1 = this.data1o1.sort((a, b) => (a.price < b.price) ? 1 : -1)
                 // primary sort by type
                 let uplifting = [];
                 let balanced = [];
@@ -53,6 +51,91 @@ export default {
                   else if (product.type === 'Relaxing') {relaxing.push(product)} 
                   else {typeMissing.push(product)}
                 });
+                // turn testing strings into floats to order them
+                let typeThc = {
+                  uplifting:[],
+                  balanced:[],
+                  relaxing:[],
+                  typeMissing:[],
+                }
+                uplifting.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.substring(0, thc.length - 1)
+                    thc = parseFloat(thc)
+                    product.thc = thc
+                    typeThc.uplifting.push(product)
+                  }
+                })
+                balanced.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.substring(0, thc.length - 1)
+                    thc = parseFloat(thc)
+                    product.thc = thc
+                    typeThc.balanced.push(product)
+                  }
+                })
+                relaxing.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.substring(0, thc.length - 1)
+                    thc = parseFloat(thc)
+                    product.thc = thc
+                    typeThc.relaxing.push(product)
+                  }
+                })
+                typeMissing.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.substring(0, thc.length - 1)
+                    thc = parseFloat(thc)
+                    product.thc = thc
+                    typeThc.typeMissing.push(product)
+                  }
+                })
+                // ternary sort by highest thc
+                uplifting = typeThc.uplifting.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+                balanced = typeThc.balanced.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+                relaxing = typeThc.relaxing.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+                typeMissing = typeThc.typeMissing.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+                // secondary sort by price
+                uplifting = typeThc.uplifting.sort((a, b) => (a.price < b.price) ? 1 : -1)
+                balanced = typeThc.balanced.sort((a, b) => (a.price < b.price) ? 1 : -1)
+                relaxing = typeThc.relaxing.sort((a, b) => (a.price < b.price) ? 1 : -1)
+                typeMissing = typeThc.typeMissing.sort((a, b) => (a.price < b.price) ? 1 : -1)
+                uplifting.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.toString(10)
+                    thc = thc + '%'
+                    product.thc = thc
+                  }
+                })
+                balanced.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.toString(10)
+                    thc = thc + '%'
+                    product.thc = thc
+                  }
+                })
+                relaxing.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.toString(10)
+                    thc = thc + '%'
+                    product.thc = thc
+                  }
+                })
+                typeMissing.forEach(product => {
+                  if (product.thc !== undefined){
+                    let thc = product.thc
+                    thc = thc.toString(10)
+                    thc = thc + '%'
+                    product.thc = thc
+                  }
+                })
                 this.data1o1.length = 0
                 this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
               }
