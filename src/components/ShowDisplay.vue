@@ -257,6 +257,10 @@ export default {
           || productType[i].innerText == "Relaxed") {
           productType[i].style.color = "#7030A0";
           // #7030A0 = Purple matching jars
+        } else if (productType[i].innerText == "CBD") {
+          console.log('CBD!')
+          productType[i].style.color = "rgb(19, 255, 37)";
+          // #7030A0 = Purple matching jars
         } else {
           productType[i].style.color = "#C1D448";
         }

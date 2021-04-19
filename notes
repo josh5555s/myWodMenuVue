@@ -4,8 +4,6 @@ add side margins if the list goes below the screen in two column mode (or someth
 
 push
 
-order strains by thc after type and price
-
 scroll interuption by fetch loop issue
 
 
