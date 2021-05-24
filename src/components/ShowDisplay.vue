@@ -28,8 +28,8 @@ export default {
   },
   methods: {
     getData() {
-      // let path = `http://192.168.1.29:4000${this.$route.path}`
-      let path = `https://api.westernoregondispensary.com${this.$route.path}`
+      let path = `http://192.168.1.2:4000${this.$route.path}`
+      // let path = `https://api.westernoregondispensary.com${this.$route.path}`
       const fetchLogic = () => {
         try {
           console.log('fetching new data...')
@@ -51,6 +51,7 @@ export default {
                   else if (product.type === 'Relaxing') {relaxing.push(product)} 
                   else {typeMissing.push(product)}
                 });
+
                 // turn testing strings into floats to order them
                 let typeThc = {
                   uplifting:[],
@@ -59,41 +60,18 @@ export default {
                   typeMissing:[],
                 }
                 uplifting.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.substring(0, thc.length - 1)
-                    thc = parseFloat(thc)
-                    product.thc = thc
-                    typeThc.uplifting.push(product)
-                  }
+                  if (product.thc !== undefined){ typeThc.uplifting.push(product) }
                 })
                 balanced.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.substring(0, thc.length - 1)
-                    thc = parseFloat(thc)
-                    product.thc = thc
-                    typeThc.balanced.push(product)
-                  }
+                  if (product.thc !== undefined){ typeThc.balanced.push(product) }
                 })
                 relaxing.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.substring(0, thc.length - 1)
-                    thc = parseFloat(thc)
-                    product.thc = thc
-                    typeThc.relaxing.push(product)
-                  }
+                  if (product.thc !== undefined){ typeThc.relaxing.push(product) }
                 })
                 typeMissing.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.substring(0, thc.length - 1)
-                    thc = parseFloat(thc)
-                    product.thc = thc
-                    typeThc.typeMissing.push(product)
-                  }
+                  if (product.thc !== undefined){ typeThc.typeMissing.push(product) }
                 })
+
                 // ternary sort by highest thc
                 uplifting = typeThc.uplifting.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
                 balanced = typeThc.balanced.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
@@ -104,38 +82,7 @@ export default {
                 balanced = typeThc.balanced.sort((a, b) => (a.price < b.price) ? 1 : -1)
                 relaxing = typeThc.relaxing.sort((a, b) => (a.price < b.price) ? 1 : -1)
                 typeMissing = typeThc.typeMissing.sort((a, b) => (a.price < b.price) ? 1 : -1)
-                uplifting.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.toString(10)
-                    thc = thc + '%'
-                    product.thc = thc
-                  }
-                })
-                balanced.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.toString(10)
-                    thc = thc + '%'
-                    product.thc = thc
-                  }
-                })
-                relaxing.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.toString(10)
-                    thc = thc + '%'
-                    product.thc = thc
-                  }
-                })
-                typeMissing.forEach(product => {
-                  if (product.thc !== undefined){
-                    let thc = product.thc
-                    thc = thc.toString(10)
-                    thc = thc + '%'
-                    product.thc = thc
-                  }
-                })
+
                 this.data1o1.length = 0
                 this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
               }
@@ -191,16 +138,14 @@ export default {
         // create test cell
         const tdTest = document.createElement("TD");
         if (this.product === "flower") {
-          if (typeof row.thc === "undefined") {
-            row.thc = "%";
-          }
-          if (typeof row.cbd === "undefined") {
-            row.cbd = "%";
-          }
-          tdTest.textContent = `${row.thc}, ${row.cbd}`;
-        } else {
-          tdTest.textContent = row.test;
-        }
+          // if (typeof row.thc === "undefined") {
+          //   row.thc = "%";
+          // }
+          // if (typeof row.cbd === "undefined") {
+          //   row.cbd = "%";
+          // }
+          tdTest.textContent = `${row.thc}%, ${row.cbd}%`;
+        } 
         tdTest.setAttribute("class", `${this.product}-test product-test`);
 
         // create weight cell
