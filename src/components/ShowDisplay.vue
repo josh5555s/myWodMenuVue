@@ -28,8 +28,8 @@ export default {
   },
   methods: {
     getData() {
-      let path = `http://192.168.1.2:4000${this.$route.path}`
-      // let path = `https://api.westernoregondispensary.com${this.$route.path}`
+      // let path = `http://192.168.1.2:4000${this.$route.path}`
+      let path = `https://api.westernoregondispensary.com${this.$route.path}`
       const fetchLogic = () => {
         try {
           console.log('fetching new data...')
