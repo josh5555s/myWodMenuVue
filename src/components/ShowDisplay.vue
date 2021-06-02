@@ -24,6 +24,7 @@ export default {
       data1o2: [],
       data2o2: [],
       data: [], 
+      autoTesting: ['flower','preroll','cartridge','concentrate']
     }
   },
   methods: {
@@ -126,24 +127,25 @@ export default {
         // create name cell
         const tdName = document.createElement("TD");
         let name = row.productName;
-        if (this.product === "preroll") {name = name.replace("Pre-Roll", "")}
+        if (this.product === "preroll") {
+          name = name.replace("Pre-Roll", "")
+          name = name.replace("1.3G", "")
+          name = name.replace("1G", "")
+          name = name.replace("- -", "-")
+          name = name.replace("--", "-")
+          }
         if (this.product === "cartridge") {
           name = name.replace("Cart", "")
           name = name.replace("1G", "")
           name = name.replace(".5G", "")
+          name = name.replace("- -", "-")
         }
         tdName.textContent = name;
         tdName.setAttribute("class", `${this.product}-name product-name`);
 
         // create test cell
         const tdTest = document.createElement("TD");
-        if (this.product === "flower") {
-          // if (typeof row.thc === "undefined") {
-          //   row.thc = "%";
-          // }
-          // if (typeof row.cbd === "undefined") {
-          //   row.cbd = "%";
-          // }
+        if (this.autoTesting.indexOf(this.product) !== -1) {
           tdTest.textContent = `${row.thc}%, ${row.cbd}%`;
         } 
         tdTest.setAttribute("class", `${this.product}-test product-test`);
@@ -158,6 +160,8 @@ export default {
             weight = ".5 G"
           }
         }
+        // if weight has extra zeros at the end, remove them.
+
         tdWeight.textContent = weight;
         tdWeight.setAttribute('class', `${this.product}-weight product-weight`)
 
@@ -173,7 +177,7 @@ export default {
 
         // append cells to row
         tr.appendChild(tdName);
-        if (this.product === "flower") {tr.appendChild(tdTest);}
+        if (this.autoTesting.indexOf(this.product) !== -1) {tr.appendChild(tdTest);}
         if (this.product === "preroll" || this.product === "cartridge" || this.product === "concentrate") {tr.appendChild(tdWeight)}
         if (this.product !== 'topical') {tr.appendChild(tdType)}
         tr.appendChild(tdPrice);
@@ -320,12 +324,6 @@ tr.flower-info-container {
   width: 20vw;
 }
 
-.preroll-name,
-.concentrate-name,
-.cartridge-name {
-  width: 30vw;
-}
-
 .edible-name,
 .tincture-name {
   width: 33vw;
@@ -336,11 +334,11 @@ tr.flower-info-container {
 }
 
 .product-weight {
-  width: 5vw;
+  width: 6vw;
 }
 
 .product-test {
-  width: 15vw;
+  width: 14vw;
 }
 
 .product-type {
@@ -384,7 +382,11 @@ tr.flower-info-container {
   }
 
   .flower-name {
-    width: 45vw;
+    width: 44vw;
+  }
+
+  .preroll-name, .cartridge-name, .concentrate-name {
+    width: 33vw;
   }
 
   .topical-name {
@@ -393,6 +395,10 @@ tr.flower-info-container {
 
   .product-weight {
     width: 10vw;
+  }
+
+  .cartridge-weight, .concentrate-weight {
+    width: 6vw;
   }
 
   .product-test {
