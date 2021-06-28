@@ -5,17 +5,7 @@
     ref="LeftDrawer">
     <DrawerContent
       :fontSize="fontSize"
-      :button1o1Active="button1o1Active"
-      :button1o2Active="button1o2Active"
-      :button2o2Active="button2o2Active"
-      :buttonOffActive="buttonOffActive"
-      :buttonSlowActive="buttonSlowActive"
-      :buttonMediumActive="buttonMediumActive"
-      :buttonFastActive="buttonFastActive"
       :alreadyScrolling="alreadyScrolling"
-      :buttonDarkActive="buttonDarkActive"
-      :buttonLightActive="buttonLightActive"
-      :buttonSystemActive="buttonSystemActive"
       @theme-setting="updateSelectedThemeSetting"
       @font-size="updateFontSize"
       @scroll-speed="updateScrollSpeed"
@@ -31,15 +21,10 @@
   />
   <router-view 
     :fontSize="fontSize"
-    :buttonSlowActive="buttonSlowActive"
-    :buttonMediumActive="buttonMediumActive"
-    :buttonFastActive="buttonFastActive"
     :scrollSpeed="scrollSpeed"
     :alreadyScrolling="alreadyScrolling"
-    @now-scrolling="nowScrolling"
-
     :selectedScreenSetting="selectedScreenSetting"
-
+    @now-scrolling="nowScrolling"
     @store-titles="storeTitles"
     @product-titles="productTitles"
     @display-titles="displayTitles"
@@ -65,18 +50,8 @@ export default {
       title2: 'STORE',
       fontSize: 'large',
       selectedScreenSetting: "1 of 1",
-      button1o1Active: true,
-      button1o2Active: false,
-      button2o2Active: false,
       scrollSpeed: 40,
-      buttonOffActive: false,
-      buttonSlowActive: false,
-      buttonMediumActive: true,
-      buttonFastActive: false,
       darkMode: false,
-      buttonDarkActive: true,
-      buttonLightActive: false,
-      buttonSystemActive: false,
     }
   },
   methods: {
@@ -104,11 +79,6 @@ export default {
     },
     updateSelectedThemeSetting(setting) {
       this.darkMode = setting
-      this.buttonDarkActive = false
-      this.buttonLightActive = false
-      this.buttonSystemActive = false
-      if (setting === true) {this.buttonDarkActive = true}
-      else if (setting === false) {this.buttonLightActive = true}
     },
     updateFontSize(size) {
      this.fontSize = size 
@@ -116,17 +86,8 @@ export default {
     },
     updateSelectedScreenSetting(setting) {
       this.selectedScreenSetting = setting
-      this.button1o1Active = false
-      this.button1o2Active = false
-      this.button2o2Active = false
       this.title2 = "MENU" + " " + this.selectedScreenSetting.charAt(0)
-      if (setting === '1 of 1') {
-        this.title2 = "MENU"
-        this.button1o1Active = true
-        }
-      else if (setting === '1 of 2') {this.button1o2Active = true}
-      else if (setting === '2 of 2') {this.button2o2Active = true}
-      
+      if (setting === '1 of 1') { this.title2 = "MENU" }
     },
     updateScrollSpeed(speed) {
       this.buttonOffActive = false
@@ -172,18 +133,18 @@ export default {
     }
 },
 watch: {
-    darkMode: function () {
-        // add/remove class to/from html tag
-        let htmlElement = document.documentElement;
+  darkMode: function () {
+    // add/remove class to/from html tag
+    let htmlElement = document.documentElement;
 
-        if (this.darkMode) {
-            localStorage.setItem("theme", 'dark');
-            htmlElement.setAttribute('theme', 'dark');
-        } else {
-            localStorage.setItem("theme", 'light');
-            htmlElement.setAttribute('theme', 'light');
-        }
+    if (this.darkMode) {
+        localStorage.setItem("theme", 'dark');
+        htmlElement.setAttribute('theme', 'dark');
+    } else {
+        localStorage.setItem("theme", 'light');
+        htmlElement.setAttribute('theme', 'light');
     }
+  }
 }
 }
 </script>

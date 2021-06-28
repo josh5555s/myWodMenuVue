@@ -76,14 +76,24 @@
 <script>
 
 export default {
-  props: ['button1o1Active','button1o2Active','button2o2Active','buttonOffActive','buttonSlowActive','buttonMediumActive','buttonFastActive','buttonDarkActive','buttonLightActive','buttonSystemActive','alreadyScrolling'],
+  props: ['fontSize','alreadyScrolling'],
   emits: ['screen-setting','scroll-speed', 'theme-setting','menu-number'],
   data() {
     return {
       settingsButtonText: 'Settings',
       showSettings: false,
       windowInnerWidth: 0,
-      location: ''
+      location: '',
+      buttonDarkActive: true,
+      buttonLightActive: false,
+      buttonSystemActive: false,
+      button1o1Active: true, 
+      button1o2Active: false,
+      button2o2Active: false,
+      buttonSlowActive: true,
+      buttonMediumActive: false,
+      buttonFastActive: false,
+      buttonOffActive: false,
     }
   },
   methods: {
@@ -95,12 +105,31 @@ export default {
     },
     updateSelectedThemeSetting(setting) {
       this.$emit('theme-setting', setting)
+      this.buttonDarkActive = false
+      this.buttonLightActive = false
+      this.buttonSystemActive = false
+      if (setting === true) {this.buttonDarkActive = true}
+      else if (setting === false) {this.buttonLightActive = true}
     },
     updateSelectedScreenSetting(setting) {
       this.$emit('screen-setting', setting)
+      this.button1o1Active = false
+      this.button1o2Active = false
+      this.button2o2Active = false
+      if (setting === '1 of 1') { this.button1o1Active = true }
+      else if (setting === '1 of 2') {this.button1o2Active = true}
+      else if (setting === '2 of 2') {this.button2o2Active = true}
     },
     updateScrollSpeed(speed) {
       this.$emit('scroll-speed', speed)
+      this.buttonOffActive = false
+      this.buttonSlowActive = false
+      this.buttonMediumActive = false
+      this.buttonFastActive = false
+      if (speed === 'slow') { this.buttonSlowActive = true }
+      else if (speed === 'medium') { this.buttonMediumActive = true }
+      else if (speed === 'fast') { this.buttonFastActive = true }
+      else if (speed === 'off') { this.buttonOffActive = true }
     },
     updateFontSize(size) {
       this.$emit('font-size', size)
