@@ -2,7 +2,7 @@
   <div id="settings-column-container">
     <div id="settings-column">
 
-      <div id="theme-settings">
+      <div id="theme-settings" class='column'>
         <h3>Color Theme</h3>
           <button
             @click="updateSelectedThemeSetting(false)"
@@ -12,12 +12,26 @@
             @click="updateSelectedThemeSetting(true)"
             v-bind:class="{ active: buttonDarkActive }"
           >Dark  <i class="far fa-moon"></i></button>
-        <!-- </div> -->
       </div>
 
-      <div id="screen-settings">
+      <!-- <div id="font-settings" class='column'>
+        <h3>Font Size</h3>
+          <button
+            @click="updateFontSize('small')"
+            v-bind:class="{ active: buttonSizeSmallActive }"
+          >Small</button>
+          <button
+            @click="updateFontSize('medium')"
+            v-bind:class="{ active: buttonSizeMediumActive }"
+          >Medium</button>
+          <button
+            @click="updateFontSize('large')"
+            v-bind:class="{ active: buttonSizeLargeActive }"
+            >Large</button>
+      </div> -->
+
+      <div id="screen-settings" class='column'>
         <h3>Screen Number</h3>
-        <!-- <div class="settings-block"> -->
           <button 
             @click="updateSelectedScreenSetting('1 of 1')"
             v-bind:class="{ active: button1o1Active }"
@@ -30,11 +44,10 @@
             @click="updateSelectedScreenSetting('2 of 2')"
             v-bind:class="{ active: button2o2Active }"
           >2 of 2</button>
-        <!-- </div> -->
       </div>
 
  <!-- show only if scroll is enabled -->
-      <div id="scroll-settings" v-if="windowInnerWidth < 1080">
+      <div id="scroll-settings" v-if="windowInnerWidth < 1080" class='column'>
         <h3>Scroll Speed</h3>
         <!-- <div class="settings-block"> -->
         <button
@@ -89,6 +102,9 @@ export default {
     updateScrollSpeed(speed) {
       this.$emit('scroll-speed', speed)
     },
+    updateFontSize(size) {
+      this.$emit('font-size', size)
+    },
     displayTitles() {
       this.$emit('display-titles', this.product)
       this.$emit('menu-number')
@@ -117,9 +133,7 @@ export default {
   margin-top: 40px;
 }
 
-#theme-settings,
-#scroll-settings,
-#screen-settings {
+.column {
   display: flex;
   flex-direction: column;
 }

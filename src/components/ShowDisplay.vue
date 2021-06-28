@@ -1,6 +1,5 @@
 <template>
   <div id="columns-container">
-    
     <div id="table-1-container">
       <table id="table-1"></table>
     </div>
@@ -12,7 +11,7 @@
 
 <script>
 export default {
-  props: ['scrollSpeed','alreadyScrolling','selectedScreenSetting'],
+  props: ['fontSize','scrollSpeed','alreadyScrolling','selectedScreenSetting'],
   emits: ['display-titles','now-scrolling','menu-number'],
   data() {
     return {
@@ -123,6 +122,7 @@ export default {
         //for each item, create/insert table row
         const tr = document.createElement("TR");
         tr.setAttribute("class", "flower-info-container");
+        tr.setAttribute("class", this.fontSize);
 
         // create name cell
         const tdName = document.createElement("TD");
@@ -367,13 +367,15 @@ tr.flower-info-container {
   table,
   th,
   td {
-    padding: 4px 3px;
-    font-size: 3.2vw;
+    padding: 3px 3px;
+    // font-size: 3.2vw;
+    font-size: 2.6vw;
+    // font-size: 2vw;
   }
 
   tr.flower-info-container {
-      width: 100%;
-      margin-left: 0%;
+    width: 100%;
+    margin-left: 0%;
   }
 
 

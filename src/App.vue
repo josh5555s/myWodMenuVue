@@ -4,6 +4,7 @@
     :exist="true"
     ref="LeftDrawer">
     <DrawerContent
+      :fontSize="fontSize"
       :button1o1Active="button1o1Active"
       :button1o2Active="button1o2Active"
       :button2o2Active="button2o2Active"
@@ -16,6 +17,7 @@
       :buttonLightActive="buttonLightActive"
       :buttonSystemActive="buttonSystemActive"
       @theme-setting="updateSelectedThemeSetting"
+      @font-size="updateFontSize"
       @scroll-speed="updateScrollSpeed"
       @screen-setting="updateSelectedScreenSetting"
     />
@@ -28,6 +30,7 @@
     @open-menu="openMenu"
   />
   <router-view 
+    :fontSize="fontSize"
     :buttonSlowActive="buttonSlowActive"
     :buttonMediumActive="buttonMediumActive"
     :buttonFastActive="buttonFastActive"
@@ -60,6 +63,7 @@ export default {
       alreadyScrolling: false,
       title1: 'SELECT',
       title2: 'STORE',
+      fontSize: 'large',
       selectedScreenSetting: "1 of 1",
       button1o1Active: true,
       button1o2Active: false,
@@ -105,6 +109,10 @@ export default {
       this.buttonSystemActive = false
       if (setting === true) {this.buttonDarkActive = true}
       else if (setting === false) {this.buttonLightActive = true}
+    },
+    updateFontSize(size) {
+     this.fontSize = size 
+     console.log('fontSize: ' + this.fontSize)
     },
     updateSelectedScreenSetting(setting) {
       this.selectedScreenSetting = setting
