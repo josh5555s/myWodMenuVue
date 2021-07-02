@@ -5,29 +5,17 @@
     ref="LeftDrawer">
     <DrawerContent
       :fontSize="fontSize"
-      :alreadyScrolling="alreadyScrolling"
       @theme-setting="updateSelectedThemeSetting"
       @font-size="updateFontSize"
-      @scroll-speed="updateScrollSpeed"
-      @screen-setting="updateSelectedScreenSetting"
     />
   </Drawer>
 
   <TheHeader 
     :darkMode="darkMode"
-    :title1="title1"
-    :title2="title2"
     @open-menu="openMenu"
   />
   <router-view 
     :fontSize="fontSize"
-    :scrollSpeed="scrollSpeed"
-    :alreadyScrolling="alreadyScrolling"
-    :selectedScreenSetting="selectedScreenSetting"
-    @now-scrolling="nowScrolling"
-    @store-titles="storeTitles"
-    @product-titles="productTitles"
-    @display-titles="displayTitles"
   ></router-view>
 </template>
 
@@ -35,6 +23,7 @@
 import TheHeader from './components/TheHeader.vue'
 import Drawer from './components/Drawer.vue';
 import DrawerContent from './components/DrawerContent.vue'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'App',
@@ -45,12 +34,7 @@ export default {
   },
   data() {
     return {
-      alreadyScrolling: false,
-      title1: 'SELECT',
-      title2: 'STORE',
       fontSize: 'large',
-      selectedScreenSetting: "1 of 1",
-      scrollSpeed: 40,
       darkMode: false,
     }
   },
@@ -58,24 +42,9 @@ export default {
     openMenu(){
       if(this.$refs.LeftDrawer.active){
         this.$refs.LeftDrawer.close();					
-      }else{
+      } else {
         this.$refs.LeftDrawer.open();
       }
-    },
-    nowScrolling() {
-      this.alreadyScrolling = true
-    },
-    storeTitles() {
-      this.title1= "SELECT"
-      this.title2 = "STORE"
-    },
-    productTitles() {
-      this.title1 = "SELECT"
-      this.title2 = "PRODUCT"
-    },
-    displayTitles(product) {
-      this.title1 = product.toUpperCase()
-      this.title2 = "MENU"
     },
     updateSelectedThemeSetting(setting) {
       this.darkMode = setting
@@ -84,33 +53,6 @@ export default {
      this.fontSize = size 
      console.log('fontSize: ' + this.fontSize)
     },
-    updateSelectedScreenSetting(setting) {
-      this.selectedScreenSetting = setting
-      this.title2 = "MENU" + " " + this.selectedScreenSetting.charAt(0)
-      if (setting === '1 of 1') { this.title2 = "MENU" }
-    },
-    updateScrollSpeed(speed) {
-      this.buttonOffActive = false
-      this.buttonSlowActive = false
-      this.buttonMediumActive = false
-      this.buttonFastActive = false
-      if (speed === 'slow') {
-        this.buttonSlowActive = true
-        this.scrollSpeed = 80
-      }
-      else if (speed === 'medium') {
-        this.buttonMediumActive = true
-        this.scrollSpeed = 40
-      }
-      else if (speed === 'fast') {
-        this.buttonFastActive = true
-        this.scrollSpeed = 20
-      }
-      else if (speed === 'off') {
-        this.buttonOffActive = true
-        this.scrollSpeed = 0
-      }
-    }
   },
   mounted() {
     // set page title

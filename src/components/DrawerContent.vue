@@ -33,15 +33,15 @@
       <div id="screen-settings" class='column'>
         <h3>Screen Number</h3>
           <button 
-            @click="updateSelectedScreenSetting('1 of 1')"
+            @click="updateScreensSetting('1 of 1')"
             v-bind:class="{ active: button1o1Active }"
           >1 of 1</button>
           <button 
-            @click="updateSelectedScreenSetting('1 of 2')"
+            @click="updateScreensSetting('1 of 2')"
             v-bind:class="{ active: button1o2Active }"
           >1 of 2</button>
           <button 
-            @click="updateSelectedScreenSetting('2 of 2')"
+            @click="updateScreensSetting('2 of 2')"
             v-bind:class="{ active: button2o2Active }"
           >2 of 2</button>
       </div>
@@ -74,9 +74,10 @@
 </template>
 
 <script>
+// import { mapGetters } from 'vuex'
 
 export default {
-  props: ['fontSize','alreadyScrolling'],
+  props: ['fontSize'],
   emits: ['screen-setting','scroll-speed', 'theme-setting','menu-number'],
   data() {
     return {
@@ -96,6 +97,9 @@ export default {
       buttonOffActive: false,
     }
   },
+  // computed: {
+  //   ...mapGetters(['alreadyScrolling'])
+  // },
   methods: {
     getLocation() {
       this.location = this.$route.path
@@ -111,8 +115,8 @@ export default {
       if (setting === true) {this.buttonDarkActive = true}
       else if (setting === false) {this.buttonLightActive = true}
     },
-    updateSelectedScreenSetting(setting) {
-      this.$emit('screen-setting', setting)
+    updateScreensSetting(setting) {
+      this.$store.commit('updateScreensSetting', setting)
       this.button1o1Active = false
       this.button1o2Active = false
       this.button2o2Active = false
@@ -121,7 +125,7 @@ export default {
       else if (setting === '2 of 2') {this.button2o2Active = true}
     },
     updateScrollSpeed(speed) {
-      this.$emit('scroll-speed', speed)
+      this.$store.commit('scrollSpeed', speed)
       this.buttonOffActive = false
       this.buttonSlowActive = false
       this.buttonMediumActive = false

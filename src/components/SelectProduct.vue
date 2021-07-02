@@ -1,5 +1,6 @@
 <template>
     <div id="select-menu">
+      <router-link :to="`${location}/specials`"><h2>Specials</h2></router-link>
       <router-link :to="`${location}/flower`"><h2>Flower</h2></router-link>
       <router-link :to="`${location}/preroll`"><h2>Preroll</h2></router-link>
       <router-link :to="`${location}/cartridge`"><h2>Cartridge</h2></router-link>
@@ -13,7 +14,6 @@
 <script>
 
 export default {
-  emits: ['product-titles'],
   data() {
     return {
       location: ''
@@ -24,7 +24,7 @@ export default {
       this.location = this.$route.path
     },
     productTitles() {
-      this.$emit('product-titles')
+      this.$store.commit('productTitles')
     },
   },
   created() {

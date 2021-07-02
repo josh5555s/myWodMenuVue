@@ -10,15 +10,8 @@
 <script>
 
 export default {
-  emits: ['store-titles'],
-  data() {
-    return {
-    }
-  },
   methods: {
-    storeTitles() {
-      this.$emit('store-titles')
-    }
+    storeTitles() { this.$store.commit('storeTitles') }
   },
   mounted() {
     this.storeTitles()

@@ -7,8 +7,7 @@
       </button>
     </div>
     <div id="flex-container">
-      <div class="all-container"></div>
-      <div class="title-container">
+      <div class="title-container tc-left">
         <h1>{{ title1 }}</h1>
       </div>
       <div v-if="darkMode" id="logo">
@@ -17,7 +16,7 @@
       <div v-else id="logo">
         <router-link to="/"><img :src="require(`@/assets/light-logo.png`)"/></router-link> 
       </div>
-      <div class="title-container">
+      <div class="title-container tc-right">
         <h1>{{ title2 }}</h1>
       </div>
     </div>
@@ -25,10 +24,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default {
-  props: ['title1','title2','darkMode'],
+  props: ['darkMode'],
   emits: ['open-menu'],
+  computed: {
+    ...mapGetters(['title1','title2'])
+  },
   methods: {
     openMenu() {
       this.$emit('open-menu')
@@ -68,6 +71,15 @@ export default {
 
 .title-container {
   padding-top: 20px;
+}
+
+.tc-left {
+  width: 250px;
+  text-align: right;
+}
+
+.tc-right {
+  width: 250px;
 }
 
 #title-category {

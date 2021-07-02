@@ -10,9 +10,11 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  props: ['fontSize','scrollSpeed','alreadyScrolling','selectedScreenSetting'],
-  emits: ['display-titles','now-scrolling','menu-number'],
+  props: ['fontSize'],
+  emits: ['menu-number'],
   data() {
     return {
       logged: false,
@@ -25,6 +27,9 @@ export default {
       data: [], 
       autoTesting: ['flower','preroll','cartridge','concentrate']
     }
+  },
+  computed: {
+    ...mapGetters(['scrollSpeed','alreadyScrolling','screensSetting']),
   },
   methods: {
     getData() {
@@ -93,9 +98,9 @@ export default {
               this.data1o2 = arrayFirstHalf
               this.data2o2 = arraySecondHalf
               // select array to display
-              if (this.selectedScreenSetting === '1 of 1') {this.data = this.data1o1}
-              else if (this.selectedScreenSetting === '1 of 2') {this.data = this.data1o2}
-              else if (this.selectedScreenSetting === '2 of 2') {this.data = this.data2o2}
+              if (this.screensSetting === '1 of 1') {this.data = this.data1o1}
+              else if (this.screensSetting === '1 of 2') {this.data = this.data1o2}
+              else if (this.screensSetting === '2 of 2') {this.data = this.data2o2}
               this.removeOldRows()
             }
           })
@@ -111,10 +116,10 @@ export default {
       }, 600000);
     },
     removeOldRows() {
-    const table1 = document.getElementById("table-1");
-    table1.innerHTML = '';
-    const table2 = document.getElementById("table-2");
-    table2.innerHTML = '';
+      const table1 = document.getElementById("table-1");
+      table1.innerHTML = '';
+      const table2 = document.getElementById("table-2");
+      table2.innerHTML = '';
     this.addRows();
     },
     addRows() {
@@ -207,7 +212,6 @@ export default {
           productType[i].style.color = "#7030A0";
           // #7030A0 = Purple matching jars
         } else if (productType[i].innerText == "CBD") {
-          console.log('CBD!')
           productType[i].style.color = "rgb(19, 255, 37)";
           // #7030A0 = Purple matching jars
         } else {
@@ -253,19 +257,19 @@ export default {
       }
       if (!this.alreadyScrolling && innerWidth < 1080 && innerWidth > 500) {
         scroll()
-        this.$emit('now-scrolling')
+        this.$store.commit('nowScrolling')
       }
     },
-    displayTitles() {
-      this.$emit('display-titles', this.product)
-      if (this.selectedScreenSetting !== '1 of 1') {
+    menuTitles() {
+      this.$store.commit('menuTitles', this.product)
+      if (this.screensSetting !== '1 of 1') {
         this.$emit('menu-number')
       }
     }
   },
   created() {
     this.getData();
-    this.displayTitles()
+    this.menuTitles()
   },
   mounted() {
     this.autoScroll()
@@ -274,7 +278,7 @@ export default {
     clearInterval(this.fetchLoop)
   },
   watch: {
-    selectedScreenSetting() {
+    screensSetting() {
       clearInterval(this.fetchLoop)
       this.getData()
     }
