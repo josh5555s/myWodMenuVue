@@ -6,7 +6,7 @@
       ><i class="fas fa-cog"></i>
       </button>
     </div>
-    <div id="flex-container">
+    <div id="flex-container" ref="header">
       <div class="title-container tc-left">
         <h1>{{ title1 }}</h1>
       </div>
@@ -27,6 +27,10 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+    }
+  },
   props: ['darkMode'],
   emits: ['open-menu'],
   computed: {
@@ -35,7 +39,13 @@ export default {
   methods: {
     openMenu() {
       this.$emit('open-menu')
+    },
+    headerHeight() {
+      this.$store.commit('headerHeight', this.$refs.header.clientHeight)
     }
+  },
+  mounted() {
+    this.headerHeight()
   }
 }
 </script>

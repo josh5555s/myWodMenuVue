@@ -1,18 +1,65 @@
 <template>
-  <div id="columns-container">
+  <div id="columns-container" ref="column">
     <div id="table-1-container">
-      <table id="table-1"></table>
+      <table id="table-1" v-for="product in table1Data" :key="product">
+        <tr class="flower-info-container">
+          <td 
+            class="product-name" :class="[dynamicNameClass, dynamicPriceColor(product.price)]"
+          > {{ product.productName }} </td>
+          <td
+            v-if="hasTest"
+            class="product-test" :class="dynamicTestClass"
+          > {{ product.thc }}%, {{ product.cbd }}% </td>
+          <td
+            v-if="hasWeight"
+            class="product-weight" :class="dynamicWeightClass"
+          > {{ product.weight }} </td>
+          <td
+            v-if="this.product !== 'topical'"
+            class="product-type" :class="[dynamicTypeClass, dynamicTypeColor(product.type)]"
+          > {{ product.type }} </td>
+          <td
+            class="product-price" :class="[dynamicPriceClass, dynamicPriceColor(product.price)]"
+          > ${{ product.price }} </td>
+        </tr>
+      </table>
     </div>
     <div id="table-2-container">
-      <table id="table-2"></table>
+      <table id="table-2" v-for="product in table2Data" :key="product">
+        <tr class="flower-info-container">
+          <td 
+            class="product-name" :class="[dynamicNameClass, dynamicPriceColor(product.price)]"
+          > {{ product.productName }} </td>
+          <td
+            v-if="hasTest"
+            class="product-test" :class="dynamicTestClass"
+          > {{ product.thc }}%, {{ product.cbd }}% </td>
+          <td
+            v-if="hasWeight"
+            class="product-weight" :class="dynamicWeightClass"
+          > {{ product.weight }} </td>
+          <td
+            v-if="this.product !== 'topical'"
+            class="product-type" :class="[dynamicTypeClass, dynamicTypeColor(product.type)]"
+          > {{ product.type }} </td>
+          <td
+            class="product-price" :class="[dynamicPriceClass, dynamicPriceColor(product.price)]"
+          > ${{ product.price }} </td>
+        </tr>
+      </table>  
     </div>
   </div>
+  <specials-ticker></specials-ticker>
 </template>
 
 <script>
+import SpecialsTicker from './SpecialsTicker.vue'
 import { mapGetters } from 'vuex'
 
 export default {
+  components: {
+    SpecialsTicker,
+  },
   props: ['fontSize'],
   emits: ['menu-number'],
   data() {
@@ -21,17 +68,51 @@ export default {
       store: this.$route.params.store,
       product: this.$route.params.product,
       fetchLoop: '',
-      data1o1: [],
-      data1o2: [],
-      data2o2: [],
       data: [], 
-      autoTesting: ['flower','preroll','cartridge','concentrate']
+      autoTesting: ['flower','preroll','cartridge','concentrate'],
+      productsWithWeight: ['preroll','cartridge','concentrate'],
     }
   },
   computed: {
     ...mapGetters(['scrollSpeed','alreadyScrolling','screensSetting']),
+    halfData() {return Math.ceil(this.data.length / 2)},
+    table1Data() {return this.data.slice(0, this.halfData) },
+    table2Data() {return this.data.slice(this.halfData, this.data.length) },
+    hasWeight() {return this.productsWithWeight.indexOf(this.product) !== -1},
+    hasTest() {return this.autoTesting.indexOf(this.product) !== -1},
+    dynamicNameClass() {return `${this.product}-name`},
+    dynamicTestClass() {return `${this.product}-test`},
+    dynamicWeightClass() {return `${this.product}-weight`},
+    dynamicTypeClass() {return `${this.product}-type`},
+    dynamicPriceClass() {return `${this.product}-price`},
   },
   methods: {
+    columnHeight() {
+      setTimeout(() => {
+        this.$store.commit('columnHeight', this.$refs.column.clientHeight)
+      }, 400);
+    },
+    dynamicTypeColor(type) {
+      if (type == "Hybrid"
+        || type == "Balanced") {
+        return 'blue' 
+      } else if (type == "Sativa"
+        || type == "Uplifting") {
+        return 'red'
+      } else if (type == "Relaxing"
+        || type == "Relaxed") {
+        return 'purple'
+      } else if (type == "CBD") {
+        return 'green'
+      }
+    },
+    dynamicPriceColor(price) {
+      if (this.product === "flower") {
+        if (price === 5) {
+          return 'highlight'
+        }
+      }
+    },
     getData() {
       // let path = `http://192.168.1.2:4000${this.$route.path}`
       let path = `https://api.westernoregondispensary.com${this.$route.path}`
@@ -43,14 +124,37 @@ export default {
           .then(data => {
             let obj = (JSON.parse(data));
             if (obj !== {}) {
-              this.data1o1 = obj
+              let data1o1 = obj
+              data1o1.forEach(item => {
+                if (this.product === "preroll") {
+                  item.productName = item.productName.replace("Pre-Roll", "")
+                  item.productName = item.productName.replace("1.3G", "")
+                  item.productName = item.productName.replace("1G", "")
+                  item.productName = item.productName.replace("- -", "-")
+                  item.productName = item.productName.replace("--", "-")
+                  }
+                if (this.product === "cartridge") {
+                  item.productName = item.productName.replace("Cart", "")
+                  item.productName = item.productName.replace("1G", "")
+                  item.productName = item.productName.replace(".5G", "")
+                  item.productName = item.productName.replace("- -", "-")
+                }
+                if (this.product === "concentrate" || this.product === "cartridge") {
+                  if (item.weight === "0 G") {
+                    item.weight = "1 G"
+                  } else if (item.weight === "0.5 G") {
+                    item.weight = ".5 G"
+                  }
+                }
+                if (item.type === 'unknown') {item.type = ''}
+              })
               if (this.product === 'flower') {
                 // primary sort by type
                 let uplifting = [];
                 let balanced = [];
                 let relaxing = [];
                 let typeMissing = [];
-                this.data1o1.forEach(product => {
+                data1o1.forEach(product => {
                   if (product.type === 'Uplifting') {uplifting.push(product)} 
                   else if (product.type === 'Balanced') {balanced.push(product)}
                   else if (product.type === 'Relaxing') {relaxing.push(product)} 
@@ -88,20 +192,19 @@ export default {
                 relaxing = typeThc.relaxing.sort((a, b) => (a.price < b.price) ? 1 : -1)
                 typeMissing = typeThc.typeMissing.sort((a, b) => (a.price < b.price) ? 1 : -1)
 
-                this.data1o1.length = 0
-                this.data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
+                data1o1.length = 0
+                data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
               }
               // split into two arrays
-              let halfwayThrough = Math.floor(this.data1o1.length / 2)
-              let arrayFirstHalf = this.data1o1.slice(0, halfwayThrough)
-              let arraySecondHalf = this.data1o1.slice(halfwayThrough, this.data1o1.length)
-              this.data1o2 = arrayFirstHalf
-              this.data2o2 = arraySecondHalf
+              let halfwayThrough = Math.floor(data1o1.length / 2)
+              let arrayFirstHalf = data1o1.slice(0, halfwayThrough)
+              let arraySecondHalf = data1o1.slice(halfwayThrough, data1o1.length)
+              let data1o2 = arrayFirstHalf
+              let data2o2 = arraySecondHalf
               // select array to display
-              if (this.screensSetting === '1 of 1') {this.data = this.data1o1}
-              else if (this.screensSetting === '1 of 2') {this.data = this.data1o2}
-              else if (this.screensSetting === '2 of 2') {this.data = this.data2o2}
-              this.removeOldRows()
+              if (this.screensSetting === '1 of 1') {this.data = data1o1}
+              else if (this.screensSetting === '1 of 2') {this.data = data1o2}
+              else if (this.screensSetting === '2 of 2') {this.data = data2o2}
             }
           })
         } catch (error) {
@@ -114,119 +217,6 @@ export default {
         fetchLogic()
        // fetchLoop firing interupts scroll, bringing it immediately back to the top.  Probably because this.removeOldRows() makes the whole page fit on screen, so bring the screen back to Y = 0.
       }, 600000);
-    },
-    removeOldRows() {
-      const table1 = document.getElementById("table-1");
-      table1.innerHTML = '';
-      const table2 = document.getElementById("table-2");
-      table2.innerHTML = '';
-    this.addRows();
-    },
-    addRows() {
-      this.data.forEach((row, i)=> {
-        //for each item, create/insert table row
-        const tr = document.createElement("TR");
-        tr.setAttribute("class", "flower-info-container");
-        tr.setAttribute("class", this.fontSize);
-
-        // create name cell
-        const tdName = document.createElement("TD");
-        let name = row.productName;
-        if (this.product === "preroll") {
-          name = name.replace("Pre-Roll", "")
-          name = name.replace("1.3G", "")
-          name = name.replace("1G", "")
-          name = name.replace("- -", "-")
-          name = name.replace("--", "-")
-          }
-        if (this.product === "cartridge") {
-          name = name.replace("Cart", "")
-          name = name.replace("1G", "")
-          name = name.replace(".5G", "")
-          name = name.replace("- -", "-")
-        }
-        tdName.textContent = name;
-        tdName.setAttribute("class", `${this.product}-name product-name`);
-
-        // create test cell
-        const tdTest = document.createElement("TD");
-        if (this.autoTesting.indexOf(this.product) !== -1) {
-          tdTest.textContent = `${row.thc}%, ${row.cbd}%`;
-        } 
-        tdTest.setAttribute("class", `${this.product}-test product-test`);
-
-        // create weight cell
-        const tdWeight = document.createElement("TD")
-        let weight = row.weight;
-        if (this.product === "concentrate" || this.product === "cartridge") {
-          if (weight === "0 G") {
-            weight = "1 G"
-          } else if (weight === "0.5 G") {
-            weight = ".5 G"
-          }
-        }
-        // if weight has extra zeros at the end, remove them.
-
-        tdWeight.textContent = weight;
-        tdWeight.setAttribute('class', `${this.product}-weight product-weight`)
-
-        // create type cell (relaxing, uplifting...)
-        const tdType = document.createElement("TD");
-        if (row.type !== 'unknown') {tdType.textContent = row.type;}
-        tdType.setAttribute("class", `${this.product}-type product-type`);
-
-        // create price cell
-        const tdPrice = document.createElement("TD");
-        tdPrice.textContent = '$' + row.price;
-        tdPrice.setAttribute("class", `${this.product}-price product-price`);
-
-        // append cells to row
-        tr.appendChild(tdName);
-        if (this.autoTesting.indexOf(this.product) !== -1) {tr.appendChild(tdTest);}
-        if (this.product === "preroll" || this.product === "cartridge" || this.product === "concentrate") {tr.appendChild(tdWeight)}
-        if (this.product !== 'topical') {tr.appendChild(tdType)}
-        tr.appendChild(tdPrice);
-
-        // append rows to 2 table columns
-        if (i <= this.data.length / 2) {document.getElementById("table-1").appendChild(tr);}
-        else {document.getElementById("table-2").appendChild(tr);}
-      })
-      this.colorize();
-    },
-    colorize() {
-      let productName = document.querySelectorAll(".product-name");
-      let productType = document.querySelectorAll(".product-type");
-      let productPrice = document.querySelectorAll(".product-price");
-
-      for (let i = 0; i < productType.length; i++) {
-        if (productType[i].innerText == "Hybrid"
-          || productType[i].innerText == "Balanced") {
-          productType[i].style.color = "#5B9BD5";
-          // #5B9BD5 = Light blue matching jars
-        } else if (productType[i].innerText == "Sativa"
-          || productType[i].innerText == "Uplifting") {
-          productType[i].style.color = "#e43434";
-          // #e43434 = Pastel red
-        } else if (productType[i].innerText == "Relaxing"
-          || productType[i].innerText == "Relaxed") {
-          productType[i].style.color = "#7030A0";
-          // #7030A0 = Purple matching jars
-        } else if (productType[i].innerText == "CBD") {
-          productType[i].style.color = "rgb(19, 255, 37)";
-          // #7030A0 = Purple matching jars
-        } else {
-          productType[i].style.color = "#C1D448";
-        }
-      }
-
-      if (this.product === "flower") {
-        for (let i = 0; i < productPrice.length; i++) {
-          if (productPrice[i].innerText === "$5") {
-            productPrice[i].style.color = "var(--highlight-text-color)";
-            productName[i].style.color = "var(--highlight-text-color)";
-          }
-        }
-      }
     },
     autoScroll () {
       // let innerLogged = false
@@ -281,6 +271,9 @@ export default {
     screensSetting() {
       clearInterval(this.fetchLoop)
       this.getData()
+    },
+    data() {
+      this.columnHeight()
     }
   },
 
@@ -289,6 +282,27 @@ export default {
 
 
 <style lang="scss">
+// balanced 
+.blue {
+  color:rgb(91,155,213); 
+}
+// uplifting
+.red {
+  color:rgb(228,52,52); 
+}
+// relaxing
+.purple {
+  color:rgb(112,48,160);
+}
+// green
+.green {
+  color: rgb(19, 255, 37);
+}
+
+.highlight {
+  color: var(--highlight-text-color);
+}
+
 #columns-container {
   margin-top: 20px;
   display: flex;
@@ -314,13 +328,8 @@ th,
 td {
   border: 0px solid black;
   border-collapse: collapse;
-  padding: 3px 3px;
+  padding: 1.5px 3px;
   font-size: 1.6vw;
-}
-
-tr.flower-info-container {
-  width: 98%;
-  margin-left: 2%;
 }
 
 .product-name {
@@ -371,7 +380,6 @@ tr.flower-info-container {
   table,
   th,
   td {
-    padding: 3px 3px;
     // font-size: 3.2vw;
     font-size: 2.6vw;
     // font-size: 2vw;

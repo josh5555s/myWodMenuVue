@@ -71,6 +71,10 @@ h1 {
   text-decoration: underline;
 }
 
+h2, p {
+	color: var(--highlight-text-color);
+}
+
 .greater-container {
 	display: flex;
 	justify-content: center;
@@ -120,8 +124,6 @@ li {
 
 /* Phone */
 @media screen and (max-width: 400px) {
-	h1 {
-	}
 	.specials-column {
 		width: 90vw;
 	}

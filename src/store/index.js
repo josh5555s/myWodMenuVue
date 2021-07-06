@@ -13,9 +13,17 @@ const store = createStore({
       screensSetting: "1 of 1",
       currentSpecials: null,
       upcomingSpecials: null,
+      headerHeight: 0,
+      columnHeight: 0,
     }
   },
   mutations: {
+    headerHeight(state, payload) {
+      state.headerHeight = payload
+    },
+    columnHeight(state, payload) {
+      state.columnHeight = payload
+    },
     storeTitles(state) {
       state.title1= "SELECT"
       state.title2 = "STORE"
@@ -118,6 +126,12 @@ const store = createStore({
     },
   },
   getters: {
+    headerHeight(state) {
+      return state.headerHeight
+    },
+    columnHeight(state) {
+      return state.columnHeight
+    },
     title1(state) {
       return state.title1
     },
