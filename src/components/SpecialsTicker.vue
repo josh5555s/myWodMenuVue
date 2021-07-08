@@ -9,19 +9,31 @@
 </template>
 
 <script>
+import { ref, onMounted, onUnmounted } from 'vue'
 import { mapGetters } from 'vuex'
 
 export default {
+	setup() {
+		const windowHeight = ref(window.innerHeight)
+		onMounted(() => {
+				window.addEventListener('resize', () => {windowHeight.value = window.innerHeight} )
+		})
+		onUnmounted(() => {
+				window.removeEventListener('resize', () => {windowHeight.value = window.innerHeight})
+		})
+		return { 
+				windowHeight,
+		}
+	},
 	data() {
 		return {
-			windowHeight: window.innerHeight,
 			appendedSpecials: '',
 		}
 	},
   computed: {
     ...mapGetters(['headerHeight','columnHeight','currentSpecials']),
+		fullScreen() {return window.innerWidth > 1080},
 		thereIsSpace() {return this.windowHeight - this.headerHeight - this.columnHeight > 110},
-		fullScreen() {return window.innerWidth > 1080}
   },
 	methods: {
 		fetchSpecials() { 
@@ -33,14 +45,11 @@ export default {
 	},
 	mounted() {
 		this.fetchSpecials()
-	}
+	},
 }
 </script>
 
-
-
 <style lang="scss" scoped>
-
 
 ul {
 	// display: flex;
@@ -55,7 +64,7 @@ h1 {
   color: var(--highlight-text-color);
 	margin: 9px;
 	height: 100%;
-	font-size: 2.8rem
+	font-size: 2rem;
 }
 
 /* Ticker from https://codepen.io/lewismcarey/pen/GJZVoG */
