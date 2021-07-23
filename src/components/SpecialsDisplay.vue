@@ -7,7 +7,7 @@
 					<li v-for='special in currentSpecials' :key='special.id' >
 						<h2>{{ special.title }}</h2>
 						<p>{{ special.description }}</p>
-						<p>Until: {{ getWordDate(special.end) }}</p>
+						<p v-if="new Date(special.start).getTime() > 30000000000000">Until: {{ getWordDate(special.end) }}</p>
 					</li>
 					<p v-if="currentSpecialsEmpty">Nothing at the moment...</p>
 				</ul>

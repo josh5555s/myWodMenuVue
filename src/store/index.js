@@ -95,26 +95,28 @@ const store = createStore({
   actions: {
     fetchSpecials(context, payload) {
       const location = payload.location
-      fetch('https://wod-admin-default-rtdb.firebaseio.com/specials.json')
+      // fetch('http://192.168.1.29:4000/specials')
+      fetch('https://api.westernoregondispensary.com/specials')
       .then((response) => {
         if (response.ok) {
           return response.json()
         }
       })
       .then(data => {
+        const parsedData = JSON.parse(data)
         const results = []
-        for (const id in data) {
+        parsedData.forEach(item => {
           results.push({
-            id: id,
-            title: data[id].title,
-            locations: data[id].locations,
-            description: data[id].description,
-            start: data[id].start,
-            end: data[id].end,
-            startNumber: new Date(data[id].start).getTime(),
-            endNumber: new Date(data[id].end).getTime(),
+            id: item.id,
+            title: item.title,
+            locations: item.locations,
+            description: item.description,
+            start: item.start,
+            end: item.end,
+            startNumber: new Date(item.start).getTime(),
+            endNumber: new Date(item.end).getTime(),
           })
-        }
+        })
         context.commit('filterSpecials', { results, location })
       })
       .catch((error) => {

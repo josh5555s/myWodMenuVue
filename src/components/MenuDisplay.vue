@@ -4,11 +4,11 @@
       <table id="table-1" v-for="product in table1Data" :key="product">
         <tr class="flower-info-container">
           <td 
-            class="product-name" :class="[dynamicNameClass, dynamicPriceColor(product.price)]"
+            class="product-name" :class="[dynamicNameClass, dynamicPriceColor(product.price)]" @click="updateSortBy('name')"
           > {{ product.productName }} </td>
           <td
             v-if="hasTest"
-            class="product-test" :class="dynamicTestClass"
+            class="product-test" :class="dynamicTestClass" @click="updateSortBy('test')"
           > {{ product.thc }}%, {{ product.cbd }}% </td>
           <td
             v-if="hasWeight"
@@ -16,10 +16,10 @@
           > {{ product.weight }} </td>
           <td
             v-if="this.product !== 'topical'"
-            class="product-type" :class="[dynamicTypeClass, dynamicTypeColor(product.type)]"
+            class="product-type" :class="[dynamicTypeClass, dynamicTypeColor(product.type)]" @click="updateSortBy('type')"
           > {{ product.type }} </td>
           <td
-            class="product-price" :class="[dynamicPriceClass, dynamicPriceColor(product.price)]"
+            class="product-price" :class="[dynamicPriceClass, dynamicPriceColor(product.price)]" @click="updateSortBy('price')"
           > ${{ product.price }} </td>
         </tr>
       </table>
@@ -28,11 +28,11 @@
       <table id="table-2" v-for="product in table2Data" :key="product">
         <tr class="flower-info-container">
           <td 
-            class="product-name" :class="[dynamicNameClass, dynamicPriceColor(product.price)]"
+            class="product-name" :class="[dynamicNameClass, dynamicPriceColor(product.price)]" @click="updateSortBy('name')"
           > {{ product.productName }} </td>
           <td
             v-if="hasTest"
-            class="product-test" :class="dynamicTestClass"
+            class="product-test" :class="dynamicTestClass" @click="updateSortBy('test')"
           > {{ product.thc }}%, {{ product.cbd }}% </td>
           <td
             v-if="hasWeight"
@@ -40,10 +40,10 @@
           > {{ product.weight }} </td>
           <td
             v-if="this.product !== 'topical'"
-            class="product-type" :class="[dynamicTypeClass, dynamicTypeColor(product.type)]"
+            class="product-type" :class="[dynamicTypeClass, dynamicTypeColor(product.type)]" @click="updateSortBy('type')"
           > {{ product.type }} </td>
           <td
-            class="product-price" :class="[dynamicPriceClass, dynamicPriceColor(product.price)]"
+            class="product-price" :class="[dynamicPriceClass, dynamicPriceColor(product.price)]" @click="updateSortBy('price')"
           > ${{ product.price }} </td>
         </tr>
       </table>  
@@ -68,7 +68,9 @@ export default {
       store: this.$route.params.store,
       product: this.$route.params.product,
       fetchLoop: '',
-      data: [], 
+      data: [],
+      sortBy: 'type', 
+      flipDirection: false,
       autoTesting: ['flower','preroll','cartridge','concentrate'],
       productsWithWeight: ['preroll','cartridge','concentrate'],
     }
@@ -76,8 +78,36 @@ export default {
   computed: {
     ...mapGetters(['scrollSpeed','alreadyScrolling','screensSetting']),
     halfData() {return Math.ceil(this.data.length / 2)},
-    table1Data() {return this.data.slice(0, this.halfData) },
-    table2Data() {return this.data.slice(this.halfData, this.data.length) },
+    table1Data() {return this.sortedData.slice(0, this.halfData) },
+    table2Data() {return this.sortedData.slice(this.halfData, this.data.length) },
+    sortedData() {
+      let sortedData = []
+      sortedData.push(...this.data)
+      if (this.sortBy === 'name') {
+        sortedData = sortedData.sort((a,b) => {
+          let aProp = a.productName.toLowerCase(), bProp = b.productName.toLowerCase();
+          if (aProp < bProp) {
+            return -1
+          }
+          if (aProp > bProp) {
+            return 1
+          }
+          return 0
+        })
+        return this.flipDirection ? sortedData.reverse() : sortedData
+      } else if (this.sortBy === 'test' || this.sortBy === 'price') {
+        sortedData = sortedData.sort((a,b) => {
+          if (this.sortBy === 'test') {return Number(a.thc) - Number(b.thc)}
+          else if (this.sortBy === 'price') {return a.price - b.price}
+        })
+        return this.flipDirection ? sortedData.reverse() : sortedData
+      }
+      else if (this.sortBy === 'type') { return this.data } 
+      else {
+        console.log(`This shouldn't happen, but sortBy is: ${this.sortBy}`)
+        return 'oops'
+      }
+    },  
     hasWeight() {return this.productsWithWeight.indexOf(this.product) !== -1},
     hasTest() {return this.autoTesting.indexOf(this.product) !== -1},
     dynamicNameClass() {return `${this.product}-name`},
@@ -87,6 +117,15 @@ export default {
     dynamicPriceClass() {return `${this.product}-price`},
   },
   methods: {
+    updateSortBy(byThis) {
+      if (this.sortBy === byThis) {
+        this.flipDirection = !this.flipDirection
+      } else {
+        this.sortBy = byThis
+        this.flipDirection = false
+      }
+      console.log(`sortBy: ${this.sortBy}, flipDirection: ${this.flipDirection}`)
+    },
     columnHeight() {
       setTimeout(() => {
         this.$store.commit('columnHeight', this.$refs.column.clientHeight)
@@ -128,6 +167,7 @@ export default {
               data1o1.forEach(item => {
                 if (this.product === "preroll") {
                   item.productName = item.productName.replace("Pre-Roll", "")
+                  item.productName = item.productName.replace("pre-roll", "")
                   item.productName = item.productName.replace("1.3G", "")
                   item.productName = item.productName.replace("1G", "")
                   item.productName = item.productName.replace("- -", "-")
@@ -148,53 +188,51 @@ export default {
                 }
                 if (item.type === 'unknown') {item.type = ''}
               })
-              if (this.product === 'flower') {
-                // primary sort by type
-                let uplifting = [];
-                let balanced = [];
-                let relaxing = [];
-                let typeMissing = [];
-                data1o1.forEach(product => {
-                  if (product.type === 'Uplifting') {uplifting.push(product)} 
-                  else if (product.type === 'Balanced') {balanced.push(product)}
-                  else if (product.type === 'Relaxing') {relaxing.push(product)} 
-                  else {typeMissing.push(product)}
-                });
+              // primary sort by type
+              let uplifting = [];
+              let balanced = [];
+              let relaxing = [];
+              let typeMissing = [];
+              data1o1.forEach(product => {
+                if (product.type === 'Uplifting') {uplifting.push(product)} 
+                else if (product.type === 'Balanced') {balanced.push(product)}
+                else if (product.type === 'Relaxing') {relaxing.push(product)} 
+                else {typeMissing.push(product)}
+              });
 
-                // turn testing strings into floats to order them
-                let typeThc = {
-                  uplifting:[],
-                  balanced:[],
-                  relaxing:[],
-                  typeMissing:[],
-                }
-                uplifting.forEach(product => {
-                  if (product.thc !== undefined){ typeThc.uplifting.push(product) }
-                })
-                balanced.forEach(product => {
-                  if (product.thc !== undefined){ typeThc.balanced.push(product) }
-                })
-                relaxing.forEach(product => {
-                  if (product.thc !== undefined){ typeThc.relaxing.push(product) }
-                })
-                typeMissing.forEach(product => {
-                  if (product.thc !== undefined){ typeThc.typeMissing.push(product) }
-                })
-
-                // ternary sort by highest thc
-                uplifting = typeThc.uplifting.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
-                balanced = typeThc.balanced.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
-                relaxing = typeThc.relaxing.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
-                typeMissing = typeThc.typeMissing.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
-                // secondary sort by price
-                uplifting = typeThc.uplifting.sort((a, b) => (a.price < b.price) ? 1 : -1)
-                balanced = typeThc.balanced.sort((a, b) => (a.price < b.price) ? 1 : -1)
-                relaxing = typeThc.relaxing.sort((a, b) => (a.price < b.price) ? 1 : -1)
-                typeMissing = typeThc.typeMissing.sort((a, b) => (a.price < b.price) ? 1 : -1)
-
-                data1o1.length = 0
-                data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
+              // turn testing strings into floats to order them
+              let typeThc = {
+                uplifting:[],
+                balanced:[],
+                relaxing:[],
+                typeMissing:[],
               }
+              uplifting.forEach(product => {
+                if (product.thc !== undefined){ typeThc.uplifting.push(product) }
+              })
+              balanced.forEach(product => {
+                if (product.thc !== undefined){ typeThc.balanced.push(product) }
+              })
+              relaxing.forEach(product => {
+                if (product.thc !== undefined){ typeThc.relaxing.push(product) }
+              })
+              typeMissing.forEach(product => {
+                if (product.thc !== undefined){ typeThc.typeMissing.push(product) }
+              })
+
+              // ternary sort by highest thc
+              uplifting = typeThc.uplifting.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+              balanced = typeThc.balanced.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+              relaxing = typeThc.relaxing.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+              typeMissing = typeThc.typeMissing.sort((a, b) => (a.thc > b.thc) ? 1 : -1)
+              // secondary sort by price
+              uplifting = typeThc.uplifting.sort((a, b) => (a.price < b.price) ? 1 : -1)
+              balanced = typeThc.balanced.sort((a, b) => (a.price < b.price) ? 1 : -1)
+              relaxing = typeThc.relaxing.sort((a, b) => (a.price < b.price) ? 1 : -1)
+              typeMissing = typeThc.typeMissing.sort((a, b) => (a.price < b.price) ? 1 : -1)
+
+              data1o1.length = 0
+              data1o1.push(...uplifting,...balanced,...relaxing,...typeMissing)
               // split into two arrays
               let halfwayThrough = Math.floor(data1o1.length / 2)
               let arrayFirstHalf = data1o1.slice(0, halfwayThrough)
@@ -330,6 +368,7 @@ td {
   border-collapse: collapse;
   padding: 1.5px 3px;
   font-size: 1.6vw;
+  cursor: pointer;
 }
 
 .product-name {
