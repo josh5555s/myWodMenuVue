@@ -42,10 +42,20 @@ export default {
 				location: this.$route.params.store,
       }) 
     },
+    fetchLooper() {
+      this.fetchSpecials()
+      this.fetchLoop = setInterval(() => {
+        console.log('refreshing specials...')
+        this.fetchSpecials()
+      }, 120000)
+    }
 	},
 	mounted() {
-		this.fetchSpecials()
+		this.fetchLooper()
 	},
+  unmounted() {
+    clearInterval(this.fetchLoop)
+  }
 }
 </script>
 
