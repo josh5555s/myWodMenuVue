@@ -89,7 +89,7 @@ const store = createStore({
         // }
       }) 
       state.currentSpecials = currentSpecials.reverse()
-      state.upcomingSpecials = upcomingSpecials.reverse()
+      state.upcomingSpecials = upcomingSpecials
     }
   },
   actions: {

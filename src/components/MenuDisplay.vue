@@ -95,11 +95,11 @@ export default {
           return 0
         })
         return this.flipDirection ? sortedData.reverse() : sortedData
-      } else if (this.sortBy === 'test' || this.sortBy === 'price') {
-        sortedData = sortedData.sort((a,b) => {
-          if (this.sortBy === 'test') {return Number(a.thc) - Number(b.thc)}
-          else if (this.sortBy === 'price') {return a.price - b.price}
-        })
+      } else if (this.sortBy === 'test') {
+        sortedData = sortedData.sort((a,b) => Number(a.thc) - Number(b.thc))
+        return this.flipDirection ? sortedData : sortedData.reverse()
+      } else if (this.sortBy === 'price') {
+        sortedData = sortedData.sort((a,b) => a.price - b.price)
         return this.flipDirection ? sortedData.reverse() : sortedData
       }
       else if (this.sortBy === 'type') { return this.data } 
