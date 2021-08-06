@@ -1,5 +1,5 @@
 <template>
-		<div v-if="thereIsSpace && fullScreen" class="ticker-wrap">
+		<div v-if="thereIsSpace && fullScreen && delayed" class="ticker-wrap">
 			<ul class="ticker">
 				<li v-for="(special, i) in currentSpecials" :key="special.id" class="ticker__item" :class="{noMargin: i === 0}">
 					<h1>{{ special.title.toUpperCase() }} - {{ special.description }}</h1>
@@ -28,6 +28,7 @@ export default {
 	data() {
 		return {
 			appendedSpecials: '',
+      delayed: false,
 		}
 	},
   computed: {
@@ -48,10 +49,17 @@ export default {
         console.log('refreshing specials...')
         this.fetchSpecials()
       }, 120000)
+    },
+    delayRender() {
+      console.log(this.currentSpecials)
+      setTimeout(() => {
+       this.delayed = true
+      }, 500);
     }
 	},
 	mounted() {
 		this.fetchLooper()
+    this.delayRender()
 	},
   unmounted() {
     clearInterval(this.fetchLoop)

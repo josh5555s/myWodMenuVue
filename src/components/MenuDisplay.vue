@@ -322,19 +322,19 @@ export default {
 <style lang="scss">
 // balanced 
 .blue {
-  color:rgb(91,155,213); 
+  color:var(--balanced-blue); 
 }
 // uplifting
 .red {
-  color:rgb(228,52,52); 
+  color: var(--uplifting-red); 
 }
 // relaxing
 .purple {
-  color:rgb(112,48,160);
+  color: var(--relaxing-purple);
 }
 // green
 .green {
-  color: rgb(19, 255, 37);
+  color: var(--cbd-green);
 }
 
 .highlight {
