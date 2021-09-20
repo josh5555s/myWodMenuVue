@@ -51,7 +51,6 @@ export default {
       }, 120000)
     },
     delayRender() {
-      console.log(this.currentSpecials)
       setTimeout(() => {
        this.delayed = true
       }, 500);

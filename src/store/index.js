@@ -6,6 +6,8 @@ import { createStore } from 'vuex';
 const store = createStore({
   state() {
     return {
+      productionProductsApi: true, 
+      productionSpecialsApi: true, 
       title1: 'SELECT',
       title2: 'STORE',
       scrollSpeed: 40,
@@ -95,8 +97,7 @@ const store = createStore({
   actions: {
     fetchSpecials(context, payload) {
       const location = payload.location
-      // fetch('http://192.168.1.29:4000/specials')
-      fetch('https://api.westernoregondispensary.com/specials')
+      fetch(context.getters.specialsUrl)
       .then((response) => {
         if (response.ok) {
           return response.json()
@@ -121,13 +122,23 @@ const store = createStore({
       })
       .catch((error) => {
         console.log(error)
-        console.log("there was an error in the fetch GET promise chain")
+        console.log("there was an error fetching specials ")
         this.isLoading = false
         this.error = 'Failed to fetch data please try again later'
       })
     },
   },
   getters: {
+    productsUrl(state) {
+      return state.productionProductsApi 
+      ? 'https://api.westernoregondispensary.com'
+      : 'http://192.168.1.29:4000'
+    },
+    specialsUrl(state) {
+      return state.productionSpecialsApi 
+      ? 'https://api.westernoregondispensary.com/specials'
+      : 'http://192.168.1.29:4000/specials'
+    },
     headerHeight(state) {
       return state.headerHeight
     },

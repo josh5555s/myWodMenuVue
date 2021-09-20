@@ -76,7 +76,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['scrollSpeed','alreadyScrolling','screensSetting']),
+    ...mapGetters(['productsUrl','scrollSpeed','alreadyScrolling','screensSetting']),
     halfData() {return Math.ceil(this.data.length / 2)},
     table1Data() {return this.sortedData.slice(0, this.halfData) },
     table2Data() {return this.sortedData.slice(this.halfData, this.data.length) },
@@ -153,12 +153,10 @@ export default {
       }
     },
     getData() {
-      // let path = `http://192.168.1.2:4000${this.$route.path}`
-      let path = `https://api.westernoregondispensary.com${this.$route.path}`
       const fetchLogic = () => {
         try {
-          console.log('fetching new data...')
-          fetch(path)
+          // console.log('fetching new data...')
+          fetch(`${this.productsUrl}${this.$route.path}`)
           .then(response => response.json())
           .then(data => {
             let obj = (JSON.parse(data));
@@ -320,23 +318,19 @@ export default {
 
 
 <style lang="scss">
-// balanced 
+
 .blue {
   color:var(--balanced-blue); 
 }
-// uplifting
 .red {
   color: var(--uplifting-red); 
 }
-// relaxing
 .purple {
   color: var(--relaxing-purple);
 }
-// green
 .green {
   color: var(--cbd-green);
 }
-
 .highlight {
   color: var(--highlight-text-color);
 }
@@ -346,11 +340,9 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-
 #table-1-container {
   width: 50%;
 }
-
 #table-2-container {
   width: 50%;
 }

@@ -1,12 +1,27 @@
+create one variable to change all server url instances
+
+upcoming specials menu is in the wrong order (by date)
+
+make h2 anchors on selection pages not full screen width (for easier vimium)
+
+ticker scroll speed is proportional to specials length, should be constent
+
 figure out why scroll occurs on the specials display page if it was started on the products display page
 
 add side margins if the list goes below the screen in two column mode (or something equivelant), in order to make the list fit
 
+add the ability to zoom in and out, and manualy switch between one column and two.
+
+hover over flower to show farm
 
 ---- low priority ----
 
 pitch a WOD app as a text ad replacement, potentially loyalty program replacement.
 
-hover over flower to show farm
+---- refactoring ----
 
-? easy scroll toggle on header ?
+MenuDisplay.vue for loop the two columns
+
+Split vuex index.js into multiple files
+
+--------
