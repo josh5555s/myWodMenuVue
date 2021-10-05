@@ -1,8 +1,6 @@
-create one variable to change all server url instances
+link up google analytics 
 
-upcoming specials menu is in the wrong order (by date)
-
-make h2 anchors on selection pages not full screen width (for easier vimium)
+selectStore.vue and selectProduct.vue have redundent structure and css
 
 ticker scroll speed is proportional to specials length, should be constent
 
@@ -12,7 +10,7 @@ add side margins if the list goes below the screen in two column mode (or someth
 
 add the ability to zoom in and out, and manualy switch between one column and two.
 
-hover over flower to show farm
+hover over flower to show farm and amount left (in the future this could be expanded to place a pre-order on a personal account)
 
 ---- low priority ----
 

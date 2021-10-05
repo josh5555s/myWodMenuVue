@@ -1,4 +1,5 @@
 <template>
+  <div id="column-container">
     <div id="select-menu">
       <router-link :to="`${location}/specials`"><h2>Specials</h2></router-link>
       <router-link :to="`${location}/flower`"><h2>Flower</h2></router-link>
@@ -9,6 +10,7 @@
       <router-link :to="`${location}/tincture`"><h2>Tincture</h2></router-link>
       <router-link :to="`${location}/topical`"><h2>Topical</h2></router-link>
     </div>
+  </div>
 </template>
 
 <script>
@@ -35,6 +37,16 @@ export default {
 </script>
 
 <style>
+
+#column-container {
+  display: flex;
+  justify-content: center;
+}
+
+#select-menu {
+  min-width: 200px;
+}
+
 /* unvisited link */
 a:link {
   color: #c1d448;
