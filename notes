@@ -1,4 +1,4 @@
-link up google analytics 
+check up on google analytics 
 
 selectStore.vue and selectProduct.vue have redundent structure and css (base component with slot?)
 

@@ -8,7 +8,7 @@ import VueGtag from "vue-gtag-next"
 const app = createApp(App)
 
 app.use(VueGtag, {
-  config: { id: "G-RBH5LRWBLJ" }
+  property: { id: "G-RBH5LRWBLJ" }
 })
 
 app.use(router)
