@@ -1,6 +1,6 @@
 link up google analytics 
 
-selectStore.vue and selectProduct.vue have redundent structure and css
+selectStore.vue and selectProduct.vue have redundent structure and css (base component with slot?)
 
 ticker scroll speed is proportional to specials length, should be constent
 
