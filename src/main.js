@@ -4,12 +4,11 @@ import router from './router'
 import store from './store/index'
 import VueGtag from "vue-gtag-next"
 
-
 const app = createApp(App)
 
 app.use(VueGtag, {
   property: { id: "G-RBH5LRWBLJ" }
-})
+}, router)
 
 app.use(router)
 app.use(store)
