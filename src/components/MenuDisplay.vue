@@ -124,6 +124,11 @@ export default {
         this.sortBy = byThis
         this.flipDirection = false
       }
+      this.$gtag.event('columnClick', {
+        'event_category': 'interaction',
+        'event_label': 'user clicked on a product column',
+        'value': byThis 
+      })
       console.log(`sortBy: ${this.sortBy}, flipDirection: ${this.flipDirection}`)
     },
     columnHeight() {
