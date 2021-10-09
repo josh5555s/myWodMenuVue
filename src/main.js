@@ -8,7 +8,7 @@ const app = createApp(App)
 
 app.use(VueGtag, {
   property: { id: "G-RBH5LRWBLJ" }
-}, router)
+})
 
 app.use(router)
 app.use(store)

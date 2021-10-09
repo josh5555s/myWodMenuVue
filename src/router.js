@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { trackRouter } from "vue-gtag-next"
 // import store from './store/index'
 
 import SelectMenu from './components/SelectMenu.vue'
@@ -14,5 +15,7 @@ const router = createRouter({
     { path: '/:store/:product', component: MenuDisplay },
   ]
 })
+
+trackRouter(router)
 
 export default router
