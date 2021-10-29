@@ -70,6 +70,11 @@ export default {
   mounted() {
     this.updateTitles();
   },
+  watch: {
+    storeSelector() {
+      this.updateTitles();
+    },
+  },
 };
 </script>
 
