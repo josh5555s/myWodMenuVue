@@ -1,4 +1,8 @@
-get google analytics for WOD Menu tracking each page change
+
+
+!!! get google analytics for WOD Menu tracking each page individually !!!
+
+once users can be logged in, the menu could have a personal ratings (like app stars ratings), plus text notes, so that it because a personal journal. This would come up when you click the product for more information, which also gives the option to add to cart. it could also show community average rating before that user adds there personal rating
 
 ticker scroll speed is proportional to specials length, should be constent
 
@@ -10,7 +14,7 @@ add side margins if the list goes below the screen in two column mode (or someth
 
 add the ability to zoom in and out, and manualy switch between one column and two.
 
-hover over flower to show farm and amount left (in the future this could be expanded to place a pre-order on a personal account)
+hover over flower to show farm and amount left (in the future this could be expanded to place a pre-order on a personal account) 
 
 ---- low priority ----
 

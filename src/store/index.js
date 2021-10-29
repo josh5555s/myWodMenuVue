@@ -6,8 +6,8 @@ import { createStore } from 'vuex';
 const store = createStore({
   state() {
     return {
-      productionProductsApi: true, 
-      productionSpecialsApi: true, 
+      productionProductsApi: true,
+      productionSpecialsApi: true,
       title1: 'SELECT',
       title2: 'STORE',
       scrollSpeed: 40,
@@ -27,7 +27,7 @@ const store = createStore({
       state.columnHeight = payload
     },
     storeTitles(state) {
-      state.title1= "SELECT"
+      state.title1 = "SELECT"
       state.title2 = "STORE"
     },
     productTitles(state) {
@@ -55,7 +55,7 @@ const store = createStore({
       state.screensSetting = setting
       state.title2 = "MENU" + " " + state.screensSetting.charAt(0)
       if (setting === '1 of 1') { state.title2 = "MENU" }
-    },   
+    },
     filterSpecials(state, payload) {
       let results = payload.results
       let location = payload.location
@@ -68,13 +68,13 @@ const store = createStore({
           if (item === 'Cedar Mill') {
             locationsWithSpecial.push('cedarMill')
           }
-          else {locationsWithSpecial.push(item.toLowerCase())}
+          else { locationsWithSpecial.push(item.toLowerCase()) }
         })
         if (locationsWithSpecial !== undefined && locationsWithSpecial.indexOf(location) !== -1) {
           locationFilteredSpecials.push(result)
         }
       })
-      
+
       // filter for specialTiming
       let d = new Date()
       let currentDatetimeNumber = d.getTime()
@@ -83,13 +83,13 @@ const store = createStore({
       locationFilteredSpecials.forEach(special => {
         if (special.startNumber > currentDatetimeNumber) {
           upcomingSpecials.push(special)
-        } else if (special.startNumber < currentDatetimeNumber && special.endNumber > currentDatetimeNumber){
+        } else if (special.startNumber < currentDatetimeNumber && special.endNumber > currentDatetimeNumber) {
           currentSpecials.push(special)
         }
         //  else if (state.specialsTiming === 'Past' && special.endNumber < currentDatetimeNumber){
         //   timingFilteredSpecials.push(special)
         // }
-      }) 
+      })
       state.currentSpecials = currentSpecials.reverse()
       state.upcomingSpecials = upcomingSpecials
     }
@@ -98,46 +98,46 @@ const store = createStore({
     fetchSpecials(context, payload) {
       const location = payload.location
       fetch(context.getters.specialsUrl)
-      .then((response) => {
-        if (response.ok) {
-          return response.json()
-        }
-      })
-      .then(data => {
-        const parsedData = JSON.parse(data)
-        const results = []
-        parsedData.forEach(item => {
-          results.push({
-            id: item.id,
-            title: item.title,
-            locations: item.locations,
-            description: item.description,
-            start: item.start,
-            end: item.end,
-            startNumber: new Date(item.start).getTime(),
-            endNumber: new Date(item.end).getTime(),
-          })
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
         })
-        context.commit('filterSpecials', { results, location })
-      })
-      .catch((error) => {
-        console.log(error)
-        console.log("there was an error fetching specials ")
-        this.isLoading = false
-        this.error = 'Failed to fetch data please try again later'
-      })
+        .then(data => {
+          const parsedData = JSON.parse(data)
+          const results = []
+          parsedData.forEach(item => {
+            results.push({
+              id: item.id,
+              title: item.title,
+              locations: item.locations,
+              description: item.description,
+              start: item.start,
+              end: item.end,
+              startNumber: new Date(item.start).getTime(),
+              endNumber: new Date(item.end).getTime(),
+            })
+          })
+          context.commit('filterSpecials', { results, location })
+        })
+        .catch((error) => {
+          console.log(error)
+          console.log("there was an error fetching specials ")
+          this.isLoading = false
+          this.error = 'Failed to fetch data please try again later'
+        })
     },
   },
   getters: {
     productsUrl(state) {
-      return state.productionProductsApi 
-      ? 'https://api.westernoregondispensary.com'
-      : 'http://192.168.1.29:4000'
+      return state.productionProductsApi
+        ? 'https://api.westernoregondispensary.com'
+        : 'http://192.168.1.29:4000'
     },
     specialsUrl(state) {
-      return state.productionSpecialsApi 
-      ? 'https://api.westernoregondispensary.com/specials'
-      : 'http://192.168.1.29:4000/specials'
+      return state.productionSpecialsApi
+        ? 'https://api.westernoregondispensary.com/specials'
+        : 'http://192.168.1.29:4000/specials'
     },
     headerHeight(state) {
       return state.headerHeight
@@ -166,6 +166,6 @@ const store = createStore({
     upcomingSpecials(state) {
       return state.upcomingSpecials
     },
-  } 
+  }
 })
 export default store
