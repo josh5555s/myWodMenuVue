@@ -2,6 +2,8 @@
 
 !!! get google analytics for WOD Menu tracking each page individually !!!
 
+fix the dynamic titles on created so that they are caps and cedar mill is two words
+
 once users can be logged in, the menu could have a personal ratings (like app stars ratings), plus text notes, so that it because a personal journal. This would come up when you click the product for more information, which also gives the option to add to cart. it could also show community average rating before that user adds there personal rating
 
 ticker scroll speed is proportional to specials length, should be constent

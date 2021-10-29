@@ -1,8 +1,5 @@
 <template>
-  <Drawer 
-    :direction="'right'" 
-    :exist="true"
-    ref="LeftDrawer">
+  <Drawer :direction="'right'" :exist="true" ref="LeftDrawer">
     <DrawerContent
       :fontSize="fontSize"
       @theme-setting="updateSelectedThemeSetting"
@@ -10,23 +7,18 @@
     />
   </Drawer>
 
-  <TheHeader 
-    :darkMode="darkMode"
-    @open-menu="openMenu"
-  />
-  <router-view 
-    :fontSize="fontSize"
-  ></router-view>
+  <TheHeader :darkMode="darkMode" @open-menu="openMenu" />
+  <router-view :fontSize="fontSize"></router-view>
 </template>
 
 <script>
-import TheHeader from './components/TheHeader.vue'
-import Drawer from './components/Drawer.vue';
-import DrawerContent from './components/DrawerContent.vue'
+import TheHeader from "./components/TheHeader.vue";
+import Drawer from "./components/Drawer.vue";
+import DrawerContent from "./components/DrawerContent.vue";
 // import { mapGetters } from 'vuex'
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     TheHeader,
     Drawer,
@@ -34,29 +26,29 @@ export default {
   },
   data() {
     return {
-      fontSize: 'large',
+      fontSize: "large",
       darkMode: false,
-    }
+    };
   },
   methods: {
-    openMenu(){
-      if(this.$refs.LeftDrawer.active){
-        this.$refs.LeftDrawer.close();					
+    openMenu() {
+      if (this.$refs.LeftDrawer.active) {
+        this.$refs.LeftDrawer.close();
       } else {
         this.$refs.LeftDrawer.open();
       }
     },
     updateSelectedThemeSetting(setting) {
-      this.darkMode = setting
+      this.darkMode = setting;
     },
     updateFontSize(size) {
-     this.fontSize = size 
-     console.log('fontSize: ' + this.fontSize)
+      this.fontSize = size;
+      console.log("fontSize: " + this.fontSize);
     },
   },
   mounted() {
     // set page title
-    document.title = 'WOD Menu';
+    document.title = "WOD Menu";
 
     // set 'app-background' class to body tag
     let bodyElement = document.body;
@@ -66,33 +58,32 @@ export default {
     let htmlElement = document.documentElement;
     let theme = localStorage.getItem("theme");
 
-    if (theme === 'dark') {
-        htmlElement.setAttribute('theme', 'dark')
-        this.darkMode = true
+    if (theme === "dark") {
+      htmlElement.setAttribute("theme", "dark");
+      this.darkMode = true;
     } else {
-        htmlElement.setAttribute('theme', 'light');
-        this.darkMode = false
+      htmlElement.setAttribute("theme", "light");
+      this.darkMode = false;
     }
-},
-watch: {
-  darkMode: function () {
-    // add/remove class to/from html tag
-    let htmlElement = document.documentElement;
+  },
+  watch: {
+    darkMode: function () {
+      // add/remove class to/from html tag
+      let htmlElement = document.documentElement;
 
-    if (this.darkMode) {
-        localStorage.setItem("theme", 'dark');
-        htmlElement.setAttribute('theme', 'dark');
-    } else {
-        localStorage.setItem("theme", 'light');
-        htmlElement.setAttribute('theme', 'light');
-    }
-  }
-}
-}
+      if (this.darkMode) {
+        localStorage.setItem("theme", "dark");
+        htmlElement.setAttribute("theme", "dark");
+      } else {
+        localStorage.setItem("theme", "light");
+        htmlElement.setAttribute("theme", "light");
+      }
+    },
+  },
+};
 </script>
 
 <style lang="scss">
-
 // themes
 :root {
   --app-background-color: rgb(250, 250, 250);
@@ -108,9 +99,9 @@ watch: {
   --app-background-color: black;
   --primary-text-color: #c1d448;
   --highlight-text-color: white;
-  --uplifting-red: rgb(228,52,52);
-  --balanced-blue: rgb(91,155,213);
-  --relaxing-purple: rgb(112,48,160);
+  --uplifting-red: rgb(228, 52, 52);
+  --balanced-blue: rgb(91, 155, 213);
+  --relaxing-purple: rgb(112, 48, 160);
   --cbd-green: rgb(19, 255, 37);
   --sidebar-background-color: rgba(9, 9, 9, 0.92);
 }
@@ -124,16 +115,16 @@ body {
 
 a {
   text-decoration: none;
-  background: none!important;
+  background: none !important;
   border: none;
-  padding: 0!important;
+  padding: 0 !important;
   cursor: pointer;
   font-size: 24px;
 }
 
 h2 {
   color: var(--primary-text-color);
-  margin-block: .5em;
+  margin-block: 0.5em;
 }
 
 /* mouse over button */
@@ -141,7 +132,9 @@ a:hover {
   color: var(--highlight-text-color);
 }
 
-a:focus {outline:0;}
+a:focus {
+  outline: 0;
+}
 
 #select-menu {
   margin: auto;
@@ -153,7 +146,7 @@ a:focus {outline:0;}
 @media screen and (max-width: 400px) {
   a {
     font-size: 20px;
-    margin-block: .4em;
+    margin-block: 0.4em;
   }
 }
 </style>
