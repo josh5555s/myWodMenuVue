@@ -1,6 +1,4 @@
-
-
-!!! get google analytics for WOD Menu tracking each page individually !!!
+the specials page upcoming list is out of order, so is the current list
 
 fix the dynamic titles on created so that they are caps and cedar mill is two words
 
@@ -29,3 +27,7 @@ MenuDisplay.vue for loop the two columns
 Split vuex index.js into multiple files
 
 --------
+
+"C:\Program Files\Google\Chrome\Application\chrome.exe"
+
+--start-fullscreen "https://tv.westernoregondispensary.com/newberg"

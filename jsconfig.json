@@ -1,0 +1,6 @@
+	{
+		"include": [
+			"./src/**/*"
+		]
+	}
+	// vuetur wants this config file. https://vuejs.github.io/vetur/guide/setup.html#extensions

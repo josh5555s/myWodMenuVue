@@ -1,91 +1,114 @@
 <template>
-		<div v-if="thereIsSpace && fullScreen && delayed" class="ticker-wrap">
-			<ul class="ticker">
-				<li v-for="(special, i) in currentSpecials" :key="special.id" class="ticker__item" :class="{noMargin: i === 0}">
-					<h1>{{ special.title.toUpperCase() }} - {{ special.description }}</h1>
-				</li>
-			</ul>
-	</div>
+  <div v-if="thereIsSpace && fullScreen && delayed" class="ticker-wrap">
+    <ul class="ticker" :style="tickerSpeed">
+      <li
+        v-for="(special, i) in currentSpecials"
+        :key="special.id"
+        class="ticker__item"
+        :class="{ noMargin: i === 0 }"
+      >
+        <h1>{{ special.title.toUpperCase() }} - {{ special.description }}</h1>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { mapGetters } from 'vuex'
+import { ref, onMounted, onUnmounted } from "vue";
+import { mapGetters } from "vuex";
 
 export default {
-	setup() {
-		const windowHeight = ref(window.innerHeight)
-		onMounted(() => {
-				window.addEventListener('resize', () => {windowHeight.value = window.innerHeight} )
-		})
-		onUnmounted(() => {
-				window.removeEventListener('resize', () => {windowHeight.value = window.innerHeight})
-		})
-		return { 
-				windowHeight,
-		}
-	},
-	data() {
-		return {
-			appendedSpecials: '',
-      delayed: false,
-		}
-	},
-  computed: {
-    ...mapGetters(['headerHeight','columnHeight','currentSpecials']),
-		fullScreen() {return window.innerWidth > 1080},
-		thereIsSpace() {return this.windowHeight - this.headerHeight - this.columnHeight > 110},
+  setup() {
+    const windowHeight = ref(window.innerHeight);
+    onMounted(() => {
+      window.addEventListener("resize", () => {
+        windowHeight.value = window.innerHeight;
+      });
+    });
+    onUnmounted(() => {
+      window.removeEventListener("resize", () => {
+        windowHeight.value = window.innerHeight;
+      });
+    });
+    return {
+      windowHeight,
+    };
   },
-	methods: {
-		fetchSpecials() { 
+  data() {
+    return {
+      appendedSpecials: "",
+      delayed: false,
+    };
+  },
+  computed: {
+    ...mapGetters(["headerHeight", "columnHeight", "currentSpecials"]),
+    fullScreen() {
+      return window.innerWidth > 1080;
+    },
+    thereIsSpace() {
+      return this.windowHeight - this.headerHeight - this.columnHeight > 110;
+    },
+    tickerSpeed() {
+      let singleString = "";
+      this.currentSpecials.forEach((special) => {
+        singleString += special.title + special.description;
+      });
+      return { animationDuration: `${singleString.length / 6 + 5}s` }
+    },
+  },
+  methods: {
+    fetchSpecials() {
       this.$store.dispatch({
-        type: 'fetchSpecials',
-				location: this.$route.params.store,
-      }) 
+        type: "fetchSpecials",
+        location: this.$route.params.store,
+      });
     },
     fetchLooper() {
-      this.fetchSpecials()
+      this.fetchSpecials();
+      console.log('this.tickerSpeed');
+      console.log(this.tickerSpeed);
       this.fetchLoop = setInterval(() => {
-        console.log('refreshing specials...')
-        this.fetchSpecials()
-      }, 120000)
+        console.log("refreshing specials...");
+        this.fetchSpecials();
+      }, 120000);
     },
     delayRender() {
       setTimeout(() => {
-       this.delayed = true
+        this.delayed = true;
       }, 500);
-    }
-	},
-	mounted() {
-		this.fetchLooper()
-    this.delayRender()
-	},
+    },
+  },
+  mounted() {
+    this.fetchLooper();
+    this.delayRender();
+  },
   unmounted() {
-    clearInterval(this.fetchLoop)
-  }
-}
+    clearInterval(this.fetchLoop);
+  },
+};
 </script>
 
 <style lang="scss" scoped>
-
 ul {
-	// display: flex;
-	// flex-direction: row;
-	// white-space: nowrap;
-	list-style: none;
-	// overflow-x: hidden;
-	// margin: 0;
+  // display: flex;
+  // flex-direction: row;
+  // white-space: nowrap;
+  list-style: none;
+  // overflow-x: hidden;
+  // margin: 0;
 }
 
 h1 {
   color: var(--highlight-text-color);
-	margin: 9px;
-	height: 100%;
-	font-size: 2rem;
+  margin: 9px;
+  height: 100%;
+  font-size: 2rem;
 }
 
 /* Ticker from https://codepen.io/lewismcarey/pen/GJZVoG */
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 $duration: 25s;
 
 @-webkit-keyframes ticker {
@@ -115,11 +138,11 @@ $duration: 25s;
 }
 
 .ticker-wrap {
-	// margin-top: 10px;
-	height: 80px;
-	border-top-width: 3px;
-	border-top-style: solid;
-  
+  // margin-top: 10px;
+  height: 80px;
+  border-top-width: 3px;
+  border-top-style: solid;
+
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -129,41 +152,37 @@ $duration: 25s;
   box-sizing: content-box;
 
   .ticker {
-
-		// font-size: 100%;
+    // font-size: 100%;
     display: inline-block;
-		margin: 0px;
+    margin: 0px;
     height: 100%;
-    line-height: 4rem;  
+    line-height: 4rem;
     white-space: nowrap;
     padding-right: 100%;
     box-sizing: content-box;
 
-    -webkit-animation-iteration-count: infinite; 
-            animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
     -webkit-animation-timing-function: linear;
-            animation-timing-function: linear;
-   -webkit-animation-name: ticker;
-           animation-name: ticker;
+    animation-timing-function: linear;
+    -webkit-animation-name: ticker;
+    animation-name: ticker;
     -webkit-animation-duration: $duration;
-            animation-duration: $duration;
+    animation-duration: $duration;
 
     &__item {
       display: inline-block;
-			margin-left: 50vw;
+      margin-left: 50vw;
       // padding: 0 2rem;
       // font-size: 2rem;
 
-			&.noMargin {
-				margin-left: 0;
-			}
+      &.noMargin {
+        margin-left: 0;
+      }
     }
   }
 }
 
-
-
 // body { padding-bottom: 5rem; }
 // h1,h2,p {padding: 0 5%;}
-
 </style>
