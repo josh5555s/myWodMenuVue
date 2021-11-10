@@ -1,6 +1,6 @@
 <template>
   <div v-if="thereIsSpace && fullScreen && delayed" class="ticker-wrap">
-    <ul class="ticker" :style="tickerSpeed">
+    <ul class="ticker" :style="tickerDuration">
       <li
         v-for="(special, i) in currentSpecials"
         :key="special.id"
@@ -48,25 +48,44 @@ export default {
     thereIsSpace() {
       return this.windowHeight - this.headerHeight - this.columnHeight > 110;
     },
-    tickerSpeed() {
+    totalCharsInSpecials() {
       let singleString = "";
-      this.currentSpecials.forEach((special) => {
-        singleString += special.title + special.description;
-      });
-      return { animationDuration: `${singleString.length / 6 + 5}s` }
+      if (this.currentSpecials != null) {
+        this.currentSpecials.forEach((special) => {
+          singleString += special.title + special.description;
+        });
+      }
+      return singleString.length
     },
+    tickerDuration() {
+      return { animationDuration: `${this.totalCharsInSpecials / 6 + 5}s` }
+    },
+    tickerSpeed() {
+      const duration = parseInt(`${this.tickerDuration.animationDuration}`, 10)
+      return this.totalCharsInSpecials / duration // char per second
+    },
+    location() {
+      return this.$route.params.store
+    }
   },
   methods: {
     fetchSpecials() {
       this.$store.dispatch({
         type: "fetchSpecials",
-        location: this.$route.params.store,
+        location: this.location
       });
     },
     fetchLooper() {
       this.fetchSpecials();
-      console.log('this.tickerSpeed');
-      console.log(this.tickerSpeed);
+      setTimeout(() => {
+        console.log(this.location.toUpperCase())
+        console.log('total chars in specials')
+        console.log(this.totalCharsInSpecials)
+        console.log('ticker duration');
+        console.log(this.tickerDuration);
+        console.log('ticker speed')
+        console.log(this.tickerSpeed)
+      }, 400);
       this.fetchLoop = setInterval(() => {
         console.log("refreshing specials...");
         this.fetchSpecials();
