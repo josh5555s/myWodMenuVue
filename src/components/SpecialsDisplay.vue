@@ -17,7 +17,7 @@
       <div class="specials-column">
         <ul>
           <h1>Upcoming Specials</h1>
-          <li v-for="special in upcomingSpecials" :key="special.id">
+          <li v-for="special in sortedUpcomingSpecials" :key="special.id">
             <h2>{{ special.title }}</h2>
             <p>{{ special.description }}</p>
             <p>From: {{ getWordDate(special.start) }}</p>
@@ -41,6 +41,13 @@ export default {
   },
   computed: {
     ...mapGetters(["currentSpecials", "upcomingSpecials"]),
+    sortedUpcomingSpecials() {
+      let sortedSpecials = this.upcomingSpecials;
+      sortedSpecials = sortedSpecials.sort((a, b) => {
+        return a["endNumber"] - b["endNumber"];
+      });
+      return this.asc ? sortedSpecials.reverse() : sortedSpecials;
+    },
     currentSpecialsEmpty() {
       return this.currentSpecials !== null && this.currentSpecials.length === 0;
     },
