@@ -89,6 +89,7 @@ export default {
   --app-background-color: rgb(250, 250, 250);
   --primary-text-color: #0d093b;
   --highlight-text-color: mediumseagreen;
+  --specials-highlight-text-color: #0d093b;
   --uplifting-red: rgb(197, 47, 47);
   --balanced-blue: rgb(72, 137, 197);
   --relaxing-purple: rgb(123, 53, 177);
@@ -99,6 +100,7 @@ export default {
   --app-background-color: black;
   --primary-text-color: #c1d448;
   --highlight-text-color: white;
+  --specials-highlight-text-color: white;
   --uplifting-red: rgb(228, 52, 52);
   --balanced-blue: rgb(91, 155, 213);
   --relaxing-purple: rgb(112, 48, 160);

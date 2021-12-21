@@ -89,7 +89,7 @@ h1 {
 
 h2,
 p {
-  color: var(--highlight-text-color);
+  color: var(--specials-highlight-text-color);
 }
 
 .greater-container {

@@ -215,7 +215,7 @@ export default {
     },
     dynamicPriceColor(price) {
       if (this.product === "flower") {
-        if (price === 5) {
+        if (price === 5 || price === 3) {
           return "highlight";
         }
       }
