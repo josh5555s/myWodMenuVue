@@ -1,20 +1,20 @@
 <template>
   <header>
-    <div id="cog">
-      <button
-      @click = "openMenu"
-      ><i class="fas fa-cog"></i>
-      </button>
+    <div id="upper-right">
+      <router-link @click="toggleMenu('close')" :to="`${'/sign-in'}`">
+        <h5 id="sign-in">Sign In</h5>
+      </router-link>
+      <button @click="toggleMenu('toggle')"><i class="fas fa-cog"></i></button>
     </div>
     <div id="flex-container" ref="header">
       <div class="title-container tc-left">
         <h1>{{ title1 }}</h1>
       </div>
       <div v-if="darkMode" id="logo">
-        <router-link to="/"><img :src="require(`@/assets/dark-logo.png`)"/></router-link> 
+        <router-link to="/"><img :src="require(`@/assets/dark-logo.png`)"/></router-link>
       </div>
       <div v-else id="logo">
-        <router-link to="/"><img :src="require(`@/assets/light-logo.png`)"/></router-link> 
+        <router-link to="/"><img :src="require(`@/assets/light-logo.png`)"/></router-link>
       </div>
       <div class="title-container tc-right">
         <h1>{{ title2 }}</h1>
@@ -24,44 +24,50 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
-    return {
-    }
+    return {};
   },
   props: ['darkMode'],
-  emits: ['open-menu'],
+  emits: ['toggle-menu'],
   computed: {
-    ...mapGetters(['title1','title2'])
+    ...mapGetters(['title1', 'title2']),
   },
   methods: {
-    openMenu() {
-      this.$emit('open-menu')
+    toggleMenu(toggle) {
+      this.$emit('toggle-menu', toggle);
     },
     headerHeight() {
-      this.$store.commit('headerHeight', this.$refs.header.clientHeight)
-    }
+      this.$store.commit('headerHeight', this.$refs.header.clientHeight);
+    },
   },
   mounted() {
-    this.headerHeight()
-  }
-}
+    this.headerHeight();
+  },
+};
 </script>
 
 <style>
-#cog {
+#upper-right {
   position: absolute;
   top: 10px;
   right: 10px;
   z-index: 1001;
+  display: flex;
+  flex-direction: row;
 }
 
-#cog button {
+#sign-in {
+  margin: 0 20px 0 0;
+}
+
+#upper-right button {
   background-color: var(--app-background-color);
   color: var(--primary-text-color);
   border-block-color: var(--primary-text-color);
+  height: 25px;
 }
 
 #flex-container {
@@ -113,7 +119,6 @@ h1 {
 /* MEDIA QUERIES */
 /* Tablet */
 @media screen and (max-width: 1080px) {
-
   #flex-container {
     display: flex;
     flex-direction: row;
@@ -124,7 +129,7 @@ h1 {
 
   #title-category,
   #title-menu {
-      width: 23vw;
+    width: 23vw;
   }
 
   #title-category {
@@ -184,7 +189,7 @@ h1 {
     margin-top: 5px;
     width: 70px;
   }
-/* 
+  /* 
   #title-menu {
     margin-left: 15px;
   } */
@@ -195,5 +200,4 @@ h1 {
     font-size: 20px;
   }
 }
-
 </style>

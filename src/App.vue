@@ -7,18 +7,18 @@
     />
   </Drawer>
 
-  <TheHeader :darkMode="darkMode" @open-menu="openMenu" />
+  <TheHeader :darkMode="darkMode" @toggle-menu="toggleMenu" />
   <router-view :fontSize="fontSize"></router-view>
 </template>
 
 <script>
-import TheHeader from "./components/TheHeader.vue";
-import Drawer from "./components/Drawer.vue";
-import DrawerContent from "./components/DrawerContent.vue";
+import TheHeader from './components/TheHeader.vue';
+import Drawer from './components/Drawer.vue';
+import DrawerContent from './components/DrawerContent.vue';
 // import { mapGetters } from 'vuex'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     TheHeader,
     Drawer,
@@ -26,16 +26,18 @@ export default {
   },
   data() {
     return {
-      fontSize: "large",
+      fontSize: 'large',
       darkMode: false,
     };
   },
   methods: {
-    openMenu() {
-      if (this.$refs.LeftDrawer.active) {
-        this.$refs.LeftDrawer.close();
+    toggleMenu(toggle) {
+      if (toggle === 'toggle') {
+        this.$refs.LeftDrawer.active
+          ? this.$refs.LeftDrawer.close()
+          : this.$refs.LeftDrawer.open();
       } else {
-        this.$refs.LeftDrawer.open();
+        this.$refs.LeftDrawer.close();
       }
     },
     updateSelectedThemeSetting(setting) {
@@ -43,40 +45,40 @@ export default {
     },
     updateFontSize(size) {
       this.fontSize = size;
-      console.log("fontSize: " + this.fontSize);
+      console.log('fontSize: ' + this.fontSize);
     },
   },
   mounted() {
     // set page title
-    document.title = "WOD Menu";
+    document.title = 'WOD Menu';
 
     // set 'app-background' class to body tag
     let bodyElement = document.body;
-    bodyElement.classList.add("app-background");
+    bodyElement.classList.add('app-background');
 
     // check for active theme
     let htmlElement = document.documentElement;
-    let theme = localStorage.getItem("theme");
+    let theme = localStorage.getItem('theme');
 
-    if (theme === "dark") {
-      htmlElement.setAttribute("theme", "dark");
+    if (theme === 'dark') {
+      htmlElement.setAttribute('theme', 'dark');
       this.darkMode = true;
     } else {
-      htmlElement.setAttribute("theme", "light");
+      htmlElement.setAttribute('theme', 'light');
       this.darkMode = false;
     }
   },
   watch: {
-    darkMode: function () {
+    darkMode: function() {
       // add/remove class to/from html tag
       let htmlElement = document.documentElement;
 
       if (this.darkMode) {
-        localStorage.setItem("theme", "dark");
-        htmlElement.setAttribute("theme", "dark");
+        localStorage.setItem('theme', 'dark');
+        htmlElement.setAttribute('theme', 'dark');
       } else {
-        localStorage.setItem("theme", "light");
-        htmlElement.setAttribute("theme", "light");
+        localStorage.setItem('theme', 'light');
+        htmlElement.setAttribute('theme', 'light');
       }
     },
   },
@@ -96,7 +98,7 @@ export default {
   --cbd-green: rgb(18, 218, 34);
   --sidebar-background-color: rgba(245, 245, 245, 0.93);
 }
-[theme="dark"] {
+[theme='dark'] {
   --app-background-color: black;
   --primary-text-color: #c1d448;
   --highlight-text-color: white;
@@ -111,7 +113,7 @@ export default {
 body {
   background-color: var(--app-background-color);
   color: var(--primary-text-color);
-  font-family: "Merriweather Sans", sans-serif;
+  font-family: 'Merriweather Sans', sans-serif;
   min-height: 98vh;
 }
 
