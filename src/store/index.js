@@ -42,6 +42,10 @@ const store = createStore({
       state.title1 = 'SIGN';
       state.title2 = 'IN';
     },
+    setCreateAccountTitles(state) {
+      state.title1 = 'CREATE';
+      state.title2 = 'ACCOUNT';
+    },
     menuTitles(state, product) {
       state.title1 = product.toUpperCase();
       state.title2 = 'MENU';
