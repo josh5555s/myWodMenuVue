@@ -1,4 +1,4 @@
-forgot password email reset functionallity
+create forgot password email reset functionallity
 
 sign-in page color theme consistancy (including input background)
 
@@ -21,7 +21,5 @@ hover over flower to show farm and amount left (in the future this could be expa
 can I use algebra to make all ticker scroll speeds exactly the same?
 
 ---- refactoring ----
-
-Split vuex index.js into multiple files
 
 MenuDisplay.vue for loop the two columns

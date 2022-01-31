@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -40,21 +40,21 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(["currentSpecials", "upcomingSpecials"]),
+    ...mapGetters(['currentSpecials', 'upcomingSpecials']),
     sortedUpcomingSpecials() {
       let sortedSpecials = this.upcomingSpecials;
-      sortedSpecials = sortedSpecials.sort((a, b) => {
-        return a["endNumber"] - b["endNumber"];
-      });
+      if (sortedSpecials !== null) {
+        sortedSpecials = sortedSpecials.sort((a, b) => {
+          return a['endNumber'] - b['endNumber'];
+        });
+      }
       return this.asc ? sortedSpecials.reverse() : sortedSpecials;
     },
     currentSpecialsEmpty() {
       return this.currentSpecials !== null && this.currentSpecials.length === 0;
     },
     upcomingSpecialsEmpty() {
-      return (
-        this.upcomingSpecials !== null && this.upcomingSpecials.length === 0
-      );
+      return this.upcomingSpecials !== null && this.upcomingSpecials.length === 0;
     },
   },
   methods: {
@@ -66,12 +66,12 @@ export default {
     },
     fetchSpecials() {
       this.$store.dispatch({
-        type: "fetchSpecials",
+        type: 'fetchSpecials',
         location: this.store,
       });
     },
     specialsTitles() {
-      this.$store.commit("specialsTitles");
+      this.$store.commit('specialsTitles');
     },
   },
   created() {
