@@ -1,25 +1,39 @@
-create forgot password email reset functionallity
+## LOGIC
 
-sign-in page color theme consistancy (including input background)
+show order info if there is one, suggest order if there isn't one.
+
+use group based permission to only page scroll and specials ticker for the store accounts (and guest and admin), hide scroll from menu for all others
+
+create forgot password email reset functionallity
 
 fix the dynamic titles on created so that they are caps and cedar mill is two words
 
 once users can be logged in, the menu could have a personal ratings (like app stars ratings), plus text notes, so that it because a personal journal. This would come up when you click the product for more information, which also gives the option to add to cart. it could also show community average rating before that user adds there personal rating
 
-New color theme variables for 1/2OZ and \$3 grams
-
 figure out why scroll occurs on the specials display page if it was started on the products display page
-
-add side margins if the list goes below the screen in two column mode (or something equivelant), in order to make the list fit
-
-add the ability to zoom in and out, and manualy switch between one column and two.
 
 hover over flower to show farm and amount left (in the future this could be expanded to place a pre-order on a personal account)
 
----- low priority ----
+## STYLE
+
+make the logged in username the same hight as the sign-in button.
+
+sign-in page color theme consistancy (including input background)
+
+New color theme variables for 1/2OZ and \$3 grams
+
+add the ability to zoom in and out, and manualy switch between one column and two.
+
+add side margins if the list goes below the screen in two column mode (or something equivelant), in order to make the list fit
+
+## LOW PRIORITY
+
+add favorite strains section to userDash
 
 can I use algebra to make all ticker scroll speeds exactly the same?
 
----- refactoring ----
+## REFACTORING
 
 MenuDisplay.vue for loop the two columns
+
+Make CreateAccount.vue and SignIn.vue the same component?

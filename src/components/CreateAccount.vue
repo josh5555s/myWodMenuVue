@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div class="inner-container">
+      <p v-if="!!error">{{ error }}</p>
       <form id="sign-form" @submit.prevent="">
         <div class="form-input">
           <label for="username">Username: </label>
@@ -61,11 +62,13 @@ export default {
       emailInput: '',
       passwordInput: '',
       password2Input: '',
+      isLoading: false,
+      error: null,
     };
   },
   computed: {},
   methods: {
-    submitCreateAccount() {
+    async submitCreateAccount() {
       if (this.userNameInput === '') {
         console.log('error: missing username');
         // this.$emit('error-modal');
@@ -75,34 +78,15 @@ export default {
         console.log('error: passwords do not match');
         // this.$emit('error-modal');
       }
-      fetch('http://127.0.0.1:8079/users_api/create/', {
-        // fetch('https://api.westernoregondispensary.com/strains', {
-        method: 'POST',
-        accept: 'application/json',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
+      try {
+        await this.$store.dispatch('createAccount', {
           username: this.usernameInput,
           email: this.emailInput,
           password: this.passwordInput,
-        }),
-      })
-        .then((response) => {
-          console.log(this.usernameInput);
-          console.log(this.passwordInput);
-          console.log(response.json());
-          if (response.ok) {
-            this.$router.push({ path: '/sign-in' });
-          } else {
-            throw new Error('too bad, it failed');
-            // if account already exists, give error message that says so
-          }
-        })
-        .catch((error) => {
-          this.error = error.message;
-          console.log(error);
         });
+      } catch (error) {
+        this.error = error.message || 'Failed to create account';
+      }
     },
     setCreateAccountTitles() {
       this.$store.commit('setCreateAccountTitles');

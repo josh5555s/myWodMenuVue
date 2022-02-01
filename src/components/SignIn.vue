@@ -39,43 +39,24 @@ export default {
     return {
       usernameInput: '',
       passwordInput: '',
-      authToken: '',
     };
   },
   computed: {},
   methods: {
-    submitSignIn() {
+    async submitSignIn() {
       if (this.userNameInput === '') {
         console.log('error: missing username');
         // this.$emit('error-modal');
         return;
       }
-      fetch('http://127.0.0.1:8079/users_api/token/', {
-        // fetch('https://api.westernoregondispensary.com/strains', {
-        method: 'POST',
-        accept: 'application/json',
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-        },
-        body: JSON.stringify({
+      try {
+        await this.$store.dispatch('requestToken', {
           username: this.usernameInput,
           password: this.passwordInput,
-        }),
-      })
-        .then((response) => {
-          console.log(this.usernameInput);
-          console.log(this.passwordInput);
-          console.log(response.json());
-          if (response.ok) {
-            //
-          } else {
-            throw new Error('too bad, it failed');
-          }
-        })
-        .catch((error) => {
-          this.error = error.message;
-          console.log(error);
         });
+      } catch (error) {
+        this.error = error.message || 'Failed to receive auth token';
+      }
     },
     setSignInTitles() {
       this.$store.commit('setSignInTitles');

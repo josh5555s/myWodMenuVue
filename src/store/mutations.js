@@ -21,6 +21,10 @@ export default {
     state.title1 = 'SIGN';
     state.title2 = 'IN';
   },
+  setMyWodTitles(state) {
+    state.title1 = 'MY';
+    state.title2 = 'WOD';
+  },
   setCreateAccountTitles(state) {
     state.title1 = 'CREATE';
     state.title2 = 'ACCOUNT';

@@ -1,8 +1,14 @@
 <template>
   <header>
     <div id="upper-right">
-      <router-link @click="toggleMenu('close')" :to="`${'/sign-in'}`">
-        <h5 id="sign-in">Sign In</h5>
+      <router-link
+        v-if="!isAuthenticated"
+        @click="toggleMenu('close')"
+        :to="`${'/sign-in'}`"
+        ><h5 id="sign-in">Sign In</h5>
+      </router-link>
+      <router-link v-else @click="toggleMenu('close')" :to="`${'/'}`"
+        ><h5 id="user-greeting">{{ userGreeting }}</h5>
       </router-link>
       <button @click="toggleMenu('toggle')"><i class="fas fa-cog"></i></button>
     </div>
@@ -33,7 +39,10 @@ export default {
   props: ['darkMode'],
   emits: ['toggle-menu'],
   computed: {
-    ...mapGetters(['title1', 'title2']),
+    ...mapGetters(['title1', 'title2', 'username', 'isAuthenticated']),
+    userGreeting() {
+      return `Hello, ${this.username}.`;
+    },
   },
   methods: {
     toggleMenu(toggle) {
