@@ -1,0 +1,47 @@
+body {
+  background-color: var(--app-background-color);
+  color: var(--primary-text-color);
+  font-family: 'Merriweather Sans', sans-serif;
+  min-height: 98vh;
+}
+
+a {
+  text-decoration: none;
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  cursor: pointer;
+  font-size: 24px;
+}
+
+h2 {
+  color: var(--primary-text-color);
+  margin-block: 0.5em;
+}
+
+/* mouse over button */
+a:hover {
+  color: var(--highlight-text-color);
+}
+
+a:focus {
+  outline: 0;
+}
+
+.cap {
+  text-transform: capitalize;
+}
+
+#select-menu {
+  margin: auto;
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Phone */
+@media screen and (max-width: 400px) {
+  a {
+    font-size: 20px;
+    margin-block: 0.4em;
+  }
+}

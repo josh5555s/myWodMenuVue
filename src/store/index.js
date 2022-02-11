@@ -1,30 +1,21 @@
 import { createStore } from 'vuex';
-import rootMutations from './mutations';
-import rootActions from './actions';
-import rootGetters from './getters';
 import authModule from './auth/index';
+import productsModule from './products/index';
+import specialsModule from './specials/index';
+import uiModule from './UI/index';
 
 const store = createStore({
   modules: {
     auth: authModule,
+    products: productsModule,
+    specials: specialsModule,
+    ui: uiModule,
   },
   state() {
-    return {
-      productionProductsApi: true,
-      productionSpecialsApi: true,
-      title1: 'SELECT',
-      title2: 'STORE',
-      scrollSpeed: 40,
-      alreadyScrolling: false,
-      screensSetting: '1 of 1',
-      currentSpecials: null,
-      upcomingSpecials: null,
-      headerHeight: 0,
-      columnHeight: 0,
-    };
+    return {};
   },
-  mutations: rootMutations,
-  actions: rootActions,
-  getters: rootGetters,
+  mutations: {},
+  actions: {},
+  getters: {},
 });
 export default store;

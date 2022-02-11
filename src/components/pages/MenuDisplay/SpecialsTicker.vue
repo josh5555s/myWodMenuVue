@@ -14,19 +14,19 @@
 </template>
 
 <script>
-import { ref, onMounted, onUnmounted } from "vue";
-import { mapGetters } from "vuex";
+import { ref, onMounted, onUnmounted } from 'vue';
+import { mapGetters } from 'vuex';
 
 export default {
   setup() {
     const windowHeight = ref(window.innerHeight);
     onMounted(() => {
-      window.addEventListener("resize", () => {
+      window.addEventListener('resize', () => {
         windowHeight.value = window.innerHeight;
       });
     });
     onUnmounted(() => {
-      window.removeEventListener("resize", () => {
+      window.removeEventListener('resize', () => {
         windowHeight.value = window.innerHeight;
       });
     });
@@ -36,12 +36,12 @@ export default {
   },
   data() {
     return {
-      appendedSpecials: "",
+      appendedSpecials: '',
       delayed: false,
     };
   },
   computed: {
-    ...mapGetters(["headerHeight", "columnHeight", "currentSpecials"]),
+    ...mapGetters(['headerHeight', 'columnHeight', 'currentSpecials']),
     fullScreen() {
       return window.innerWidth > 1080;
     },
@@ -49,45 +49,45 @@ export default {
       return this.windowHeight - this.headerHeight - this.columnHeight > 110;
     },
     totalCharsInSpecials() {
-      let singleString = "";
+      let singleString = '';
       if (this.currentSpecials != null) {
         this.currentSpecials.forEach((special) => {
           singleString += special.title + special.description;
         });
       }
-      return singleString.length
+      return singleString.length;
     },
     tickerDuration() {
-      return { animationDuration: `${this.totalCharsInSpecials / 6 + 5}s` }
+      return { animationDuration: `${this.totalCharsInSpecials / 6 + 5}s` };
     },
     tickerSpeed() {
-      const duration = parseInt(`${this.tickerDuration.animationDuration}`, 10)
-      return this.totalCharsInSpecials / duration // char per second
+      const duration = parseInt(`${this.tickerDuration.animationDuration}`, 10);
+      return this.totalCharsInSpecials / duration; // char per second
     },
     location() {
-      return this.$route.params.store
-    }
+      return this.$route.params.store;
+    },
   },
   methods: {
     fetchSpecials() {
       this.$store.dispatch({
-        type: "fetchSpecials",
-        location: this.location
+        type: 'fetchSpecials',
+        location: this.location,
       });
     },
     fetchLooper() {
       this.fetchSpecials();
       setTimeout(() => {
-        console.log(this.location.toUpperCase())
-        console.log('total chars in specials')
-        console.log(this.totalCharsInSpecials)
-        console.log('ticker duration');
-        console.log(this.tickerDuration);
-        console.log('ticker speed')
-        console.log(this.tickerSpeed)
+        // console.log(this.location.toUpperCase())
+        // console.log('total chars in specials')
+        // console.log(this.totalCharsInSpecials)
+        // console.log('ticker duration');
+        // console.log(this.tickerDuration);
+        // console.log('ticker speed')
+        // console.log(this.tickerSpeed)
       }, 400);
       this.fetchLoop = setInterval(() => {
-        console.log("refreshing specials...");
+        console.log('refreshing specials...');
         this.fetchSpecials();
       }, 120000);
     },

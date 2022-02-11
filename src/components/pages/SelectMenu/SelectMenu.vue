@@ -13,8 +13,8 @@
     <ul v-else class="select-menu">
       <li v-for="(product, i) in products" v-bind:key="product">
         <router-link :to="`${location}/${products[i]}`">
-          <h2>
-            {{ capitalized(product) }}
+          <h2 class="cap">
+            {{ product }}
           </h2>
         </router-link>
       </li>
@@ -27,26 +27,26 @@ export default {
   data() {
     return {
       stores: [
-        { url: "cedarMill", name: "Cedar Mill" },
-        { url: "hillsboro", name: "Hillsboro" },
-        { url: "newberg", name: "Newberg" },
-        { url: "sherwood", name: "Sherwood" },
+        { url: 'cedarMill', name: 'Cedar Mill' },
+        { url: 'hillsboro', name: 'Hillsboro' },
+        { url: 'newberg', name: 'Newberg' },
+        { url: 'sherwood', name: 'Sherwood' },
       ],
       products: [
-        "specials",
-        "flower",
-        "preroll",
-        "cartridge",
-        "concentrate",
-        "edible",
-        "tincture",
-        "topical",
+        'specials',
+        'flower',
+        'preroll',
+        'cartridge',
+        'concentrate',
+        'edible',
+        'tincture',
+        'topical',
       ],
     };
   },
   computed: {
     storeSelector() {
-      return this.$route.path === "/";
+      return this.$route.path === '/';
     },
     location() {
       return this.$route.path;
@@ -55,17 +55,14 @@ export default {
   methods: {
     updateTitles() {
       if (this.storeSelector) {
-        this.$store.commit("storeTitles");
+        this.$store.commit('storeTitles');
       } else {
-        this.$store.commit("productTitles");
+        this.$store.commit('productTitles');
       }
-    },
-    capitalized(product) {
-      return product[0].toUpperCase() + product.substring(1);
     },
   },
   created() {
-    document.title = "WOD Menu";
+    document.title = 'WOD Menu';
   },
   mounted() {
     this.updateTitles();

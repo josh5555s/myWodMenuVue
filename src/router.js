@@ -2,12 +2,12 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { trackRouter } from 'vue-gtag-next';
 // import store from './store/index'
 
-import SelectMenu from './components/SelectMenu.vue';
-import CreateAccount from './components/CreateAccount.vue';
-import SignIn from './components/SignIn.vue';
-import UserDash from './components/UserDash.vue';
-import MenuDisplay from './components/MenuDisplay.vue';
-import SpecialsDisplay from './components/SpecialsDisplay.vue';
+import SelectMenu from './components/pages/SelectMenu/SelectMenu.vue';
+import CreateAccount from './components/pages/CreateAccount/CreateAccount.vue';
+import SignIn from './components/pages/SignIn/SignIn.vue';
+import UserDash from './components/pages/UserDash/UserDash.vue';
+import MenuDisplay from './components/pages/MenuDisplay/MenuDisplay.vue';
+import SpecialsDisplay from './components/pages/SpecialsDisplay/SpecialsDisplay.vue';
 
 const router = createRouter({
   history: createWebHistory(),

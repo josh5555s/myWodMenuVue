@@ -1,8 +1,14 @@
+## TEMPLATE
+
+userDash: borrow order display elements from wod-admin
+
 ## LOGIC
 
-show order info if there is one, suggest order if there isn't one.
+MenuDisplay: scroll func needs fixed
 
-use group based permission to only page scroll and specials ticker for the store accounts (and guest and admin), hide scroll from menu for all others
+Menu Display: use group based permission to only page scroll and specials ticker for the store accounts (and guest and admin), hide scroll from menu for all others
+
+UserDash: show order info if there is one, suggest placing an order if there isn't one.
 
 create forgot password email reset functionallity
 
@@ -26,14 +32,12 @@ add the ability to zoom in and out, and manualy switch between one column and tw
 
 add side margins if the list goes below the screen in two column mode (or something equivelant), in order to make the list fit
 
+## REFACTORING
+
+Make CreateAccount.vue and SignIn.vue the same component?
+
 ## LOW PRIORITY
 
 add favorite strains section to userDash
 
 can I use algebra to make all ticker scroll speeds exactly the same?
-
-## REFACTORING
-
-MenuDisplay.vue for loop the two columns
-
-Make CreateAccount.vue and SignIn.vue the same component?
