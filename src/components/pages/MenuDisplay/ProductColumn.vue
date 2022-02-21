@@ -1,20 +1,22 @@
 <template>
   <div id="table-container">
-    <table id="table" v-for="product in tableData" :key="product">
+    <table id="table" v-for="(product, rowIndex) in tableData" :key="product">
+      <column-sorter
+        :tableIndex="tableIndex"
+        :rowIndex="rowIndex"
+        :sortBy="sortBy"
+        :flipDirection="flipDirection"
+        @update-sort-by="updateSortBy"
+      ></column-sorter>
+
       <tr class="flower-info-container">
         <td
           class="product-name"
           :class="[dynamicNameClass, dynamicPriceColor(product.price)]"
-          @click="updateSortBy('name')"
         >
           {{ product.productName }}
         </td>
-        <td
-          v-if="hasTest"
-          class="product-test"
-          :class="dynamicTestClass"
-          @click="updateSortBy('test')"
-        >
+        <td v-if="hasTest" class="product-test" :class="dynamicTestClass">
           {{ product.thc }}%, {{ product.cbd }}%
         </td>
         <td v-if="hasWeight" class="product-weight" :class="dynamicWeightClass">
@@ -24,14 +26,12 @@
           v-if="this.product !== 'topical'"
           class="product-type"
           :class="[dynamicTypeClass, dynamicTypeColor(product.type)]"
-          @click="updateSortBy('type')"
         >
           {{ product.type }}
         </td>
         <td
           class="product-price"
           :class="[dynamicPriceClass, dynamicPriceColor(product.price)]"
-          @click="updateSortBy('price')"
         >
           ${{ product.price }}
         </td>
@@ -39,14 +39,42 @@
     </table>
   </div>
 </template>
+
 <script>
+import ColumnSorter from './ColumnSorter.vue';
+
 export default {
-  props: ['tableData', 'sortBy', 'product'],
+  components: {
+    ColumnSorter,
+  },
+  props: ['tableData', 'sortBy', 'product', 'tableIndex', 'flipDirection'],
   emits: ['flip-direction', 'set-sort-by'],
   data() {
     return {
       autoTesting: ['flower', 'preroll', 'cartridge', 'concentrate'],
       productsWithWeight: ['preroll', 'cartridge', 'concentrate'],
+      // sortByColumns: [
+      //   {
+      //     column: 'name',
+      //     active: false,
+      //     reverse: false,
+      //   },
+      //   {
+      //     column: 'test',
+      //     active: false,
+      //     reverse: false,
+      //   },
+      //   {
+      //     column: 'type',
+      //     active: true,
+      //     reverse: false,
+      //   },
+      //   {
+      //     column: 'price',
+      //     active: false,
+      //     reverse: false,
+      //   },
+      // ],
     };
   },
   computed: {
@@ -80,6 +108,17 @@ export default {
         event_label: 'user clicked on a product column',
         value: byThis,
       });
+      // this.sortByColumns.forEach((column) => {
+      //   if (column.column === byThis) {
+      //     if (column.active === true) {
+      //       column.reverse = !column.reverse;
+      //     } else {
+      //       column.active = true;
+      //     }
+      //   } else {
+      //     column.active = false;
+      //   }
+      // });
     },
     dynamicTypeColor(type) {
       if (type == 'Hybrid' || type == 'Balanced') {
@@ -102,3 +141,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.active {
+  background-color: var(--app-background-color);
+  color: var(--highlight-text-color);
+}
+</style>

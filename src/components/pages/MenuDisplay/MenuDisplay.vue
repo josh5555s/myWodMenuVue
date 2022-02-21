@@ -1,10 +1,13 @@
 <template>
   <div id="columns-container" ref="column">
     <product-column
-      v-for="table in tables"
+      v-for="(table, tableIndex) in tables"
       :key="table"
+      :tableIndex="tableIndex"
       :tableData="table"
       :product="product"
+      :sortBy="sortBy"
+      :flipDirection="flipDirection"
       @set-sort-by="setSortBy"
     ></product-column>
   </div>
@@ -62,6 +65,8 @@ export default {
     sortedData() {
       let sortedData = [];
       sortedData = [...this.products];
+      let reverseType = [...this.products];
+      reverseType.reverse();
       if (this.sortBy === 'name') {
         sortedData = sortedData.sort((a, b) => {
           let aProp = a.productName.toLowerCase(),
@@ -82,7 +87,7 @@ export default {
         sortedData = sortedData.sort((a, b) => a.price - b.price);
         return this.flipDirection ? sortedData.reverse() : sortedData;
       } else if (this.sortBy === 'type') {
-        return this.products;
+        return this.flipDirection ? [...this.products].reverse() : this.products;
       } else {
         console.log(`This shouldn't happen, but sortBy is: ${this.sortBy}`);
         return 'oops';
@@ -110,20 +115,20 @@ export default {
         this.flipDirection = false;
       }
     },
-    updateSortBy(byThis) {
-      if (this.sortBy === byThis) {
-        this.swapFlipDirection();
-      } else {
-        this.sortBy = byThis;
-        this.flipDirection = false;
-      }
-      this.$gtag.event('columnClick', {
-        event_category: 'interaction',
-        event_label: 'user clicked on a product column',
-        value: byThis,
-      });
-      console.log(`sortBy: ${this.sortBy}, flipDirection: ${this.flipDirection}`);
-    },
+    // updateSortBy(byThis) {
+    //   if (this.sortBy === byThis) {
+    //     this.swapFlipDirection();
+    //   } else {
+    //     this.sortBy = byThis;
+    //     this.flipDirection = false;
+    //   }
+    //   this.$gtag.event('columnClick', {
+    //     event_category: 'interaction',
+    //     event_label: 'user clicked on a product column',
+    //     value: byThis,
+    //   });
+    //   console.log(`sortBy: ${this.sortBy}, flipDirection: ${this.flipDirection}`);
+    // },
     columnHeight() {
       setTimeout(() => {
         this.$store.commit('columnHeight', this.$refs.column.clientHeight);
