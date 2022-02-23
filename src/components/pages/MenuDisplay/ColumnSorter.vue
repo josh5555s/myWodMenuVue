@@ -35,3 +35,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.active {
+  background-color: var(--app-background-color);
+  color: var(--highlight-text-color);
+}
+</style>

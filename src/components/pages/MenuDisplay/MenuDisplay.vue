@@ -5,7 +5,7 @@
       :key="table"
       :tableIndex="tableIndex"
       :tableData="table"
-      :product="product"
+      :productType="productType"
       :sortBy="sortBy"
       :flipDirection="flipDirection"
       @set-sort-by="setSortBy"
@@ -32,7 +32,7 @@ export default {
       userType: 'none',
       logged: false,
       store: this.$route.params.store,
-      product: this.$route.params.product,
+      productType: this.$route.params.product,
       fetchLoop: '',
       sortBy: 'type',
       flipDirection: false,
@@ -115,20 +115,6 @@ export default {
         this.flipDirection = false;
       }
     },
-    // updateSortBy(byThis) {
-    //   if (this.sortBy === byThis) {
-    //     this.swapFlipDirection();
-    //   } else {
-    //     this.sortBy = byThis;
-    //     this.flipDirection = false;
-    //   }
-    //   this.$gtag.event('columnClick', {
-    //     event_category: 'interaction',
-    //     event_label: 'user clicked on a product column',
-    //     value: byThis,
-    //   });
-    //   console.log(`sortBy: ${this.sortBy}, flipDirection: ${this.flipDirection}`);
-    // },
     columnHeight() {
       setTimeout(() => {
         this.$store.commit('columnHeight', this.$refs.column.clientHeight);
@@ -138,7 +124,7 @@ export default {
       try {
         await this.$store.dispatch('fetchProducts', {
           store: this.store,
-          product: this.product,
+          product: this.productType,
         });
       } catch (error) {
         this.error = error.message || 'Failed to fetch products';
@@ -191,14 +177,14 @@ export default {
       }
     },
     menuTitles() {
-      this.$store.commit('menuTitles', this.product);
+      this.$store.commit('menuTitles', this.productType);
       if (this.screensSetting !== '1 of 1') {
         this.$emit('menu-number');
       }
     },
   },
   created() {
-    document.title = `${this.store} ${this.product}`;
+    document.title = `${this.store} ${this.productType}`;
     this.loopFetchProducts();
     this.menuTitles();
   },
@@ -242,11 +228,11 @@ export default {
   display: flex;
   justify-content: space-around;
 }
-#table-container {
+.table-container {
   width: 50%;
 }
 
-#table {
+.table {
   display: flex;
   flex-direction: column;
 }
@@ -301,7 +287,7 @@ td {
     margin-top: 0px;
   }
 
-  #table-container {
+  .table-container {
     width: 100%;
   }
 

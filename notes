@@ -1,24 +1,39 @@
+add "logout" option after the "Hello, User". Direct "Hello, User" to the UserDash.
+
+django: the shopping cart data will be stored serverside, so that it persists with making an order, or if you switch devices.
+
 ## TEMPLATE
 
-userDash: borrow order display elements from wod-admin
+userDash-order:
+
+- borrow order display elements from wod-admin
+
+userDash-cart:
+
+- create dummy data
+- create formating
+
+userDash-account:
+
+- create UI for changing email, username
+
+ProductRow:
+
+- select quantity
 
 ## LOGIC
 
-MenuDisplay: scroll func needs fixed
-
-Menu Display: use group based permission to only page scroll and specials ticker for the store accounts (and guest and admin), hide scroll from menu for all others
+create forgot password email reset functionallity
 
 UserDash: show order info if there is one, suggest placing an order if there isn't one.
 
-create forgot password email reset functionallity
+Menu Display: use group based permission to only page scroll and specials ticker for the store accounts (and guest and admin), hide scroll from menu for all others
+
+MenuDisplay: scroll func needs fixed
 
 fix the dynamic titles on created so that they are caps and cedar mill is two words
 
-once users can be logged in, the menu could have a personal ratings (like app stars ratings), plus text notes, so that it because a personal journal. This would come up when you click the product for more information, which also gives the option to add to cart. it could also show community average rating before that user adds there personal rating
-
 figure out why scroll occurs on the specials display page if it was started on the products display page
-
-hover over flower to show farm and amount left (in the future this could be expanded to place a pre-order on a personal account)
 
 ## STYLE
 
@@ -28,16 +43,18 @@ sign-in page color theme consistancy (including input background)
 
 New color theme variables for 1/2OZ and \$3 grams
 
-add the ability to zoom in and out, and manualy switch between one column and two.
+<!-- add the ability to zoom in and out, and manualy switch between one column and two. -->
 
-add side margins if the list goes below the screen in two column mode (or something equivelant), in order to make the list fit
+<!-- add side margins if the list goes below the screen in two column mode (or something equivelant), in order to make the list fit -->
 
 ## REFACTORING
 
-Make CreateAccount.vue and SignIn.vue the same component?
+<!-- Make CreateAccount.vue and SignIn.vue the same component? -->
 
 ## LOW PRIORITY
 
-add favorite strains section to userDash
+<!-- add favorite strains section to userDash -->
 
-can I use algebra to make all ticker scroll speeds exactly the same?
+<!-- once users can be logged in, the menu could have a personal ratings (like app stars ratings), plus text notes, so that it because a personal journal. This would come up when you click the product for more information, which also gives the option to add to cart. it could also show community average rating before that user adds there personal rating -->
+
+<!-- can I use algebra to make all ticker scroll speeds exactly the same? -->
