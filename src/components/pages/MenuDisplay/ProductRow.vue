@@ -1,11 +1,13 @@
 <template>
-  <div :class="{ selected: isSelected }" @click="displayProduct(product)">
-    <tr class="flower-info-container">
+  <div :class="{ selected: isSelected }">
+    <tr class="flower-info-container" @click="displayProduct(product)">
       <td
         class="product-name"
         :class="[dynamicNameClass, dynamicPriceColor(product.price)]"
       >
-        {{ product.productName }}
+        <a>
+          {{ product.productName }}
+        </a>
       </td>
       <td v-if="hasTest" class="product-test" :class="dynamicTestClass">
         {{ product.thc }}%, {{ product.cbd }}%
@@ -30,6 +32,12 @@
 
     <tr v-if="isSelected" class="flower-info-container">
       <td class="farm-name">by {{ product.farm }}</td>
+    </tr>
+
+    <tr v-if="isSelected" class="flower-info-container">
+      <td class="quantity-selector">Select quantity:</td>
+      <input v-if="productType !== 'flower'" type="text" value="1" />
+      <select v-else> </select>
       <td class="add-to-cart active">
         <button>Add To Cart</button>
       </td>

@@ -23,9 +23,13 @@ ProductRow:
 
 ## LOGIC
 
-create forgot password email reset functionallity
+UserDash-order:
 
-UserDash: show order info if there is one, suggest placing an order if there isn't one.
+- show order info if there is one, suggest placing an order if there isn't one.
+
+UserDash-account:
+
+- create forgot password email reset functionallity
 
 Menu Display: use group based permission to only page scroll and specials ticker for the store accounts (and guest and admin), hide scroll from menu for all others
 

@@ -76,6 +76,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+a {
+  text-decoration: none;
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  cursor: pointer;
+  font-size: 24px;
+}
+
 #column-container {
   display: flex;
   justify-content: center;

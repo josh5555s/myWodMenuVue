@@ -207,6 +207,13 @@ export default {
 </script>
 
 <style lang="scss">
+a {
+  text-decoration: none;
+  background: none !important;
+  border: none;
+  padding: 0 !important;
+  cursor: pointer;
+}
 .blue {
   color: var(--balanced-blue);
 }
