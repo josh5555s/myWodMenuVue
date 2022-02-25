@@ -9,6 +9,7 @@ export default {
       products: [],
       productsScreen1of2: [],
       productsScreen2of2: [],
+      flowerPricePoints: [],
     };
   },
   mutations,

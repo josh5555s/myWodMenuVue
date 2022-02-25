@@ -13,4 +13,22 @@ export default {
         }
       });
   },
+  readFlowerPricePoints(context) {
+    fetch(context.getters.readFlowerPricePointUrl)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          console.log(response);
+        }
+      })
+      .then((data) => {
+        context.commit('setFlowerPricePoints', { flowerPricePoints: data });
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log('error in read flower price points in actions.js');
+        this.error = 'Failed to fetch flower price points';
+      });
+  },
 };

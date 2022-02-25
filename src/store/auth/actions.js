@@ -1,6 +1,13 @@
-import router from '/app/src/router.js';
-
 export default {
+  checkLocalToken(context) {
+    const token = localStorage.getItem('token');
+    if (token) {
+      context.commit('setToken', {
+        token: token,
+      });
+      context.dispatch('viewAccount');
+    }
+  },
   async createAccount(context, payload) {
     const response = await fetch('http://127.0.0.1:8079/users_api/create/', {
       // fetch('https://api.westernoregondispensary.com/strains', {
@@ -69,7 +76,6 @@ export default {
     console.log(responseData);
 
     if (response.ok) {
-      router.push({ path: '/user-dash' });
       context.commit('setUser', {
         id: responseData.id,
         username: responseData.username,

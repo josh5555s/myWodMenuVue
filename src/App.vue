@@ -49,7 +49,12 @@ export default {
       console.log('fontSize: ' + this.fontSize);
     },
   },
+  created() {
+    this.$store.dispatch('checkLocalToken');
+  },
   mounted() {
+    this.$store.dispatch('readFlowerPricePoints');
+
     // set page title
     document.title = 'WOD Menu';
 

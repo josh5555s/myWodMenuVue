@@ -1,4 +1,7 @@
 export default {
+  setFlowerPricePoints(state, payload) {
+    state.flowerPricePoints = [...payload.flowerPricePoints.reverse()];
+  },
   processProducts(state, payload) {
     let data1o1 = payload.products;
     data1o1.forEach((item) => {

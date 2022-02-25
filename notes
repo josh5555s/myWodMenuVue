@@ -17,10 +17,6 @@ userDash-account:
 
 - create UI for changing email, username
 
-ProductRow:
-
-- select quantity
-
 ## LOGIC
 
 UserDash-order:
@@ -40,6 +36,8 @@ fix the dynamic titles on created so that they are caps and cedar mill is two wo
 figure out why scroll occurs on the specials display page if it was started on the products display page
 
 ## STYLE
+
+ProductRow: add styles to buttons
 
 make the logged in username the same hight as the sign-in button.
 

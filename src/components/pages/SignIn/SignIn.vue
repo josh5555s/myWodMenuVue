@@ -34,6 +34,7 @@
 </template>
 
 <script>
+// import router from '/app/src/router.js';
 export default {
   data() {
     return {
@@ -54,6 +55,7 @@ export default {
           username: this.usernameInput,
           password: this.passwordInput,
         });
+        this.$router.push({ path: '/user-dash' });
       } catch (error) {
         this.error = error.message || 'Failed to receive auth token';
       }

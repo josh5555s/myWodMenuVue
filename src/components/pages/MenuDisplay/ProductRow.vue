@@ -1,6 +1,6 @@
 <template>
   <div :class="{ selected: isSelected }">
-    <tr class="flower-info-container" @click="displayProduct(product)">
+    <tr class="flower-info-container" @click="displayProduct">
       <td
         class="product-name"
         :class="[dynamicNameClass, dynamicPriceColor(product.price)]"
@@ -34,18 +34,48 @@
       <td class="farm-name">by {{ product.farm }}</td>
     </tr>
 
-    <tr v-if="isSelected" class="flower-info-container">
-      <td class="quantity-selector">Select quantity:</td>
-      <input v-if="productType !== 'flower'" type="text" value="1" />
-      <select v-else> </select>
+    <tr v-if="isSelected && isAuthenticated" class="flower-info-container ">
+      <td class="quantity-selector mt">Select quantity:</td>
+      <input
+        v-if="productType !== 'flower'"
+        type="text"
+        value="1"
+        @change="updateSelectedQuantity"
+      />
+
+      <select
+        v-else
+        v-model="selectedFlowerQuantity"
+        name="Select quantity"
+        id="selectedFlowerQuantity"
+        @change="updateSelectedQuantity"
+      >
+        <option v-for="flowerPrice in flowerPriceBreaks" :key="flowerPrice">
+          {{ flowerPrice.weight }}G (${{ flowerPrice.price }})
+        </option>
+      </select>
+
       <td class="add-to-cart active">
-        <button>Add To Cart</button>
+        <button @click="addToCart(product)">Add To Cart</button>
+      </td>
+    </tr>
+
+    <tr v-if="isSelected && !isAuthenticated" class="flower-info-container ">
+      <td class="quantity-selector mt">
+        <router-link
+          v-if="!isAuthenticated"
+          @click="toggleMenu('close')"
+          :to="`${'/sign-in'}`"
+        >
+          Sign in to make an online order!
+        </router-link>
       </td>
     </tr>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   props: ['product', 'productType'],
   data() {
@@ -53,9 +83,23 @@ export default {
       autoTesting: ['flower', 'preroll', 'cartridge', 'concentrate'],
       productsWithWeight: ['preroll', 'cartridge', 'concentrate'],
       isSelected: false,
+      selectedFlowerQuantity: '',
     };
   },
   computed: {
+    ...mapGetters(['flowerPricePoints', 'isAuthenticated']),
+    flowerPriceBreaks() {
+      const priceBreaksObj = this.flowerPricePoints.filter(
+        (point) => point.g1 == this.product.price
+      )[0];
+      const priceArray = Object.values(priceBreaksObj);
+      const weightArray = Object.keys(priceBreaksObj);
+      const priceObjects = weightArray.map((weight, i) => {
+        const numWeight = parseInt(weight.substring(1, weight.length), 10);
+        return { weight: numWeight, price: priceArray[i] };
+      });
+      return priceObjects;
+    },
     hasWeight() {
       return this.productsWithWeight.indexOf(this.productType) !== -1;
     },
@@ -97,9 +141,14 @@ export default {
         }
       }
     },
-    displayProduct(product) {
+    displayProduct() {
       this.isSelected = !this.isSelected;
-      console.log(product);
+      if (this.isSelected) {
+        this.selectedFlowerQuantity = `${this.flowerPriceBreaks[0].weight}G ($${this.flowerPriceBreaks[0].price})`;
+      }
+    },
+    addToCart(product) {
+      console.log(product, this.selectedFlowerQuantity);
     },
   },
 };
@@ -117,5 +166,9 @@ export default {
 
 .farm-name {
   font-style: italic;
+}
+
+.mt {
+  padding-top: 15px;
 }
 </style>

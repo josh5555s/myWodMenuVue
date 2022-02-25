@@ -1,27 +1,29 @@
 <template>
-  <nav>
-    <ul>
-      <li v-for="view in dashViews" :key="view" @click="setDashView(view)">
-        <a>{{ view }}</a>
-      </li>
-    </ul>
-  </nav>
+  <div>
+    <nav>
+      <ul>
+        <li v-for="view in dashViews" :key="view" @click="setDashView(view)">
+          <a>{{ view }}</a>
+        </li>
+      </ul>
+    </nav>
 
-  <div v-if="dashView === 'shopping cart'" class="container">
-    <h2>Shopping Cart Goes Here!</h2>
-  </div>
+    <div v-if="dashView === 'shopping cart'" class="container">
+      <h2>Shopping Cart Goes Here!</h2>
+    </div>
 
-  <div v-if="dashView === 'orders'" class="container">
-    <h2>You have not yet placed an order for pickup, would you like to?</h2>
-  </div>
+    <div v-if="dashView === 'orders'" class="container">
+      <h2>You have not yet placed an order for pickup, would you like to?</h2>
+    </div>
 
-  <div v-if="dashView === 'account details'" class="container">
-    <h2>{{ username }}</h2>
-    <h2>{{ email }}</h2>
-  </div>
+    <div v-if="dashView === 'account details'" class="container">
+      <h2>{{ username }}</h2>
+      <h2>{{ email }}</h2>
+    </div>
 
-  <div v-if="dashView === 'custom settings'" class="container">
-    <h2>Get notifications when your favorite strains come in?</h2>
+    <div v-if="dashView === 'custom settings'" class="container">
+      <h2>Get notifications when your favorite strains come in?</h2>
+    </div>
   </div>
 </template>
 
@@ -41,7 +43,6 @@ export default {
   methods: {
     setDashView(item) {
       this.dashView = item;
-      console.log('dashView == ', item);
     },
     setMyWodTitles() {
       this.$store.commit('setMyWodTitles');
