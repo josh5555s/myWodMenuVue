@@ -2,7 +2,7 @@ export default {
   productsUrl(state) {
     return state.productionProductsApi
       ? 'https://api.westernoregondispensary.com'
-      : 'http://192.168.1.29:4000';
+      : 'http://192.168.1.2:4000';
   },
   readFlowerPricePointUrl(state) {
     return state.useProductionOrdersApi

@@ -1,16 +1,13 @@
 add "logout" option after the "Hello, User". Direct "Hello, User" to the UserDash.
 
-django: the shopping cart data will be stored serverside, so that it persists with making an order, or if you switch devices.
-
 ## TEMPLATE
 
 userDash-order:
 
-- borrow order display elements from wod-admin
+- borrow order display elements from wod-admin (api order call is working, need items call)
 
 userDash-cart:
 
-- create dummy data
 - create formating
 
 userDash-account:
@@ -20,6 +17,8 @@ userDash-account:
 ## LOGIC
 
 UserDash-order:
+
+- convert received json to relevant object
 
 - show order info if there is one, suggest placing an order if there isn't one.
 

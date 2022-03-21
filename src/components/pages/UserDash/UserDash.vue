@@ -39,6 +39,9 @@ export default {
   },
   computed: {
     ...mapGetters(['username', 'email', 'isAuthenticated']),
+    // itemsInCart() {
+    //   return this.orders.
+    // },
   },
   methods: {
     setDashView(item) {
@@ -47,6 +50,13 @@ export default {
     setMyWodTitles() {
       this.$store.commit('setMyWodTitles');
     },
+    async fetchUserOrders() {
+      try {
+        await this.$store.dispatch('fetchUserOrders');
+      } catch (error) {
+        this.error = error.message || 'Failed to fetch orders';
+      }
+    },
   },
   created() {
     if (!this.isAuthenticated) {
@@ -54,6 +64,7 @@ export default {
     }
     document.title = 'My WOD';
     this.setMyWodTitles();
+    this.fetchUserOrders();
   },
   mounted() {},
   watch: {},
